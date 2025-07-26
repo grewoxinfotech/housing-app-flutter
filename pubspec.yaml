@@ -1,0 +1,52 @@
+name: housing_flutter_app
+description: "A Flutter housing application with authentication and API integration."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.7.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons:
+  provider:
+  http:
+  flutter_secure_storage:
+  cached_network_image:
+  shimmer:
+  carousel_slider:
+  intl:
+  image_picker:
+  get:
+  connectivity_plus:
+  internet_connection_checker_plus:
+  awesome_snackbar_content: 
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints:
+  build_runner:
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/fonts/
+    #- .env
+    
+  # Comment out fonts until they are available
+  # fonts:
+  #   - family: Poppins
+  #     fonts:
+  #       - asset: assets/fonts/Poppins-Regular.ttf
+  #       - asset: assets/fonts/Poppins-Medium.ttf
+  #         weight: 500
+  #       - asset: assets/fonts/Poppins-SemiBold.ttf
+  #         weight: 600
+  #       - asset: assets/fonts/Poppins-Bold.ttf
+  #         weight: 700
