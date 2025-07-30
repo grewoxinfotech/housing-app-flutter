@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:housing_flutter_app/modules/auth/controllers/auth_controller.dart';
 import 'package:housing_flutter_app/widgets/input/custom_text_field.dart';
-import 'package:housing_flutter_app/widgets/button//custom_button.dart';
-import 'package:housing_flutter_app/modules/home/views/home_screen.dart';
 import 'package:housing_flutter_app/modules/auth/views/register_screen.dart';
 import 'package:housing_flutter_app/modules/auth/views/otp_login_screen.dart';
-import 'package:housing_flutter_app/app/constants/size_manager.dart';
-import 'package:housing_flutter_app/widgets/button/custom_button.dart';
-import 'package:housing_flutter_app/widgets/display/crm_card.dart';
 import 'package:get/get.dart';
 
 import '../../../widgets/button/crm_button.dart';
@@ -77,24 +71,25 @@ class _LoginScreenState extends State<LoginScreen> {
   // }
 
   void _navigateToOtpLogin() {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => OtpLoginScreen())
-    );
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => OtpLoginScreen()));
   }
 
   void _showErrorDialog(String message) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Login Error'),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Login Error'),
+            content: Text(message),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('OK'),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 
@@ -102,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final AuthController authController = Get.put(AuthController());
     final theme = Theme.of(context);
-    
+
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -142,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   const SizedBox(height: 40),
-                  
+
                   // Login Title
                   Text(
                     'Login',
@@ -176,7 +171,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     prefixIcon: Icons.lock_outline,
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                        _isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
                         color: Colors.grey,
                         size: 20,
                       ),
@@ -191,7 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 8),
 
-                  // Remember Me and Forgot Password
+                  //  Remember Me and Forgot Password
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   //   children: [
@@ -204,9 +201,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   //             value: authController.rememberMe.value,
                   //             onChanged:
                   //                 (value) =>
-                  //             authController.rememberMe.value =
-                  //                 value ?? false,
-                  //             activeColor: theme.colorScheme.primary,
+                  //                     authController.rememberMe.value =
+                  //                         value ?? false,
+                  //             side: const BorderSide(
+                  //               color: Colors.black,
+                  //               width: 2,
+                  //             ),
+                  //             checkColor: Get.theme.colorScheme.primary,
+                  //             activeColor: Colors.transparent,
                   //           ),
                   //         ),
                   //         SizedBox(width: 8),
@@ -219,16 +221,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   //         ),
                   //       ],
                   //     ),
-                  //     TextButton(
-                  //       onPressed: () {
-                  //         // Navigate to forgot password screen
-                  //       },
+                  //     GestureDetector(
+                  //       onTap: authController.fillTestCredentials,
                   //       child: Text(
                   //         'Forgot Password?',
                   //         style: TextStyle(
                   //           fontSize: 14,
-                  //           color: theme.colorScheme.primary,
-                  //           fontWeight: FontWeight.w500,
+                  //           fontWeight: FontWeight.w400,
+                  //           color: Get.theme.colorScheme.primary,
                   //         ),
                   //       ),
                   //     ),
@@ -238,26 +238,40 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Obx(
-                            () => Row(
+                        () => Row(
                           children: [
                             Checkbox(
                               value: authController.rememberMe.value,
                               onChanged:
                                   (value) =>
-                              authController.rememberMe.value =
-                                  value ?? false,
+                                      authController.rememberMe.value =
+                                          value ?? false,
                               side: const BorderSide(
                                 color: Colors.black,
                                 width: 2,
                               ),
-                              checkColor: Get.theme.colorScheme.primary,
-                              activeColor: Colors.transparent,
+                              checkColor: Colors.white, // Checkmark color
+                              activeColor: theme.colorScheme.primary,
                             ),
+
+
+
+                            // SizedBox(
+                            //   height: 24,
+                            //   width: 24,
+                            //   child: Checkbox(
+                            //     value: authController.rememberMe.value,
+                            //     onChanged:  (value) =>
+                            //     authController.rememberMe.value =
+                            //         value ?? false,
+                            //     activeColor: theme.colorScheme.primary,
+                            //   ),
+                            // ),
+
                             Text(
                               'Remember me',
                               style: TextStyle(
-                                fontSize: 14,
-                                color: Get.theme.colorScheme.onPrimary,
+                                color: Colors.grey[700],
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
@@ -284,12 +298,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     title: "Login",
                     onTap:
                         () => authController.login(
-                      authController.emailController.text.trim(),
-                      authController.passwordController.text.trim(),
-                    ),
+                          authController.emailController.text.trim(),
+                          authController.passwordController.text.trim(),
+                        ),
                   ),
                   const SizedBox(height: 16),
-                  
+
                   // OTP Login Button
                   // CustomButton(
                   //   text: 'Login with OTP',
@@ -300,28 +314,26 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 24),
 
                   // Register Link
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Don't have an account?",
-                        style: TextStyle(color: Colors.grey[700]),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => RegisterScreen())
-                          );
-                        },
-                        child: Text(
-                          'Signup here',
-                          style: TextStyle(
-                            color: theme.colorScheme.primary,
-                            fontWeight: FontWeight.bold,
+                  Center(
+                    child: Container(
+                      width: double.infinity,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Don't have an account?", style: TextStyle(color: Colors.grey[700])),
+                          TextButton(
+                            onPressed: () => Get.to(() => RegisterScreen()),
+                            child: Text(
+                              'Sign up here',
+                              style: TextStyle(
+                                color: Get.theme.colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ],
               ),
@@ -331,4 +343,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-} 
+}

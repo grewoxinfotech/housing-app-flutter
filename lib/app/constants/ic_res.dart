@@ -5,6 +5,11 @@ class ICRes {
   // app logo icon in png
   static const appLogoPNG = "${IconPath}app_logo.png";
 
+
+  static const appLogoPNG1 = "${IconPath}ic_1.png";
+
+
+
   // comments icons
   static const CommentsPath = "${IconPath}comments/";
   static const commentAdd = "${CommentsPath}ic_comment.svg";

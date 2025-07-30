@@ -33,19 +33,14 @@ class SecureStorage {
       key: _keyUserData,
       value: jsonEncode(data.toJson()),
     );
-    // Also save client ID separately for easy access
-    if (data.clientId != null) {
-      await _storage.write(key: _keyClientId, value: data.clientId);
-    }
   }
 
   static Future<UserModel?> getUserData() async {
     final jsonString = await _storage.read(key: _keyUserData);
     if (jsonString == null) return null;
-
-    final jsonMap = jsonDecode(jsonString);
-    return UserModel.fromJson(jsonMap);
+    return UserModel.fromJson(jsonDecode(jsonString));
   }
+
 
   static Future<void> deleteUserData() async {
     await _storage.delete(key: _keyUserData);
@@ -57,7 +52,7 @@ class SecureStorage {
     final clientId = await _storage.read(key: _keyClientId);
     if (clientId != null) return clientId;
     final userData = await getUserData();
-    return userData?.clientId;
+    return userData?.user?.id;
   }
 
   // Username

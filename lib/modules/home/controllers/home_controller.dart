@@ -3,25 +3,21 @@ import 'package:get/get.dart';
 import 'package:housing_flutter_app/data/network/home/models/home_model.dart';
 import 'package:housing_flutter_app/data/network/home/services/home_service.dart';
 
-
-
 class HomeController extends GetxController {
   final PropertyService _propertyService = PropertyService();
 
-  List<PropertyModel> _featuredProperties = [];
-  List<PropertyModel> _recommendedProperties = [];
-  Map<String, List<PropertyModel>> _propertiesByCategory = {};
-  bool _isLoading = false;
-  String? _error;
+  final _featuredProperties = <PropertyModel>[].obs;
+  final _recommendedProperties = <PropertyModel>[].obs;
+  final _propertiesByCategory = <String, List<PropertyModel>>{}.obs;
+  final _isLoading = false.obs;
+  final _error = Rxn<String>();
 
   // Getters
   List<PropertyModel> get featuredProperties => _featuredProperties;
   List<PropertyModel> get recommendedProperties => _recommendedProperties;
   Map<String, List<PropertyModel>> get propertiesByCategory => _propertiesByCategory;
-  bool get isLoading => _isLoading;
-  String? get error => _error;
-
-
+  bool get isLoading => _isLoading.value;
+  String? get error => _error.value;
 
   @override
   void onInit() {
@@ -36,52 +32,43 @@ class HomeController extends GetxController {
   }
 
   Future<void> getFeaturedProperties() async {
-    _isLoading = true;
-    _error = null;
-  //  notifyListeners();
+    _isLoading.value = true;
+    _error.value = null;
 
     try {
-      // For demo, use sample data
-      _featuredProperties = _getSampleProperties().take(5).toList();
+      _featuredProperties.value = _getSampleProperties().take(5).toList();
     } catch (e) {
-      _error = "Error loading featured properties: ${e.toString()}";
+      _error.value = "Error loading featured properties: ${e.toString()}";
     } finally {
-      _isLoading = false;
-    //  notifyListeners();
+      _isLoading.value = false;
     }
   }
 
   Future<void> getRecommendedProperties() async {
-    _isLoading = true;
-    _error = null;
-   // notifyListeners();
+    _isLoading.value = true;
+    _error.value = null;
 
     try {
-      // For demo, use sample data
-      _recommendedProperties = _getSampleProperties().skip(5).take(5).toList();
+      _recommendedProperties.value = _getSampleProperties().skip(5).take(5).toList();
     } catch (e) {
-      _error = "Error loading recommended properties: ${e.toString()}";
+      _error.value = "Error loading recommended properties: ${e.toString()}";
     } finally {
-      _isLoading = false;
-   ////   notifyListeners();
+      _isLoading.value = false;
     }
   }
 
   Future<void> getPropertiesByCategory(String category) async {
-    _isLoading = true;
-    _error = null;
-   // notifyListeners();
+    _isLoading.value = true;
+    _error.value = null;
 
     try {
-      // For demo, use sample data
       if (!_propertiesByCategory.containsKey(category)) {
         _propertiesByCategory[category] = _getSampleProperties().take(3).toList();
       }
     } catch (e) {
-      _error = "Error loading $category properties: ${e.toString()}";
+      _error.value = "Error loading $category properties: ${e.toString()}";
     } finally {
-      _isLoading = false;
-     // notifyListeners();
+      _isLoading.value = false;
     }
   }
 
@@ -230,4 +217,4 @@ class HomeController extends GetxController {
       ),
     ];
   }
-} 
+}

@@ -22,7 +22,10 @@ dependencies:
   get:
   connectivity_plus:
   internet_connection_checker_plus:
-  awesome_snackbar_content: 
+  awesome_snackbar_content:
+  salomon_bottom_bar:
+  font_awesome_flutter:
+  flutter_svg:
 
 dev_dependencies:
   flutter_test:
@@ -38,7 +41,7 @@ flutter:
     - assets/icons/
     - assets/fonts/
     #- .env
-    
+
   # Comment out fonts until they are available
   # fonts:
   #   - family: Poppins

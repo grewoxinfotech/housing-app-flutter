@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 import 'package:housing_flutter_app/modules/auth/controllers/auth_controller.dart';
 import 'package:housing_flutter_app/modules/auth/views/login_screen.dart';
-import 'package:housing_flutter_app/modules/home/views/home_screen.dart';
+import 'package:housing_flutter_app/modules/home/views/dashboard_screen.dart';
+
+import '../../../data/database/secure_storage_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -15,6 +17,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
+ // final authController = Get.find<AuthController>();
 
   @override
   void initState() {
@@ -31,9 +34,10 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
     _animationController.forward();
 
-    Timer(const Duration(seconds: 3), () {
-      _checkAuth();
-    });
+    splash();
+    // Timer(const Duration(seconds: 3), () {
+    //   _checkAuth();
+    // });
   }
 
   @override
@@ -42,25 +46,29 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     super.dispose();
   }
 
-  void _checkAuth() async {
-    try {
-      final authController = Provider.of<AuthController>(context, listen: false);
-     // await authController.checkAuthStatus();
-      
-      if (authController.authState == AuthState.authenticated) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomeScreen())
-        );
-      } else {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => LoginScreen())
-        );
-      }
-    } catch (e) {
-      print('Auth check error: $e');
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => LoginScreen())
-      );
+  // void _checkAuth() async {
+  //   try {
+  //     if (authController.authState == AuthState.authenticated) {
+  //       Get.offAll(() => const DashboardScreen());
+  //     } else {
+  //       Get.offAll(() => const LoginScreen());
+  //     }
+  //   } catch (e) {
+  //     print('Auth check error: $e');
+  //     Get.offAll(() => const LoginScreen());
+  //   }
+  // }
+
+  void splash() async {
+    await Future.delayed(const Duration(seconds:  1));
+    bool isLogin = await SecureStorage.getLoggedIn();
+    bool rememberMe = await SecureStorage.getRememberMe();
+    String? token = await SecureStorage.getToken();
+
+    if (isLogin == true && rememberMe && token != null && token.isNotEmpty) {
+      Get.offAll(() => DashboardScreen());
+    } else {
+      Get.offAll(() => LoginScreen());
     }
   }
 
@@ -93,11 +101,11 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                           BoxShadow(
                             color: theme.colorScheme.primary.withOpacity(0.3),
                             blurRadius: 15,
-                            offset: Offset(0, 5),
+                            offset: const Offset(0, 5),
                           ),
                         ],
                       ),
-                      child: Center(
+                      child: const Center(
                         child: Icon(
                           Icons.home_work,
                           size: 60,
@@ -145,4 +153,4 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       ),
     );
   }
-} 
+}

@@ -3,12 +3,21 @@ import 'package:housing_flutter_app/data/database/secure_storage_service.dart';
 /// Class containing API related constants
 class ApiConstants {
   // Base URL
-  static const String baseURL = "https://api.raiser.in/api/v1";
+  static const String baseURL = "http://housing.grewox.com/api/v1";
 
   // Auth Endpoints
   static const String auth = "$baseURL/auth";
   static const String loginEndpoint = "$auth/login";
-  static const String registerEndpoint = "/auth/register";
+  static const String registerEndpoint = "$auth/signup";
+  static const String verifyOtpEndpoint = "$auth/verify-otp";
+  static const String resendOtpEndpoint = "$auth/resend-otp";
+
+
+
+
+//---------------------------------other-----------------------------//
+
+
   static const String logoutEndpoint = "/auth/logout";
   static const String resetPasswordEndpoint = "/auth/reset-password";
   

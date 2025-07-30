@@ -14,12 +14,15 @@
         "cupertino_icons",
         "flutter",
         "flutter_secure_storage",
+        "flutter_svg",
+        "font_awesome_flutter",
         "get",
         "http",
         "image_picker",
         "internet_connection_checker_plus",
         "intl",
         "provider",
+        "salomon_bottom_bar",
         "shimmer"
       ],
       "devDependencies": [
@@ -106,15 +109,6 @@
       ]
     },
     {
-      "name": "awesome_snackbar_content",
-      "version": "0.1.6",
-      "dependencies": [
-        "flutter",
-        "flutter_localizations",
-        "flutter_svg"
-      ]
-    },
-    {
       "name": "flutter_svg",
       "version": "2.2.0",
       "dependencies": [
@@ -123,6 +117,29 @@
         "vector_graphics",
         "vector_graphics_codec",
         "vector_graphics_compiler"
+      ]
+    },
+    {
+      "name": "font_awesome_flutter",
+      "version": "10.8.0",
+      "dependencies": [
+        "flutter"
+      ]
+    },
+    {
+      "name": "salomon_bottom_bar",
+      "version": "3.3.2",
+      "dependencies": [
+        "flutter"
+      ]
+    },
+    {
+      "name": "awesome_snackbar_content",
+      "version": "0.1.6",
+      "dependencies": [
+        "flutter",
+        "flutter_localizations",
+        "flutter_svg"
       ]
     },
     {
@@ -726,21 +743,6 @@
       ]
     },
     {
-      "name": "flutter_localizations",
-      "version": "0.0.0",
-      "dependencies": [
-        "characters",
-        "clock",
-        "collection",
-        "flutter",
-        "intl",
-        "material_color_utilities",
-        "meta",
-        "path",
-        "vector_math"
-      ]
-    },
-    {
       "name": "vector_graphics_compiler",
       "version": "1.1.17",
       "dependencies": [
@@ -764,6 +766,21 @@
         "flutter",
         "http",
         "vector_graphics_codec"
+      ]
+    },
+    {
+      "name": "flutter_localizations",
+      "version": "0.0.0",
+      "dependencies": [
+        "characters",
+        "clock",
+        "collection",
+        "flutter",
+        "intl",
+        "material_color_utilities",
+        "meta",
+        "path",
+        "vector_math"
       ]
     },
     {
