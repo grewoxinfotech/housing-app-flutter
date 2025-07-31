@@ -121,7 +121,7 @@ class AuthController extends GetxController {
         await SecureStorage.saveToken(token);
 
         // Get.offAll(() => DashboardScreen());
-
+        print("Token: $token");
         Get.to(
           () => OtpVerificationScreen(
             phone: phone,

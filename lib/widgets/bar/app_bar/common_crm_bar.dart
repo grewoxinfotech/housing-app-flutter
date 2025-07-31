@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CommonCrmAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -23,10 +24,18 @@ class CommonCrmAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.white, // Background color of status bar
+        statusBarIconBrightness: Brightness.dark, // Android
+        statusBarBrightness: Brightness.light, // iOS
+      ),
+    );
+
     return SafeArea(
       child: Container(
         height: preferredSize.height,
-        color: theme.appBarTheme.backgroundColor, // Themed background color
+        color: Colors.white, // Themed background color
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,

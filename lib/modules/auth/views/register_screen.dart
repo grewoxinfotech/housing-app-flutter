@@ -301,6 +301,7 @@
 //   }
 // }
 
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -310,6 +311,7 @@ import 'package:housing_flutter_app/modules/auth/controllers/auth_controller.dar
 import 'package:housing_flutter_app/widgets/input/custom_text_field.dart';
 import 'package:housing_flutter_app/modules/auth/views/login_screen.dart';
 
+import '../../../app/widgets/snackbar/crm_snackbar.dart';
 import '../../../widgets/New folder/inputs/crm_text_field.dart';
 
 enum UserRole { buyer, seller, reseller }
@@ -393,7 +395,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         if (!success) {
           _showErrorDialog(authController.errorMessage.value);
         } else {
-          _showSuccessDialog();
+          // _showSuccessDialog();
+          CrmSnackBar.showAwesomeSnackbar(
+            title: "Success",
+            message: "OTP sent Successfully",
+            contentType: ContentType.success,
+          );
         }
       } catch (e) {
         _showErrorDialog('Registration failed: ${e.toString()}');
@@ -415,12 +422,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _showSuccessDialog() {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Registration Successful!')));
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    CrmSnackBar.showAwesomeSnackbar(
+      title: "Success",
+      message: "OTP sent Successfully",
+      contentType: ContentType.success,
     );
+    // ScaffoldMessenger.of(
+    //   context,
+    // ).showSnackBar(const SnackBar(content: Text('Registration Successful!')));
+    // Navigator.of(context).pushReplacement(
+    //   MaterialPageRoute(builder: (context) => const LoginScreen()),
+    // );
   }
 
   void _showErrorDialog(String message) {
@@ -754,7 +766,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             const TextSpan(text: ' and '),
                             TextSpan(
-                              // text: 'Privacy Policy',
+                              text: 'Privacy Policy',
                               style: const TextStyle(color: Colors.blue),
                               recognizer:
                                   TapGestureRecognizer()
