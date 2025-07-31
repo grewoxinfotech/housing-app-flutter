@@ -161,9 +161,9 @@
 //   DrawerModel({this.title, this.iconPath, this.widget});
 // }
 
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:housing_flutter_app/app/constants/font_res.dart';
 import '../../app/constants/ic_res.dart';
 import '../../app/constants/size_manager.dart';
 import '../../modules/auth/controllers/auth_controller.dart';
@@ -222,29 +222,35 @@ class CrmDrawer extends StatelessWidget {
                       borderRadius: BorderRadius.circular(
                         AppRadius.large - AppPadding.small,
                       ),
-                      color: isSelected
-                          ? Get.theme.colorScheme.primary.withAlpha(20)
-                          : null,
+                      color:
+                          isSelected
+                              ? Get.theme.colorScheme.primary.withAlpha(20)
+                              : null,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           CrmIc(
                             iconPath: items[i].iconPath!,
                             width: 24,
-                            color: isSelected
-                                ? Get.theme.colorScheme.primary
-                                : Get.theme.colorScheme.onSecondary,
+                            color:
+                                isSelected
+                                    ? Get.theme.colorScheme.primary
+                                    : Get.theme.colorScheme.onSecondary,
                           ),
                           AppSpacing.horizontalSmall,
                           Text(
                             items[i].title!,
                             style: TextStyle(
                               fontSize: 16,
+                              fontFamily: FontRes.nuNunitoSans,
                               fontWeight:
-                              isSelected ? FontWeight.w700 : FontWeight.w600,
-                              color: isSelected
-                                  ? Get.theme.colorScheme.primary
-                                  : Get.theme.colorScheme.onSecondary,
+                                  isSelected
+                                      ? FontWeight.w700
+                                      : FontWeight.w600,
+                              color:
+                                  isSelected
+                                      ? Get.theme.colorScheme.primary
+                                      : Get.theme.colorScheme.onSecondary,
                             ),
                           ),
                         ],
@@ -263,11 +269,15 @@ class CrmDrawer extends StatelessWidget {
                   "Support",
                   style: TextStyle(
                     fontSize: 16,
+                    fontFamily: FontRes.nuNunitoSans,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
                   ),
                 ),
-                icon: const CrmIc(iconPath: ICRes.notifications, color: Colors.white),
+                icon: const CrmIc(
+                  iconPath: ICRes.notifications,
+                  color: Colors.white,
+                ),
                 onPressed: () {
                   // TODO: Support action
                 },
@@ -289,6 +299,7 @@ class CrmDrawer extends StatelessWidget {
                       "Logout",
                       style: TextStyle(
                         fontSize: 18,
+                        fontFamily: FontRes.nuNunitoSans,
                         fontWeight: FontWeight.w700,
                         color: Get.theme.colorScheme.onSecondary,
                       ),
@@ -315,10 +326,5 @@ class DrawerModel {
   final String iconPath;
   final Widget? widget;
 
-  DrawerModel({
-    required this.title,
-    required this.iconPath,
-    this.widget,
-  });
+  DrawerModel({required this.title, required this.iconPath, this.widget});
 }
-

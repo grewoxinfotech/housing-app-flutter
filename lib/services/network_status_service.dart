@@ -2,41 +2,39 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
 
 class NetworkStatusService extends GetxService {
-  final _connectionStatus = ConnectivityResult.none.obs;
+  final RxBool _isConnected = false.obs;
+  final Rx<ConnectivityResult> _connectivityResult =
+      ConnectivityResult.none.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    _initConnectivity();
-    _setupConnectivityListener();
-  }
+  // Getters for the observable variables
+  ConnectivityResult get connectivityStatus => _connectivityResult.value;
+  bool get isConnected => _isConnected.value;
 
-  Future<void> _initConnectivity() async {
+  Future<NetworkStatusService> init() async {
     try {
-      final status = await Connectivity().checkConnectivity();
-      _connectionStatus.value = status;
+      // Check initial connectivity status
+      final connectivityResult = await Connectivity().checkConnectivity();
+      _connectivityResult.value =
+          connectivityResult.isNotEmpty
+              ? connectivityResult.first
+              : ConnectivityResult.none;
+
+      // Assume connected if we have any connectivity
+      _isConnected.value =
+          connectivityResult.isNotEmpty &&
+          connectivityResult.first != ConnectivityResult.none;
+
+      // Listen to connectivity changes
+      Connectivity().onConnectivityChanged.listen((result) {
+        _connectivityResult.value =
+            result.isNotEmpty ? result.first : ConnectivityResult.none;
+        _isConnected.value =
+            result.isNotEmpty && result.first != ConnectivityResult.none;
+      });
     } catch (e) {
-      Get.snackbar('Error', 'Failed to get network status');
+      print('Error initializing network status service: $e');
     }
-  }
 
-  void _setupConnectivityListener() {
-    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-      _connectionStatus.value = result;
-      _handleConnectivityChange(result);
-    });
+    return this;
   }
-
-  void _handleConnectivityChange(ConnectivityResult result) {
-    if (result == ConnectivityResult.none) {
-      Get.snackbar(
-        'No Internet',
-        'Please check your internet connection',
-        snackPosition: SnackPosition.TOP,
-        duration: const Duration(seconds: 3),
-      );
-    }
-  }
-
-  bool get isConnected => _connectionStatus.value != ConnectivityResult.none;
 }

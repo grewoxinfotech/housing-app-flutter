@@ -9,7 +9,7 @@
     },
     {
       "name": "_macros",
-      "rootUri": "file:///C:/Users/DELL/Flutter/bin/cache/dart-sdk/pkg/_macros",
+      "rootUri": "file:///C:/flutter/src/flutter/bin/cache/dart-sdk/pkg/_macros",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -243,7 +243,7 @@
     },
     {
       "name": "flutter",
-      "rootUri": "file:///C:/Users/DELL/Flutter/packages/flutter",
+      "rootUri": "file:///C:/flutter/src/flutter/packages/flutter",
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
@@ -261,7 +261,7 @@
     },
     {
       "name": "flutter_localizations",
-      "rootUri": "file:///C:/Users/DELL/Flutter/packages/flutter_localizations",
+      "rootUri": "file:///C:/flutter/src/flutter/packages/flutter_localizations",
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
@@ -315,13 +315,13 @@
     },
     {
       "name": "flutter_test",
-      "rootUri": "file:///C:/Users/DELL/Flutter/packages/flutter_test",
+      "rootUri": "file:///C:/flutter/src/flutter/packages/flutter_test",
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
     {
       "name": "flutter_web_plugins",
-      "rootUri": "file:///C:/Users/DELL/Flutter/packages/flutter_web_plugins",
+      "rootUri": "file:///C:/flutter/src/flutter/packages/flutter_web_plugins",
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
@@ -657,7 +657,7 @@
     },
     {
       "name": "sky_engine",
-      "rootUri": "file:///C:/Users/DELL/Flutter/bin/cache/pkg/sky_engine",
+      "rootUri": "file:///C:/flutter/src/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
@@ -850,7 +850,7 @@
   ],
   "generator": "pub",
   "generatorVersion": "3.8.1",
-  "flutterRoot": "file:///C:/Users/DELL/Flutter",
-  "flutterVersion": "3.32.7",
+  "flutterRoot": "file:///C:/flutter/src/flutter",
+  "flutterVersion": "3.32.6",
   "pubCache": "file:///C:/Users/DELL/AppData/Local/Pub/Cache"
 }

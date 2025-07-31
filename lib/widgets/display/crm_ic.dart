@@ -20,14 +20,12 @@ class CrmIc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('[DEBUG] CrmIc -> path: $iconPath | color: $color | width: $width | height: $height');
-
     return GestureDetector(
       onTap: onTap,
       child: SvgPicture.asset(
         iconPath,
         width: width,
-         height: height,
+        height: height,
         color: color,
         // colorFilter: color != null
         //     ? ColorFilter.mode(color!, BlendMode.srcIn)

@@ -5,6 +5,7 @@
 // import 'package:crm_flutter/app/widgets/_screen/view_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:housing_flutter_app/app/constants/font_res.dart';
 import '../../../app/constants/size_manager.dart';
 import '../../../widgets/_screen/view_screen.dart';
 
@@ -30,15 +31,17 @@ class HomeScreen extends StatelessWidget {
                 fontSize: 14,
                 color: Get.theme.colorScheme.onSecondary,
                 fontWeight: FontWeight.w400,
+                fontFamily: FontRes.nuNunitoSans,
               ),
             ),
-            AppSpacing.verticalSmall,
+
             Text(
               "Dashboard",
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.w700,
                 color: Get.theme.colorScheme.onSecondary,
+                fontFamily: FontRes.nuNunitoSans,
               ),
             ),
           ],

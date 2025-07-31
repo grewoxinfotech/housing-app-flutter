@@ -12,6 +12,7 @@ import '../views/login_screen.dart';
 import '../views/otp_verification_screen.dart';
 
 enum AuthState { initial, authenticated, unauthenticated }
+
 enum UserRole { buyer, seller, reseller }
 
 class AuthController extends GetxController {
@@ -34,7 +35,8 @@ class AuthController extends GetxController {
   final formKey = GlobalKey<FormState>();
 
   // Getters
-  String get selectedRoleString => selectedRole.value.toString().split('.').last;
+  String get selectedRoleString =>
+      selectedRole.value.toString().split('.').last;
 
   @override
   void onInit() {
@@ -60,13 +62,15 @@ class AuthController extends GetxController {
   Future<void> login(String email, String password) async {
     try {
       isLoading.value = true;
+
       final user = await authService.login(email, password);
 
       await SecureStorage.saveToken(user.token!);
       await SecureStorage.saveUserData(user);
       await SecureStorage.saveRememberMe(rememberMe.value);
-
+      await SecureStorage.saveLoggedIn(true);
       currentUser.value = user;
+      print("[Debug]-> User data: ${currentUser.value!.user!.firstName}");
       authState.value = AuthState.authenticated;
 
       Get.offAll(() => DashboardScreen());
@@ -116,16 +120,20 @@ class AuthController extends GetxController {
         final token = response['data']['token'];
         await SecureStorage.saveToken(token);
 
-       // Get.offAll(() => DashboardScreen());
+        // Get.offAll(() => DashboardScreen());
 
-        Get.to(() => OtpVerificationScreen(
-          phone: phone,
-          token: token, // Pass the token to OTP screen
-        ));
+        Get.to(
+          () => OtpVerificationScreen(
+            phone: phone,
+            token: token, // Pass the token to OTP screen
+          ),
+        );
 
         return true;
       } else {
-        throw Exception(response['message'] ?? 'Registration failed - no token received');
+        throw Exception(
+          response['message'] ?? 'Registration failed - no token received',
+        );
       }
     } catch (e) {
       errorMessage.value = e.toString();
@@ -140,7 +148,6 @@ class AuthController extends GetxController {
     }
   }
 
-
   Future<void> verifyOtp(String otp, String token) async {
     try {
       isLoading.value = true;
@@ -148,9 +155,10 @@ class AuthController extends GetxController {
 
       await SecureStorage.saveToken(user.token!);
       await SecureStorage.saveUserData(user);
+      await SecureStorage.saveRememberMe(true);
+      await SecureStorage.saveLoggedIn(true);
       currentUser.value = user;
       authState.value = AuthState.authenticated;
-
     } catch (e) {
       errorMessage.value = e.toString();
       rethrow;
@@ -170,6 +178,34 @@ class AuthController extends GetxController {
       isLoading.value = false;
     }
   }
+
+  Future<void> forgotPassword({required String email}) async {
+    try {
+      isLoading.value = true;
+
+      final token = await authService.forgotPassword(email);
+      print("Forgot Password Token: $token");
+      isLoading.value = false;
+      Get.to(
+        () => OtpVerificationScreen(phone: email, token: token),
+      ); // example
+
+      CrmSnackBar.showAwesomeSnackbar(
+        title: 'Success',
+        message: 'OTP sent to your email.',
+        contentType: ContentType.success,
+      );
+    } catch (e) {
+      CrmSnackBar.showAwesomeSnackbar(
+        title: 'Error',
+        message: e.toString().replaceAll('Exception:', '').trim(),
+        contentType: ContentType.failure,
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   Future<void> checkAuthStatus() async {
     try {
       final token = await SecureStorage.getToken();
@@ -191,5 +227,4 @@ class AuthController extends GetxController {
     authState.value = AuthState.unauthenticated;
     Get.offAll(() => LoginScreen());
   }
-
 }

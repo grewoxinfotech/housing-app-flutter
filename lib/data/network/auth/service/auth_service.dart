@@ -6,11 +6,14 @@ import '../../../../app/constants/api_constants.dart';
 import 'package:housing_flutter_app/data/database/secure_storage_service.dart';
 import 'package:get/get.dart';
 
-
 class AuthService {
   final String url = ApiConstants.auth;
   final String i = ApiConstants.contentType;
   final String j = ApiConstants.applicationJson;
+
+  static Future<Map<String, String>> headers() async {
+    return await ApiConstants.getHeaders();
+  }
 
   // Login
   Future<UserModel> login(String email, String password) async {
@@ -19,11 +22,10 @@ class AuthService {
       headers: {i: j},
       body: jsonEncode({'id': email, 'password': password}),
     );
-
     final data = jsonDecode(response.body);
 
     if (response.statusCode == 200 && data["success"] == true) {
-      return UserModel.fromJson(data['data']['user']);
+      return UserModel.fromJson(data['data']);
     } else {
       throw Exception(data["message"] ?? "Login failed");
     }
@@ -71,7 +73,7 @@ class AuthService {
   Future<UserModel> verifyOtp(String otp, String token) async {
     final response = await http.post(
       Uri.parse('${ApiConstants.auth}/verify-otp'),
-      headers: {i: j},
+      headers: await headers(),
       body: jsonEncode({'otp': otp}),
     );
 
@@ -93,6 +95,22 @@ class AuthService {
 
     if (response.statusCode != 200 || data['success'] != true) {
       throw Exception(data['message'] ?? 'Failed to resend OTP');
+    }
+  }
+
+  Future<String> forgotPassword(String email) async {
+    final response = await http.post(
+      Uri.parse('${ApiConstants.auth}/forgot-password'),
+      headers: {i: j},
+      body: jsonEncode({'email': email}),
+    );
+
+    final data = jsonDecode(response.body);
+    if (response.statusCode == 200 && data['success'] == true) {
+      print("Forget Password Data: $data");
+      return data['data']['token'];
+    } else {
+      throw Exception(data['message'] ?? 'Incorrect Email');
     }
   }
 

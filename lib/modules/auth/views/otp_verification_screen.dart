@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housing_flutter_app/modules/auth/controllers/auth_controller.dart';
 import '../../../data/database/secure_storage_service.dart';
+import '../../../widgets/New folder/inputs/crm_text_field.dart';
 import '../../home/views/dashboard_screen.dart';
 import 'package:housing_flutter_app/widgets/messages/crm_snack_bar.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
@@ -11,11 +12,8 @@ class OtpVerificationScreen extends StatefulWidget {
   final String phone;
   final String? token; // Made nullable if not always required
 
-  const OtpVerificationScreen({
-    Key? key,
-    required this.phone,
-    this.token,
-  }) : super(key: key);
+  const OtpVerificationScreen({Key? key, required this.phone, this.token})
+    : super(key: key);
 
   @override
   State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
@@ -40,8 +38,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   Future<void> _loadStoredToken() async {
     // If token wasn't passed, try to get it from storage
     _token = widget.token ?? await SecureStorage.getToken();
-
-
   }
 
   void _startResendTimer() {
@@ -60,8 +56,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     setState(() => _isLoading = true);
 
     try {
-      await Get.find<AuthController>()
-          .verifyOtp(_otpController.text, _token ?? '');
+      await Get.find<AuthController>().verifyOtp(
+        _otpController.text,
+        _token ?? '',
+      );
 
       CrmSnackBar.showAwesomeSnackbar(
         title: "Success",
@@ -70,6 +68,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       );
       Get.offAll(() => DashboardScreen());
     } catch (e) {
+      print("00000000000$e");
       CrmSnackBar.showAwesomeSnackbar(
         title: "Error",
         message: e.toString().replaceAll('Exception: ', ''),
@@ -146,6 +145,22 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 40),
+              // CrmTextField(
+              //   hintText: '••••••',
+              //   title: "OTP",
+              //   controller: _otpController,
+              //   keyboardType: TextInputType.number,
+              //   prefixIcon: Icons.numbers_outlined,
+              //   validator: (value) {
+              //     if (value == null || value.isEmpty) {
+              //       return 'Please enter OTP';
+              //     }
+              //     if (value.length != 6) {
+              //       return 'OTP must be 6 digits';
+              //     }
+              //     return null;
+              //   },
+              // ),
               TextFormField(
                 controller: _otpController,
                 keyboardType: TextInputType.number,
@@ -187,50 +202,50 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: _isLoading
-                      ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Colors.white,
-                    ),
-                  )
-                      : const Text(
-                    'VERIFY',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  child:
+                      _isLoading
+                          ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                          : const Text(
+                            'VERIFY',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                 ),
               ),
               const SizedBox(height: 20),
               TextButton(
-                onPressed: (_resendTimeout > 0 || _isResending)
-                    ? null
-                    : _resendOtp,
+                onPressed:
+                    (_resendTimeout > 0 || _isResending) ? null : _resendOtp,
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
-                child: _isResending
-                    ? const SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                  ),
-                )
-                    : Text(
-                  _resendTimeout > 0
-                      ? 'Resend OTP in $_resendTimeout seconds'
-                      : 'Resend OTP',
-                  style: TextStyle(
-                    color: (_resendTimeout > 0 || _isResending)
-                        ? Colors.grey
-                        : Theme.of(context).primaryColor,
-                  ),
-                ),
+                child:
+                    _isResending
+                        ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                        : Text(
+                          _resendTimeout > 0
+                              ? 'Resend OTP in $_resendTimeout seconds'
+                              : 'Resend OTP',
+                          style: TextStyle(
+                            color:
+                                (_resendTimeout > 0 || _isResending)
+                                    ? Colors.grey
+                                    : Theme.of(context).primaryColor,
+                          ),
+                        ),
               ),
             ],
           ),
@@ -238,6 +253,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       ),
     );
   }
+
   @override
   void dispose() {
     _otpController.dispose();

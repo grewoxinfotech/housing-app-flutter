@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:housing_flutter_app/modules/auth/controllers/auth_controller.dart';
+import 'package:housing_flutter_app/modules/auth/views/forgot_password_screen.dart';
 import 'package:housing_flutter_app/widgets/input/custom_text_field.dart';
 import 'package:housing_flutter_app/modules/auth/views/register_screen.dart';
 import 'package:housing_flutter_app/modules/auth/views/otp_login_screen.dart';
 import 'package:get/get.dart';
 
+import '../../../app/constants/font_res.dart';
+import '../../../app/constants/ic_res.dart';
+import '../../../app/utils/validation.dart';
+import '../../../widgets/New folder/inputs/crm_text_field.dart';
 import '../../../widgets/button/crm_button.dart';
+import '../../../widgets/display/crm_ic.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -130,6 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         'BookHome',
                         style: TextStyle(
                           fontSize: 20,
+                          fontFamily: FontRes.nuNunitoSans,
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.primary,
                         ),
@@ -142,98 +149,84 @@ class _LoginScreenState extends State<LoginScreen> {
                   Text(
                     'Login',
                     style: theme.textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
+                      fontFamily: FontRes.nuNunitoSans,
+                      fontWeight: FontWeight.w800,
                       color: Colors.black87,
                     ),
                   ),
                   const SizedBox(height: 24),
 
                   // Email Field
-                  CustomTextField(
+                  CrmTextField(
+                    title: "Email",
                     controller: authController.emailController,
-                    hintText: 'Email or User Name',
-                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) => emailValidation(value ?? ''),
                     prefixIcon: Icons.person_outline,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your email or username';
-                      }
-                      return null;
-                    },
+                    hintText: "Enter Email",
                   ),
+                  // CustomTextField(
+                  //   controller: authController.emailController,
+                  //   hintText: 'Email or User Name',
+                  //   keyboardType: TextInputType.emailAddress,
+                  //   prefixIcon: Icons.person_outline,
+                  //   validator: (value) {
+                  //     if (value == null || value.isEmpty) {
+                  //       return 'Please enter your email or username';
+                  //     }
+                  //     return null;
+                  //   },
+                  // ),
                   const SizedBox(height: 16),
 
                   // Password Field
-                  CustomTextField(
+                  // CustomTextField(
+                  //   controller: authController.passwordController,
+                  //   hintText: 'Password',
+                  //   obscureText: !_isPasswordVisible,
+                  //   prefixIcon: Icons.lock_outline,
+                  //   suffixIcon: IconButton(
+                  //     icon: Icon(
+                  //       _isPasswordVisible
+                  //           ? Icons.visibility
+                  //           : Icons.visibility_off,
+                  //       color: Colors.grey,
+                  //       size: 20,
+                  //     ),
+                  //     onPressed: _togglePasswordVisibility,
+                  //   ),
+                  //   validator: (value) {
+                  //     if (value == null || value.isEmpty) {
+                  //       return 'Please enter your password';
+                  //     }
+                  //     return null;
+                  //   },
+                  // ),
+                  CrmTextField(
+                    title: "Password",
                     controller: authController.passwordController,
-                    hintText: 'Password',
-                    obscureText: !_isPasswordVisible,
+                    validator: (value) => passwordValidation(value ?? ''),
+                    obscureText: _isPasswordVisible,
                     prefixIcon: Icons.lock_outline,
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _isPasswordVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        color: Colors.grey,
-                        size: 20,
+                    hintText: "Enter Password",
+                    suffixIcon: Container(
+                      height: 50,
+                      width: 50,
+                      alignment: Alignment.center,
+                      child: CrmIc(
+                        iconPath: ICRes.viewPassword,
+                        onTap: _togglePasswordVisibility,
+                        height: 24,
+                        width: 24,
+                        color:
+                            _isPasswordVisible
+                                ? Get.theme.colorScheme.outline
+                                : Get.theme.colorScheme.primary,
                       ),
-                      onPressed: _togglePasswordVisibility,
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      return null;
-                    },
                   ),
+
                   const SizedBox(height: 8),
 
-                  //  Remember Me and Forgot Password
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     Row(
-                  //       children: [
-                  //         SizedBox(
-                  //           height: 24,
-                  //           width: 24,
-                  //           child: Checkbox(
-                  //             value: authController.rememberMe.value,
-                  //             onChanged:
-                  //                 (value) =>
-                  //                     authController.rememberMe.value =
-                  //                         value ?? false,
-                  //             side: const BorderSide(
-                  //               color: Colors.black,
-                  //               width: 2,
-                  //             ),
-                  //             checkColor: Get.theme.colorScheme.primary,
-                  //             activeColor: Colors.transparent,
-                  //           ),
-                  //         ),
-                  //         SizedBox(width: 8),
-                  //         Text(
-                  //           'Remember me',
-                  //           style: TextStyle(
-                  //             fontSize: 14,
-                  //             color: Colors.grey[700],
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     GestureDetector(
-                  //       onTap: authController.fillTestCredentials,
-                  //       child: Text(
-                  //         'Forgot Password?',
-                  //         style: TextStyle(
-                  //           fontSize: 14,
-                  //           fontWeight: FontWeight.w400,
-                  //           color: Get.theme.colorScheme.primary,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -250,27 +243,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: Colors.black,
                                 width: 2,
                               ),
-                              checkColor: Colors.white, // Checkmark color
+                              checkColor: Colors.white,
+                              // Checkmark color
                               activeColor: theme.colorScheme.primary,
                             ),
-
-
-
-                            // SizedBox(
-                            //   height: 24,
-                            //   width: 24,
-                            //   child: Checkbox(
-                            //     value: authController.rememberMe.value,
-                            //     onChanged:  (value) =>
-                            //     authController.rememberMe.value =
-                            //         value ?? false,
-                            //     activeColor: theme.colorScheme.primary,
-                            //   ),
-                            // ),
 
                             Text(
                               'Remember me',
                               style: TextStyle(
+                                fontFamily: FontRes.nuNunitoSans,
                                 color: Colors.grey[700],
                                 fontWeight: FontWeight.w400,
                               ),
@@ -279,10 +260,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: authController.fillTestCredentials,
+                        onTap: () {
+                          Get.to(ForgetPasswordScreen());
+                        },
                         child: Text(
                           'Forgot Password?',
                           style: TextStyle(
+                            fontFamily: FontRes.nuNunitoSans,
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: Get.theme.colorScheme.primary,
@@ -296,11 +280,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Login Button
                   CrmButton(
                     title: "Login",
-                    onTap:
-                        () => authController.login(
-                          authController.emailController.text.trim(),
-                          authController.passwordController.text.trim(),
-                        ),
+                    onTap: () {
+                      authController.login(
+                        authController.emailController.text.trim(),
+                        authController.passwordController.text.trim(),
+                      );
+                    },
                   ),
                   const SizedBox(height: 16),
 
@@ -320,14 +305,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Don't have an account?", style: TextStyle(color: Colors.grey[700])),
+                          Text(
+                            "Don't have an account?",
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontFamily: FontRes.nuNunitoSans,
+                            ),
+                          ),
                           TextButton(
                             onPressed: () => Get.to(() => RegisterScreen()),
                             child: Text(
-                              'Sign up here',
+                              'Sign Up here',
                               style: TextStyle(
                                 color: Get.theme.colorScheme.primary,
                                 fontWeight: FontWeight.bold,
+                                fontFamily: FontRes.nuNunitoSans,
                               ),
                             ),
                           ),

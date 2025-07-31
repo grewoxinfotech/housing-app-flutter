@@ -40,16 +40,45 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/fonts/
+    - assets/icons/comments/
+    - assets/icons/employee/
+    - assets/icons/functions/
+    - assets/icons/member/
+    - assets/icons/native_icons/
+    - assets/icons/native_icons/actions/
+    - assets/icons/native_icons/auth/
+    - assets/icons/native_icons/business/
+    - assets/icons/native_icons/date_time/
+    - assets/icons/native_icons/file/
+    - assets/icons/native_icons/media/
+    - assets/icons/native_icons/navigation/
+    - assets/icons/native_icons/navigation/arrow/
+    - assets/icons/native_icons/notification/
+    - assets/icons/native_icons/system/
+    - assets/icons/native_icons/ui/
     #- .env
 
   # Comment out fonts until they are available
-  # fonts:
-  #   - family: Poppins
-  #     fonts:
-  #       - asset: assets/fonts/Poppins-Regular.ttf
-  #       - asset: assets/fonts/Poppins-Medium.ttf
-  #         weight: 500
-  #       - asset: assets/fonts/Poppins-SemiBold.ttf
-  #         weight: 600
-  #       - asset: assets/fonts/Poppins-Bold.ttf
-  #         weight: 700
+  fonts:
+     - family: NuNunito_Sans
+       fonts:
+         - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-ExtraLight.ttf
+           weight: 200
+           style: italic
+         - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-Light.ttf
+           weight: 300
+         - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-Regular.ttf
+           weight: 400
+         - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-Medium.ttf
+           weight: 500
+         - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-SemiBold.ttf
+           weight: 600
+         - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-Bold.ttf
+           weight: 700
+         - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-ExtraBold.ttf
+           weight: 800
+         - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-Black.ttf
+           weight: 900
+
+
+

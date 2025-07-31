@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../app/constants/font_res.dart';
 import '../../app/constants/size_manager.dart';
 import '../display/crm_card.dart';
 
@@ -41,9 +41,10 @@ class CrmButton extends StatelessWidget {
         child: Text(
           title,
           style:
-          titleTextStyle ??
+              titleTextStyle ??
               TextStyle(
                 fontSize: 16,
+                fontFamily: FontRes.nuNunitoSans,
                 fontWeight: FontWeight.w700,
                 color: Get.theme.colorScheme.surface,
               ),
@@ -53,12 +54,13 @@ class CrmButton extends StatelessWidget {
 
     return GestureDetector(
       onTap: onTap,
-      child: heroTag != null
-          ? Hero(
-        tag: heroTag!,
-        child: Material(color: Colors.transparent, child: button),
-      )
-          : Material(color: Colors.transparent, child: button),
+      child:
+          heroTag != null
+              ? Hero(
+                tag: heroTag!,
+                child: Material(color: Colors.transparent, child: button),
+              )
+              : Material(color: Colors.transparent, child: button),
     );
   }
 }

@@ -14,10 +14,11 @@ class SplashScreen extends StatefulWidget {
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
- // final authController = Get.find<AuthController>();
+  // final authController = Get.find<AuthController>();
 
   @override
   void initState() {
@@ -60,11 +61,10 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   // }
 
   void splash() async {
-    await Future.delayed(const Duration(seconds:  1));
+    await Future.delayed(const Duration(seconds: 1));
     bool isLogin = await SecureStorage.getLoggedIn();
     bool rememberMe = await SecureStorage.getRememberMe();
     String? token = await SecureStorage.getToken();
-
     if (isLogin == true && rememberMe && token != null && token.isNotEmpty) {
       Get.offAll(() => DashboardScreen());
     } else {
@@ -75,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -128,7 +128,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
               ),
             ),
             const SizedBox(height: 16),
-            
+
             // Tagline with fade animation
             FadeTransition(
               opacity: _animation,
@@ -141,11 +141,13 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 ),
               ),
             ),
-            
+
             // Loading indicator
             const SizedBox(height: 60),
             CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.secondary),
+              valueColor: AlwaysStoppedAnimation<Color>(
+                theme.colorScheme.secondary,
+              ),
               strokeWidth: 3,
             ),
           ],

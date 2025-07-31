@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:housing_flutter_app/modules/home/views/profile_screen.dart';
 
 import '../../../app/constants/ic_res.dart';
 import '../../../app/constants/size_manager.dart';
 import '../../display/crm_app_logo.dart';
 import '../../display/crm_ic.dart';
-
-
 
 class CrmAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
@@ -42,13 +41,12 @@ class CrmAppBar extends StatelessWidget implements PreferredSizeWidget {
             borderRadius: BorderRadius.circular(AppRadius.large),
           ),
           leading:
-          leading ??
+              leading ??
               Align(alignment: Alignment.center, child: CrmAppLogo()),
 
-
-      title: title,
+          title: title,
           actions:
-          action ??
+              action ??
               [
                 CrmIc(
                   iconPath: ICRes.search,
@@ -61,14 +59,17 @@ class CrmAppBar extends StatelessWidget implements PreferredSizeWidget {
                   color: Get.theme.colorScheme.onPrimary,
                 ),
                 AppSpacing.horizontalMedium,
-                const CircleAvatar(
-                  radius: 15,
-                  child: Text(
-                    "G",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
+                GestureDetector(
+                  onTap: () => Get.to(ProfileScreen()),
+                  child: const CircleAvatar(
+                    radius: 15,
+                    child: Text(
+                      "G",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
