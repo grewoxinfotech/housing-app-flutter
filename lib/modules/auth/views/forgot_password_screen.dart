@@ -46,18 +46,20 @@ class ForgetPasswordScreen extends StatelessWidget {
                   // ),
                   // Email Field
                   CrmTextField(
-                    title: "Email",
+                    title: "Email / Phone",
                     controller: authController.emailController,
                     validator: (value) => emailValidation(value ?? ''),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+
                     prefixIcon: Icons.person_outline,
-                    hintText: "Enter Email",
+                    hintText: "Enter Email or Phone",
                   ),
                   const SizedBox(height: 24),
                   CrmButton(
                     title: "Send OTP",
                     onTap:
                         () => authController.forgotPassword(
-                          email: authController.emailController.text.trim(),
+                          id: authController.emailController.text.trim(),
                         ),
                   ),
                 ],

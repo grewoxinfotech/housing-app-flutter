@@ -3,21 +3,20 @@ import 'package:get/get.dart';
 
 final formKey = GlobalKey<FormState>();
 
-String? emailValidation(String? email) {
-  if (email == null || email.trim().isEmpty) {
-    return "Please enter your email!";
-  } else if (!GetUtils.isEmail(email.trim())) {
-    return "Enter a valid email!";
-  }
+String? emailValidation(String value) {
+  if (value.isEmpty) return 'Email is required';
+  final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$');
+  if (!emailRegex.hasMatch(value)) return 'Enter a valid email';
   return null;
 }
 
-String? passwordValidation(String? password) {
-  if (password == null || password.isEmpty) {
-    return "Please enter your password!";
-  }
+
+String? passwordValidation(String value) {
+  if (value.isEmpty) return 'Password is required';
+  if (value.length < 6) return 'Password must be at least 6 characters';
   return null;
 }
+
 
 String? nameValidation(String? name) {
   if (name == null || name.trim().isEmpty) {

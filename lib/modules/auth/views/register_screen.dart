@@ -541,9 +541,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: _usernameController,
                   hintText: 'Enter Username',
                   prefixIcon: Icons.person_outline,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your first name';
+                      return 'Please enter username';
                     }
                     return null;
                   },
@@ -558,9 +559,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         controller: _firstNameController,
                         hintText: 'Enter First Name',
                         prefixIcon: Icons.person_outline,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your first name';
+                            return 'Please enter first name';
                           }
                           return null;
                         },
@@ -572,10 +574,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         title: "Last Name",
                         controller: _lastNameController,
                         hintText: 'Enter Last Name',
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         prefixIcon: Icons.person_outline,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your last name';
+                            return 'Please enter last name';
                           }
                           return null;
                         },
@@ -591,9 +594,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   hintText: 'Enter Email Address',
                   keyboardType: TextInputType.emailAddress,
                   prefixIcon: Icons.email_outlined,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
+                      return 'Please enter email';
                     }
                     if (!RegExp(
                       r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
@@ -611,9 +615,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
                   prefixIcon: Icons.phone_outlined,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your phone number';
+                      return 'Please enter phone number';
                     }
                     return null;
                   },
@@ -625,9 +630,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   title: "Address",
                   controller: _addressController,
                   prefixIcon: Icons.home_outlined,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+
                   validator: (value) {
+
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your address';
+                      return 'Please enter address';
                     }
                     return null;
                   },
@@ -642,9 +650,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         title: "City",
                         controller: _cityController,
                         prefixIcon: Icons.location_city_outlined,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your city';
+                            return 'Please enter city';
                           }
                           return null;
                         },
@@ -657,9 +667,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         title: "State",
                         controller: _stateController,
                         prefixIcon: Icons.map_outlined,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your state';
+                            return 'Please enter state';
                           }
                           return null;
                         },
@@ -673,9 +685,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   title: "Zip Code",
                   controller: _zipCodeController,
                   prefixIcon: Icons.numbers_outlined,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your zip code';
+                      return 'Please enter zip code';
                     }
                     return null;
                   },
@@ -688,6 +702,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: _passwordController,
                   obscureText: !_isPasswordVisible,
                   prefixIcon: Icons.lock_outline,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+
                   suffixIcon: IconButton(
                     icon: Icon(
                       _isPasswordVisible
@@ -715,6 +731,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   title: "Confirm Password",
                   controller: _confirmPasswordController,
                   obscureText: !_isConfirmPasswordVisible,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+
                   prefixIcon: Icons.lock_outline,
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -728,7 +746,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please confirm your password';
+                      return 'Please confirm password';
                     }
                     if (value != _passwordController.text) {
                       return 'Passwords do not match';
@@ -766,7 +784,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             const TextSpan(text: ' and '),
                             TextSpan(
-                              text: 'Privacy Policy',
+                              // text: 'Privacy Policy',
                               style: const TextStyle(color: Colors.blue),
                               recognizer:
                                   TapGestureRecognizer()

@@ -11,6 +11,7 @@ class CrmTextField extends StatelessWidget {
   final bool obscureText;
   final Widget? suffixIcon;
   final IconData? prefixIcon;
+  final AutovalidateMode? autovalidateMode;
   final bool isRequired;
   final TextInputType? keyboardType;
   final int? maxLines;
@@ -35,6 +36,7 @@ class CrmTextField extends StatelessWidget {
     this.maxLines = 1,
     this.enabled = true,
     this.readOnly = false,
+    this.autovalidateMode,
     this.focusNode,
     this.textInputAction,
     this.onChanged,
@@ -79,6 +81,7 @@ class CrmTextField extends StatelessWidget {
           focusNode: focusNode,
           textInputAction: textInputAction,
           onChanged: onChanged,
+          autovalidateMode: autovalidateMode ?? AutovalidateMode.disabled,
           onTap: onTap,
           style: TextStyle(
             fontSize: 15,

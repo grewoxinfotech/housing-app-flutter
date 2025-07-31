@@ -158,55 +158,24 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   // Email Field
                   CrmTextField(
-                    title: "Email",
+                    title: "Email / phone",
                     controller: authController.emailController,
                     validator: (value) => emailValidation(value ?? ''),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+
                     prefixIcon: Icons.person_outline,
                     hintText: "Enter Email",
                   ),
-                  // CustomTextField(
-                  //   controller: authController.emailController,
-                  //   hintText: 'Email or User Name',
-                  //   keyboardType: TextInputType.emailAddress,
-                  //   prefixIcon: Icons.person_outline,
-                  //   validator: (value) {
-                  //     if (value == null || value.isEmpty) {
-                  //       return 'Please enter your email or username';
-                  //     }
-                  //     return null;
-                  //   },
-                  // ),
+
                   const SizedBox(height: 16),
 
-                  // Password Field
-                  // CustomTextField(
-                  //   controller: authController.passwordController,
-                  //   hintText: 'Password',
-                  //   obscureText: !_isPasswordVisible,
-                  //   prefixIcon: Icons.lock_outline,
-                  //   suffixIcon: IconButton(
-                  //     icon: Icon(
-                  //       _isPasswordVisible
-                  //           ? Icons.visibility
-                  //           : Icons.visibility_off,
-                  //       color: Colors.grey,
-                  //       size: 20,
-                  //     ),
-                  //     onPressed: _togglePasswordVisibility,
-                  //   ),
-                  //   validator: (value) {
-                  //     if (value == null || value.isEmpty) {
-                  //       return 'Please enter your password';
-                  //     }
-                  //     return null;
-                  //   },
-                  // ),
                   CrmTextField(
                     title: "Password",
                     controller: authController.passwordController,
                     validator: (value) => passwordValidation(value ?? ''),
                     obscureText: _isPasswordVisible,
                     prefixIcon: Icons.lock_outline,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     hintText: "Enter Password",
                     suffixIcon: Container(
                       height: 50,
@@ -227,36 +196,80 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   const SizedBox(height: 8),
 
+                  // Row(
+                  //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Obx(
+                  //       () => Row(
+                  //         children: [
+                  //           Checkbox(
+                  //             value: authController.rememberMe.value,
+                  //             onChanged:
+                  //                 (value) =>
+                  //                     authController.rememberMe.value =
+                  //                         value ?? false,
+                  //             side: const BorderSide(
+                  //               color: Colors.black,
+                  //               width: 2,
+                  //             ),
+                  //             checkColor: Colors.white,
+                  //             // Checkmark color
+                  //             activeColor: theme.colorScheme.primary,
+                  //           ),
+                  //
+                  //           Text(
+                  //             'Remember me',
+                  //             style: TextStyle(
+                  //               color: Colors.black,
+                  //               fontWeight: FontWeight.w600,
+                  //               fontFamily: FontRes.nuNunitoSans,
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //     GestureDetector(
+                  //       onTap: () {
+                  //         Get.to(ForgetPasswordScreen());
+                  //       },
+                  //       child: Text(
+                  //         'Forgot Password?',
+                  //         style: TextStyle(
+                  //           color: Get.theme.colorScheme.primary,
+                  //           fontWeight: FontWeight.bold,
+                  //           fontFamily: FontRes.nuNunitoSans,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  const SizedBox(height: 16),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Obx(
-                        () => Row(
-                          children: [
-                            Checkbox(
-                              value: authController.rememberMe.value,
-                              onChanged:
-                                  (value) =>
-                                      authController.rememberMe.value =
-                                          value ?? false,
-                              side: const BorderSide(
-                                color: Colors.black,
-                                width: 2,
-                              ),
-                              checkColor: Colors.white,
-                              // Checkmark color
-                              activeColor: theme.colorScheme.primary,
-                            ),
-
-                            Text(
-                              'Remember me',
-                              style: TextStyle(
-                                fontFamily: FontRes.nuNunitoSans,
-                                color: Colors.grey[700],
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
+                        () => Checkbox(
+                          value: authController.rememberMe.value,
+                          onChanged: (value) {
+                            authController.rememberMe.value = value ?? false;
+                          },
+                          side: const BorderSide(color: Colors.black, width: 2),
+                          checkColor: Colors.white,
+                          activeColor: theme.colorScheme.primary,
+                          visualDensity: VisualDensity.compact,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'Remember me',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: FontRes.nuNunitoSans,
+                          ),
                         ),
                       ),
                       GestureDetector(
@@ -266,25 +279,27 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           'Forgot Password?',
                           style: TextStyle(
+                            color: theme.colorScheme.primary,
+                            fontWeight: FontWeight.bold,
                             fontFamily: FontRes.nuNunitoSans,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Get.theme.colorScheme.primary,
                           ),
                         ),
                       ),
                     ],
                   ),
+
                   const SizedBox(height: 24),
 
                   // Login Button
                   CrmButton(
                     title: "Login",
                     onTap: () {
-                      authController.login(
-                        authController.emailController.text.trim(),
-                        authController.passwordController.text.trim(),
-                      );
+                      if (_formKey.currentState!.validate()) {
+                        authController.login(
+                          authController.emailController.text.trim(),
+                          authController.passwordController.text.trim(),
+                        );
+                      }
                     },
                   ),
                   const SizedBox(height: 16),

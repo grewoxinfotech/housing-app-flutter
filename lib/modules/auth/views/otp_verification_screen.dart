@@ -12,6 +12,7 @@ class OtpVerificationScreen extends StatefulWidget {
   final String phone;
   final String? token; // Made nullable if not always required
 
+
   const OtpVerificationScreen({Key? key, required this.phone, this.token})
     : super(key: key);
 
@@ -217,6 +218,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
                           ),
                 ),

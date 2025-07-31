@@ -179,20 +179,20 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> forgotPassword({required String email}) async {
+  Future<void> forgotPassword({required String id}) async {
     try {
       isLoading.value = true;
 
-      final token = await authService.forgotPassword(email);
+      final token = await authService.forgotPassword(id);
       print("Forgot Password Token: $token");
       isLoading.value = false;
       Get.to(
-        () => OtpVerificationScreen(phone: email, token: token),
+        () => OtpVerificationScreen(phone: id, token: token),
       ); // example
 
       CrmSnackBar.showAwesomeSnackbar(
         title: 'Success',
-        message: 'OTP sent to your email.',
+        message: 'OTP sent to your email or Phone.',
         contentType: ContentType.success,
       );
     } catch (e) {
