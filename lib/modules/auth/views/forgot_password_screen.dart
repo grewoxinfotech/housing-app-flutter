@@ -48,7 +48,12 @@ class ForgetPasswordScreen extends StatelessWidget {
                   CrmTextField(
                     title: "Email / Phone",
                     controller: authController.emailController,
-                    validator: (value) => emailValidation(value ?? ''),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter phone number';
+                      }
+                      return null;
+                    },
                     autovalidateMode: AutovalidateMode.onUserInteraction,
 
                     prefixIcon: Icons.person_outline,

@@ -784,7 +784,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             const TextSpan(text: ' and '),
                             TextSpan(
-                              // text: 'Privacy Policy',
+                               text: 'Privacy Policy',
                               style: const TextStyle(color: Colors.blue),
                               recognizer:
                                   TapGestureRecognizer()

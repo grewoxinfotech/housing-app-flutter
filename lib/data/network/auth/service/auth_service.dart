@@ -70,6 +70,19 @@ class AuthService {
     }
   }
 
+  Future<void> resendOtp(String token) async {
+    final response = await http.post(
+      Uri.parse('${ApiConstants.auth}/resend-otp'),
+      headers: {i: j},
+    );
+
+    final data = jsonDecode(response.body);
+
+    if (response.statusCode != 200 || data['success'] != true) {
+      throw Exception(data['message'] ?? 'Failed to resend OTP');
+    }
+  }
+
   Future<UserModel> verifyOtp(String otp, String token) async {
     final response = await http.post(
       Uri.parse('${ApiConstants.auth}/verify-otp'),
@@ -85,34 +98,76 @@ class AuthService {
     throw Exception(data['message'] ?? 'OTP verification failed');
   }
 
-  Future<void> resendOtp(String token) async {
-    final response = await http.post(
-      Uri.parse('${ApiConstants.auth}/resend-otp'),
-      headers: {i: j},
-    );
+  // Future<String> forgotPassword(String email) async {
+  //   final response = await http.post(
+  //     Uri.parse('${ApiConstants.auth}/forgot-password'),
+  //     headers: {i: j},
+  //     body: jsonEncode({'email': email}),
+  //   );
+  //
+  //   final data = jsonDecode(response.body);
+  //   if (response.statusCode == 200 && data['success'] == true) {
+  //     print("Forget Password Data: $data");
+  //     return data['data']['token'];
+  //   } else {
+  //     throw Exception(data['message'] ?? 'Incorrect Email');
+  //   }
+  // }
 
-    final data = jsonDecode(response.body);
 
-    if (response.statusCode != 200 || data['success'] != true) {
-      throw Exception(data['message'] ?? 'Failed to resend OTP');
-    }
-  }
+  // In AuthService class
 
-  Future<String> forgotPassword(String email) async {
+  Future<String> forgotPassword(String id) async {
     final response = await http.post(
       Uri.parse('${ApiConstants.auth}/forgot-password'),
       headers: {i: j},
-      body: jsonEncode({'email': email}),
+      body: jsonEncode({'id': id}),
     );
 
     final data = jsonDecode(response.body);
     if (response.statusCode == 200 && data['success'] == true) {
-      print("Forget Password Data: $data");
       return data['data']['token'];
     } else {
-      throw Exception(data['message'] ?? 'Incorrect Email');
+      throw Exception(data["message"] ?? "Failed to send OTP");
     }
   }
+
+  Future<String> verifyPasswordResetOtp(String otp, String token) async {
+    final response = await http.post(
+      Uri.parse('${ApiConstants.auth}/verify-otp'),
+      headers: {
+        i: j,
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({'otp': otp}),
+    );
+
+    final data = jsonDecode(response.body);
+    if (response.statusCode == 200 && data['success'] == true) {
+      return data['data']['resetToken'];
+    } else {
+      throw Exception(data["message"] ?? "OTP verification failed");
+    }
+  }
+
+  Future<void> resetPassword(String newPassword, String resetToken) async {
+    final response = await http.post(
+      Uri.parse('${ApiConstants.auth}/reset-password'),
+      headers: {
+        i: j,
+        'Authorization': 'Bearer $resetToken',
+      },
+      body: jsonEncode({'newPassword': newPassword}),
+    );
+
+    print("dfjdhfjdhfik$newPassword");
+
+    final data = jsonDecode(response.body);
+    if (response.statusCode != 200 || data['success'] != true) {
+      throw Exception(data["message"] ?? "Password reset failed");
+    }
+  }
+
 
   Future<void> logout() async {
     await SecureStorage.clearAll();

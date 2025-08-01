@@ -4,17 +4,25 @@ import 'package:get/get.dart';
 import 'package:housing_flutter_app/modules/auth/controllers/auth_controller.dart';
 import '../../../data/database/secure_storage_service.dart';
 import '../../../widgets/New folder/inputs/crm_text_field.dart';
+import '../../../widgets/button/crm_button.dart';
 import '../../home/views/dashboard_screen.dart';
 import 'package:housing_flutter_app/widgets/messages/crm_snack_bar.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
   final String phone;
-  final String? token; // Made nullable if not always required
+  final String? token;
+  final bool isPasswordReset;
+  final bool isLoading;
 
 
-  const OtpVerificationScreen({Key? key, required this.phone, this.token})
-    : super(key: key);
+  const OtpVerificationScreen({
+    Key? key,
+    required this.phone,
+    this.token,
+    this.isPasswordReset = false,
+    this.isLoading = false, // <-- default value
+  }) : super(key: key);
 
   @override
   State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
@@ -56,20 +64,39 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
     setState(() => _isLoading = true);
 
-    try {
-      await Get.find<AuthController>().verifyOtp(
-        _otpController.text,
-        _token ?? '',
-      );
 
-      CrmSnackBar.showAwesomeSnackbar(
-        title: "Success",
-        message: "Account verified",
-        contentType: ContentType.success,
-      );
-      Get.offAll(() => DashboardScreen());
+    try {
+      final authController = Get.find<AuthController>();
+
+      print("fnjdfnjfgnjdfn$widget.token");
+
+      if (widget.isPasswordReset) {
+        // Handle password reset flow
+        await authController.verifyPasswordResetOtp(
+          _otpController.text,
+          _token ?? widget.token ?? '',
+        );
+
+        CrmSnackBar.showAwesomeSnackbar(
+          title: "Success",
+          message: "OTP verified. Please set your new password.",
+          contentType: ContentType.success,
+        );
+      } else {
+        // Handle regular verification flow
+        await authController.verifyOtp(
+          _otpController.text,
+          _token ?? widget.token ?? '',
+        );
+
+        CrmSnackBar.showAwesomeSnackbar(
+          title: "Success",
+          message: "Account verified",
+          contentType: ContentType.success,
+        );
+        Get.offAll(() => DashboardScreen());
+      }
     } catch (e) {
-      print("00000000000$e");
       CrmSnackBar.showAwesomeSnackbar(
         title: "Error",
         message: e.toString().replaceAll('Exception: ', ''),
@@ -81,7 +108,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   }
 
   Future<void> _resendOtp() async {
-    if (widget.token == null) {
+    if (_token == null && widget.token == null) {
       CrmSnackBar.showAwesomeSnackbar(
         title: "Error",
         message: "Unable to resend OTP - missing token",
@@ -94,7 +121,14 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
     try {
       final authController = Get.find<AuthController>();
-      await authController.resendOtp(widget.token!);
+
+      if (widget.isPasswordReset) {
+        // For password reset flow, we need to call forgotPassword again
+        await authController.forgotPassword(id: widget.phone);
+      } else {
+        // For regular verification flow
+        await authController.resendOtp(_token ?? widget.token!);
+      }
 
       setState(() => _resendTimeout = 60);
       _startResendTimer();
@@ -114,12 +148,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       setState(() => _isResending = false);
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Verify OTP'),
+        title: Text(widget.isPasswordReset ? 'Reset Password' : 'Verify OTP'),
         centerTitle: true,
         elevation: 0,
       ),
@@ -192,37 +225,16 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 },
               ),
               const SizedBox(height: 30),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _isLoading ? null : _verifyOtp,
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    backgroundColor: Theme.of(context).primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child:
-                      _isLoading
-                          ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
-                            ),
-                          )
-                          : const Text(
-                            'VERIFY',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                ),
+
+              CrmButton(
+                title: widget.isPasswordReset
+                    ? 'Enter OTP'
+                    : 'Enter OTP',
+                // isLoading: _isLoading,
+                onTap: _verifyOtp,
               ),
+
+
               const SizedBox(height: 20),
               TextButton(
                 onPressed:
