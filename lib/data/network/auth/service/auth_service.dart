@@ -73,7 +73,7 @@ class AuthService {
   Future<void> resendOtp(String token) async {
     final response = await http.post(
       Uri.parse('${ApiConstants.auth}/resend-otp'),
-      headers: {i: j},
+        headers: await headers(),
     );
 
     final data = jsonDecode(response.body);
