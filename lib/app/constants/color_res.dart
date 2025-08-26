@@ -31,7 +31,7 @@ class ColorRes {
   static const shadow = Color(0x10C4CBD6); // 20% Black
 
   // Text
-  static const textPrimary = Color(0xFF333333);
-  static const textSecondary = Color(0xFF666666);
-  static const textDisabled = Color(0xFFA0A0A0);
+  static const textPrimary = Color(0xFF000000);
+  static const textSecondary = Color(0xFF555555);
+  static const textDisabled = Color(0xFF616161);
 }

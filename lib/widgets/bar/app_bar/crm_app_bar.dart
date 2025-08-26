@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/modules/home/views/profile_screen.dart';
 
 import '../../../app/constants/ic_res.dart';
@@ -26,7 +27,7 @@ class CrmAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: AppMargin.small),
+        // margin: const EdgeInsets.symmetric(horizontal: AppMargin.small),
         child: AppBar(
           toolbarHeight: kToolbarHeight,
           elevation: 5.0,
@@ -34,11 +35,15 @@ class CrmAppBar extends StatelessWidget implements PreferredSizeWidget {
           automaticallyImplyLeading: false,
           backgroundColor: Get.theme.colorScheme.surface,
           foregroundColor: Get.theme.colorScheme.surface,
-          shadowColor: Get.theme.colorScheme.surface,
+          shadowColor: ColorRes.primary.withAlpha(40),
           surfaceTintColor: Colors.transparent,
           actionsPadding: const EdgeInsets.only(right: AppPadding.medium),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppRadius.large),
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(AppRadius.extraLarge),
+              bottomRight: Radius.circular(AppRadius.extraLarge),
+            ),
+            // BorderRadius.circular(AppRadius.large),
           ),
           leading:
               leading ??
@@ -80,5 +85,5 @@ class CrmAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(150);
 }

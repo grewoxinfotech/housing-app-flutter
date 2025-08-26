@@ -242,7 +242,7 @@ class CrmDrawer extends StatelessWidget {
                             items[i].title!,
                             style: TextStyle(
                               fontSize: 16,
-                              fontFamily: FontRes.nuNunitoSans,
+
                               fontWeight:
                                   isSelected
                                       ? FontWeight.w700
@@ -269,7 +269,7 @@ class CrmDrawer extends StatelessWidget {
                   "Support",
                   style: TextStyle(
                     fontSize: 16,
-                    fontFamily: FontRes.nuNunitoSans,
+
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
                   ),
@@ -299,7 +299,7 @@ class CrmDrawer extends StatelessWidget {
                       "Logout",
                       style: TextStyle(
                         fontSize: 18,
-                        fontFamily: FontRes.nuNunitoSans,
+
                         fontWeight: FontWeight.w700,
                         color: Get.theme.colorScheme.onSecondary,
                       ),

@@ -8,7 +8,7 @@ ThemeData lightTheme = ThemeData(
   useMaterial3: true,
 
   // Enable Material 3
-  fontFamily: FontRes.nuNunitoSans,
+  fontFamily: FontRes.poppins,
   primaryColor: ColorRes.primary,
   scaffoldBackgroundColor: ColorRes.background,
   dividerColor: ColorRes.divider,

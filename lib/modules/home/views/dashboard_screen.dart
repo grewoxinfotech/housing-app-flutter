@@ -7,7 +7,6 @@ import '../../../widgets/dialogs/crm_delete_dialog.dart';
 import '../../../widgets/drawer/crm_drawer.dart';
 import 'package:get/get.dart';
 
-
 // class HomeScreen extends StatefulWidget {
 //   const HomeScreen({Key? key}) : super(key: key);
 //
@@ -462,7 +461,6 @@ class DashboardScreen extends StatelessWidget {
     return Scaffold(
       extendBody: true,
       drawer: CrmDrawer(),
-      appBar: CrmAppBar(),
       bottomNavigationBar: CrmNavigationBar(),
       body: Obx(() {
         if (navigationController.currentIndex.value == 0) {
