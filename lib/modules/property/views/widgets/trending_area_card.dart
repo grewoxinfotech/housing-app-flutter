@@ -16,7 +16,8 @@ class TrendingAreaCard extends StatelessWidget {
       'Percentage': '1.25%',
       'price': '₹ 3.3K / sq.ft.',
       'image':
-      'https://invalid-url-to-test.com/sample.jpg'
+      'https://housing-images.n7net.in/4f2250e8/87e7f7c26184125b0f522223f718b5d5/v0/medium/magna_solitaire-peeramcheru-hyderabad-magna_infra_avenues_llp.jpeg'
+
     },
     {
       'name': 'Vesu',

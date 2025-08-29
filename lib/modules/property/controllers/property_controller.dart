@@ -4,6 +4,8 @@ import 'package:housing_flutter_app/app/care/pagination/controller/pagination_co
 import 'package:housing_flutter_app/data/network/property/models/property_model.dart';
 import 'package:housing_flutter_app/data/network/property/services/property_service.dart';
 
+import '../../../app/care/pagination/models/pagination_models.dart';
+
 class PropertyController extends PaginatedController<Items> {
   final PropertyService _service = PropertyService();
 
@@ -48,21 +50,35 @@ class PropertyController extends PaginatedController<Items> {
   }
 
   /// --- Required override from PaginatedController ---
+  // @override
+  // Future<List<Items>> fetchItems(int page) async {
+  //   try {
+  //     final response = await _service.fetchProperties(
+  //       page: page,
+  //      // pageSize: 10,
+  //      //  filters: filters,
+  //     );
+  //     print("Fetched items: ${response.length}");
+  //     return response; // Returns List<Items>
+  //   } catch (e) {
+  //     print("Exception in fetchItems: $e");
+  //     return [];
+  //   }
+  // }
+
   @override
-  Future<List<Items>> fetchItems(int page) async {
+  Future<PaginationResponse<Items>> fetchItems(int page) async {
     try {
-      final response = await _service.fetchProperties(
-        page: page,
-       // pageSize: 10,
-       //  filters: filters,
-      );
-      print("Fetched items: ${response.length}");
-      return response; // Returns List<Items>
+      final response = await _service.fetchProperties(page: page);
+
+      print("Fetched items: ${response.items.length}");
+      return response; // ✅ full response with items + meta
     } catch (e) {
       print("Exception in fetchItems: $e");
-      return [];
+      rethrow;
     }
   }
+
 
   /// --- Reset form ---
   void resetForm() {

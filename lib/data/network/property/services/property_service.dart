@@ -13,7 +13,41 @@ class PropertyService {
   }
 
   /// Fetch properties with optional pagination & filters
-  Future<List<Items>> fetchProperties({
+  // Future<List<Items>> fetchProperties({
+  //   int page = 1,
+  //   Map<String, String>? filters,
+  // }) async {
+  //   try {
+  //     final queryParameters = {
+  //       'page': page.toString(),
+  //       if (filters != null) ...filters,
+  //     };
+  //
+  //     final uri = Uri.parse(baseUrl).replace(queryParameters: queryParameters);
+  //     final response = await http.get(uri, headers: await headers());
+  //
+  //     if (response.statusCode == 200) {
+  //       final data = jsonDecode(response.body);
+  //
+  //       print("data: $data");
+  //       // Extract the list of properties
+  //       final  itemsJson = data["data"]["items"] ?? [];
+  //       print("itemsJson: $itemsJson");
+  //
+  //       return (itemsJson as List).map((json) => Items.fromJson(json)).toList();
+  //     } else {
+  //       print("Failed to load properties: ${response.statusCode}");
+  //       print("Failed to load properties: ${response.body}");
+  //
+  //     }
+  //   } catch (e) {
+  //     print("Exception in fetchProperties: $e");
+  //   }
+  //
+  //   return [];
+  // }
+
+  Future<PaginationResponse<Items>> fetchProperties({
     int page = 1,
     Map<String, String>? filters,
   }) async {
@@ -30,22 +64,22 @@ class PropertyService {
         final data = jsonDecode(response.body);
 
         print("data: $data");
-        // Extract the list of properties
-        final  itemsJson = data["data"]["items"] ?? [];
-        print("itemsJson: $itemsJson");
 
-        return (itemsJson as List).map((json) => Items.fromJson(json)).toList();
+        return PaginationResponse<Items>.fromJson(
+          data,
+              (json) => Items.fromJson(json),
+        );
       } else {
         print("Failed to load properties: ${response.statusCode}");
-        print("Failed to load properties: ${response.body}");
-
+        print("Response body: ${response.body}");
+        throw Exception("Failed to load properties");
       }
     } catch (e) {
       print("Exception in fetchProperties: $e");
+      rethrow; // Let controller handle error
     }
-
-    return [];
   }
+
 
   /// Get single property by ID
   // Future<Items?> getPropertyById(String id) async {

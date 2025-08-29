@@ -50,10 +50,10 @@ class AuthController extends GetxController {
   //test-commit
   @override
   void onClose() {
-    emailController.dispose();
-    passwordController.dispose();
-    newPasswordController.dispose();
-    confirmPasswordController.dispose();
+    emailController.clear();
+    passwordController.clear();
+    newPasswordController.clear();
+    confirmPasswordController.clear();
     super.onClose();
   }
 
