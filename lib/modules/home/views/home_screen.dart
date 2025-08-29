@@ -10,11 +10,11 @@ import 'package:housing_flutter_app/app/constants/font_res.dart';
 import 'package:housing_flutter_app/app/constants/img_res.dart';
 import 'package:housing_flutter_app/app/widgets/cards/crm_banner_card_with_text.dart';
 import 'package:housing_flutter_app/app/widgets/texts/headline_text.dart';
-import 'package:housing_flutter_app/modules/home/views/profile_screen.dart';
-import 'package:housing_flutter_app/modules/home/views/property_list_screen.dart';
-import 'package:housing_flutter_app/modules/home/views/widgets/banner_list.dart';
-import 'package:housing_flutter_app/modules/home/views/widgets/city_filter.dart';
-import 'package:housing_flutter_app/modules/home/views/widgets/property_card.dart';
+import 'package:housing_flutter_app/app/widgets/texts/title_with_disc.dart';
+import 'package:housing_flutter_app/modules/property/views/property_list_screen.dart';
+import 'package:housing_flutter_app/modules/property/views/widgets/city_filter.dart';
+import 'package:housing_flutter_app/modules/property/views/widgets/property_card.dart';
+import 'package:housing_flutter_app/modules/property/views/widgets/trending_area_card.dart';
 import 'package:housing_flutter_app/widgets/New%20folder/inputs/crm_dropdown_field.dart';
 import 'package:housing_flutter_app/widgets/display/crm_card.dart';
 import '../../../app/constants/ic_res.dart';
@@ -24,7 +24,7 @@ import '../../../widgets/_screen/view_screen.dart';
 import '../../../widgets/bar/app_bar/custom_appbar.dart';
 import '../../../widgets/display/crm_app_logo.dart';
 import '../../../widgets/display/crm_ic.dart';
-import 'widgets/filter_list.dart';
+import '../../property/views/widgets/filter_list.dart';
 
 class HomeScreen extends StatelessWidget {
   //final controller = Get.put(FunctionController());
@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
     IMGRes.home4,
   ];
   static final List<String> banners = [
-    IMGRes.banner1,
+    IMGRes.plot1,
     IMGRes.banner2,
     IMGRes.banner3,
   ];
@@ -71,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                   // /// Filter Tags
                   // SizedBox(height: 12),
                   // FilterTagList(),
-                  SizedBox(height: 24),
+                  SizedBox(height: 10),
                   FilterTagList(),
 
                   /// Banner
@@ -109,54 +109,75 @@ class HomeScreen extends StatelessWidget {
                   //     }),
                   //   ),
                   // ),
-                  const SizedBox(height: 24),
-                  TitleWithViewAll(
-                    title: "Editor's Choice",
-                    showViewAll: true,
-                    onViewAll: () => Get.to(PropertyListScreen()),
+                  const SizedBox(height: 10),
+                  Column(
+                    children: [
+                      TitleWithViewAll(
+                        title: "Newly added properties",
+                        showViewAll: true,
+                        onViewAll: () => Get.to(PropertyListScreen()),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 12),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Wrap(
-                      spacing: 12, // Horizontal spacing
-                      runSpacing: 12, // Vertical spacing
-                      children: List.generate(4, (index) {
-                        return SizedBox(
-                          width:
-                              (MediaQuery.of(context).size.width - 12 * 3) /
-                              2, // 2 columns
+                  SizedBox(
+                    height: 260,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      clipBehavior: Clip.none,
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      itemCount: images.length,
+                      separatorBuilder: (_, __) => const SizedBox(width: 12),
+                      itemBuilder: (context, index) {
+                        return Container(
                           child: PropertyCard(
                             imageUrl: images[index],
                             title:
-                                "Villa Newly RenovatedVilla Newly RenovatedVilla Newly RenovatedVilla Newly RenovatedVilla Newly Renovated",
+                                "Villa Newly Renovated Villa Newly Renovated Villa Newly Renovated",
                             price: "9.8 Cr",
-                            location: "Juhu, Maharastr",
+                            location: "Juhu, Maharashtra",
                           ),
                         );
-                      }),
+                      },
                     ),
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.all(12.0),
-                  //   child: Column(
-                  //     children: [
-                  //       ...List.generate(2, (index) {
-                  //         return Container(
-                  //           padding: EdgeInsets.only(bottom: 12),
-                  //           width: double.infinity,
-                  //           child: PropertyCard(
-                  //             imageUrl: images[index],
-                  //             title:
-                  //                 "Villa Newly RenovatedVilla Newly RenovatedVilla Newly RenovatedVilla Newly RenovatedVilla Newly Renovated",
-                  //             price: "9.8 Cr",
-                  //             location: "Juhu, Maharastr",
-                  //           ),
-                  //         );
-                  //       }),
-                  //     ],
-                  //   ),
-                  // ),
+
+                  const SizedBox(height: 12),
+
+                  TitleWithDescription(
+                    title: "Recommended Properties",
+                    showViewAll: true,
+                    description: "Best properties for you",
+                  ),
+
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        children: List.generate(banners.length, (index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 12),
+                            child: CrmBannerCardWithText(
+                              height: 200,
+                              width: 230,
+                              imageUrl: banners[index],
+                              title: "Fully Furnished",
+                              description: "Properties with all Essentials",
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  TitleWithViewAll(title: "Trending Areas", showViewAll: true),
+
+                  const SizedBox(height: 12),
+
+                  TrendingAreaCard(),
 
                   /// Filters by cities
                   const SizedBox(height: 24),
@@ -173,12 +194,14 @@ class HomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(12.0),
                     child: GridView.count(
                       shrinkWrap: true,
-                      physics:
-                          NeverScrollableScrollPhysics(), // Avoid scrolling conflict if inside scrollable
-                      crossAxisCount: 2, // Number of columns in the grid
+                      physics: NeverScrollableScrollPhysics(),
+                      // Avoid scrolling conflict if inside scrollable
+                      crossAxisCount: 2,
+                      // Number of columns in the grid
                       mainAxisSpacing: 12,
                       crossAxisSpacing: 12,
-                      childAspectRatio: 170 / 125, // Width / Height
+                      childAspectRatio: 170 / 125,
+                      // Width / Height
                       children: List.generate(images.length, (index) {
                         return CrmBannerCardWithText(
                           height: 125,
@@ -338,7 +361,8 @@ class _CityDropdownState extends State<CityDropdown> {
           icon: const Icon(
             Icons.keyboard_arrow_down_rounded,
             color: Colors.grey,
-          ), // Custom arrow icon
+          ),
+          // Custom arrow icon
           items:
               cities.map((String city) {
                 return DropdownMenuItem<String>(value: city, child: Text(city));

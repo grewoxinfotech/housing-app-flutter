@@ -1,7 +1,8 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:math';
 import 'dart:convert';
-import 'package:housing_flutter_app/modules/auth/models/user_model.dart';
+
+import 'package:housing_flutter_app/data/network/auth/model/user_model.dart';
 
 class SecureStorage {
   static final FlutterSecureStorage _storage = const FlutterSecureStorage();

@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:housing_flutter_app/modules/auth/controllers/auth_controller.dart';
 import 'package:housing_flutter_app/widgets/input/custom_text_field.dart';
-import 'package:housing_flutter_app/widgets/button/custom_button.dart';
-import 'package:housing_flutter_app/modules/home/views/dashboard_screen.dart';
 
 class OtpLoginScreen extends StatefulWidget {
   const OtpLoginScreen({Key? key}) : super(key: key);

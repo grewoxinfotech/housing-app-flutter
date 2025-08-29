@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:housing_flutter_app/modules/profile/views/profile_screen.dart';
 
 import '../../../app/constants/color_res.dart';
 import '../../../app/constants/font_res.dart';
 import '../../../app/constants/ic_res.dart';
 import '../../../app/constants/size_manager.dart';
-import '../../../modules/home/views/profile_screen.dart';
-import '../../../modules/home/views/widgets/filter_list.dart';
 import '../../display/crm_ic.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -45,7 +44,8 @@ class CustomAppBar extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.location_on_rounded),
+                    Icon(Icons.location_on_rounded,color: ColorRes.primary,),
+
                     SizedBox(width: 8),
                     Flexible(
                       child: Text(

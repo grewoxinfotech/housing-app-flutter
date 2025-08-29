@@ -26,6 +26,8 @@ dependencies:
   salomon_bottom_bar:
   font_awesome_flutter:
   flutter_svg:
+  google_fonts:
+  smooth_page_indicator:
 
 dev_dependencies:
   flutter_test:
@@ -60,44 +62,44 @@ flutter:
 
   # Comment out fonts until they are available
   fonts:
-     - family: NuNunito_Sans
-       fonts:
-         - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-ExtraLight.ttf
-           weight: 200
-           style: italic
-         - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-Light.ttf
-           weight: 300
-         - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-Regular.ttf
-           weight: 400
-         - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-Medium.ttf
-           weight: 500
-         - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-SemiBold.ttf
-           weight: 600
-         - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-Bold.ttf
-           weight: 700
-         - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-ExtraBold.ttf
-           weight: 800
-         - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-Black.ttf
-           weight: 900
+    - family: NuNunito_Sans
+      fonts:
+        - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-ExtraLight.ttf
+          weight: 200
+          style: italic
+        - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-Light.ttf
+          weight: 300
+        - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/NuNunito_Sans/NunitoSans_10pt-Black.ttf
+          weight: 900
 
-     - family: Poppins
-       fonts:
-         - asset: assets/fonts/Poppins/Poppins-Thin.ttf
-           weight: 100
-         - asset: assets/fonts/Poppins/Poppins-ExtraLight.ttf
-           weight: 200
-         - asset: assets/fonts/Poppins/Poppins-Light.ttf
-           weight: 300
-         - asset: assets/fonts/Poppins/Poppins-Regular.ttf
-           weight: 400
-         - asset: assets/fonts/Poppins/Poppins-Medium.ttf
-           weight: 500
-         - asset: assets/fonts/Poppins/Poppins-SemiBold.ttf
-           weight: 600
-         - asset: assets/fonts/Poppins/Poppins-Bold.ttf
-           weight: 700
-         - asset: assets/fonts/Poppins/Poppins-ExtraBold.ttf
-           weight: 800
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins/Poppins-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/Poppins/Poppins-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Poppins/Poppins-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Poppins/Poppins-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Poppins/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Poppins/Poppins-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Poppins/Poppins-ExtraBold.ttf
+          weight: 800
 
 
 

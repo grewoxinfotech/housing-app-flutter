@@ -4,10 +4,10 @@ import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/app/constants/font_res.dart';
 import 'package:housing_flutter_app/app/constants/img_res.dart';
 import 'package:housing_flutter_app/modules/auth/controllers/auth_controller.dart';
-import 'package:housing_flutter_app/modules/auth/models/user_model.dart';
-import 'package:housing_flutter_app/modules/home/views/edit_profile_screen.dart';
 import 'package:housing_flutter_app/widgets/bar/app_bar/common_crm_bar.dart';
 import 'package:housing_flutter_app/widgets/button/crm_button.dart';
+
+import '../../profile/views/edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);

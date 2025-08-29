@@ -27,8 +27,9 @@ class TitleWithViewAll extends StatelessWidget {
             child: Text(
               title,
               style: TextStyle(
-                fontSize: 17,
+                fontSize: 16,
                 fontWeight: FontWeight.w600,
+
                 color: ColorRes.textPrimary,
               ),
               overflow: TextOverflow.ellipsis,

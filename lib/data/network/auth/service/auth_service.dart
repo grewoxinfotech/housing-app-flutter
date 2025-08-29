@@ -1,7 +1,7 @@
 import 'dart:convert';
+import 'package:housing_flutter_app/data/network/auth/model/user_model.dart';
 import 'package:housing_flutter_app/modules/auth/views/login_screen.dart';
 import 'package:http/http.dart' as http;
-import 'package:housing_flutter_app/modules/auth/models/user_model.dart';
 import '../../../../app/constants/api_constants.dart';
 import 'package:housing_flutter_app/data/database/secure_storage_service.dart';
 import 'package:get/get.dart';
@@ -17,6 +17,7 @@ class AuthService {
 
   // Login
   Future<UserModel> login(String email, String password) async {
+
     final response = await http.post(
       Uri.parse(ApiConstants.loginEndpoint),
       headers: {i: j},
@@ -73,7 +74,7 @@ class AuthService {
   Future<void> resendOtp(String token) async {
     final response = await http.post(
       Uri.parse('${ApiConstants.auth}/resend-otp'),
-        headers: await headers(),
+      headers: await headers(),
     );
 
     final data = jsonDecode(response.body);
@@ -114,7 +115,6 @@ class AuthService {
   //   }
   // }
 
-
   // In AuthService class
 
   Future<String> forgotPassword(String id) async {
@@ -135,10 +135,7 @@ class AuthService {
   Future<String> verifyPasswordResetOtp(String otp, String token) async {
     final response = await http.post(
       Uri.parse('${ApiConstants.auth}/verify-otp'),
-      headers: {
-        i: j,
-        'Authorization': 'Bearer $token',
-      },
+      headers: {i: j, 'Authorization': 'Bearer $token'},
       body: jsonEncode({'otp': otp}),
     );
 
@@ -153,10 +150,7 @@ class AuthService {
   Future<void> resetPassword(String newPassword, String resetToken) async {
     final response = await http.post(
       Uri.parse('${ApiConstants.auth}/reset-password'),
-      headers: {
-        i: j,
-        'Authorization': 'Bearer $resetToken',
-      },
+      headers: {i: j, 'Authorization': 'Bearer $resetToken'},
       body: jsonEncode({'newPassword': newPassword}),
     );
 
@@ -167,7 +161,6 @@ class AuthService {
       throw Exception(data["message"] ?? "Password reset failed");
     }
   }
-
 
   Future<void> logout() async {
     await SecureStorage.clearAll();

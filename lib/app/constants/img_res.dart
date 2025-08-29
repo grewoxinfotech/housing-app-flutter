@@ -23,4 +23,6 @@ class IMGRes {
   static final String bhk1 = "assets/images/bhk_1.jpg";
   static final String bhk2 = "assets/images/bhk_2.jpg";
   static final String bhk3 = "assets/images/bhk_3.jpg";
+
+
 }

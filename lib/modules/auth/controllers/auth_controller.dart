@@ -1,14 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:housing_flutter_app/data/network/auth/model/user_model.dart' show UserModel;
 import 'package:housing_flutter_app/data/network/auth/service/auth_service.dart';
 import 'package:housing_flutter_app/data/database/secure_storage_service.dart';
-import 'package:housing_flutter_app/modules/auth/models/user_model.dart';
 import 'package:housing_flutter_app/modules/auth/views/ResetPasswordScreen.dart';
 import 'package:housing_flutter_app/widgets/messages/crm_snack_bar.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-
-import '../../../app/constants/api_constants.dart';
-import '../../home/views/dashboard_screen.dart';
+import '../../dashboard/views/dashboard_screen.dart';
 import '../views/login_screen.dart';
 import '../views/otp_verification_screen.dart';
 

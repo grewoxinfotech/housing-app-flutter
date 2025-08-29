@@ -3,11 +3,19 @@ import 'package:get/get.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/app/constants/img_res.dart';
 import 'package:housing_flutter_app/app/constants/size_manager.dart';
-import 'package:housing_flutter_app/modules/home/views/property_detail_screen.dart';
+import 'package:housing_flutter_app/data/network/property/models/property_model.dart';
+import 'package:housing_flutter_app/modules/property/controllers/property_controller.dart';
+import 'package:housing_flutter_app/modules/property/views/property_detail_screen.dart';
 import 'package:housing_flutter_app/widgets/button/crm_button.dart';
 import 'package:housing_flutter_app/widgets/display/crm_card.dart';
 
 class PropertyListScreen extends StatelessWidget {
+
+
+
+  final PropertyController controller = Get.put(PropertyController());
+
+
   final List<Map<String, dynamic>> dummyProperties = [
     {
       "title": "Luxury 3BHK Apartment",
@@ -85,35 +93,115 @@ class PropertyListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    print('calling build${controller.items.length}');
+
+
+    // return Scaffold(
+    //   appBar: PreferredSize(
+    //     preferredSize: Size.fromHeight(120),
+    //     child: CustomSearchAppBar(),
+    //   ),
+    //   body: FutureBuilder(
+    //     future: controller.loadInitial(),
+    //     builder: (context, asyncSnapshot) {
+    //       print('asyncSnapshot: ${asyncSnapshot.connectionState}');
+    //       return Padding(
+    //         padding: const EdgeInsets.symmetric(horizontal: 12),
+    //         child: ListView.builder(
+    //           itemCount: dummyProperties.length,
+    //           itemBuilder: (context, index) {
+    //             final property = dummyProperties[index];
+    //
+    //             return Padding(
+    //               padding: const EdgeInsets.symmetric(vertical: 8.0),
+    //               child: PropertyListScreenCard(property: property),
+    //             );
+    //           },
+    //         ),
+    //       );
+    //     }
+    //   ),
+    // );
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(120),
         child: CustomSearchAppBar(),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: ListView.builder(
-          itemCount: dummyProperties.length,
-          itemBuilder: (context, index) {
-            final property = dummyProperties[index];
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: PropertyListScreenCard(property: property),
+      body: FutureBuilder(
+        future: controller.loadInitial(),
+        builder: (context, asyncSnapshot) {
+          print('asyncSnapshot: ${asyncSnapshot.connectionState}');
+
+          if (asyncSnapshot.connectionState == ConnectionState.waiting) {
+            // Show loader while waiting
+            return Center(child: CircularProgressIndicator());
+          } else if (asyncSnapshot.hasError) {
+            // Show error message if future fails
+            return Center(
+              child: Text(
+                'Error: ${asyncSnapshot.error}',
+                style: TextStyle(color: Colors.red),
+              ),
             );
-          },
-        ),
+          } else if (dummyProperties.isEmpty) {
+            // Show empty state if no properties
+            return Center(
+              child: Text('No properties available'),
+            );
+          } else if (asyncSnapshot.connectionState == ConnectionState.done) {
+            return Obx(() {
+              if (!controller.isLoading.value && controller.items.isEmpty) {
+                return const Center(child: Text("No Meetings found."));
+              }
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: (scrollEnd) {
+                    final metrics = scrollEnd.metrics;
+                    if (metrics.atEdge && metrics.pixels != 0) {
+                      controller.loadMore();
+                    }
+                    return false;
+                  },
+                  child: RefreshIndicator(
+                    onRefresh: controller.refreshList,
+                    child: ListView.builder(
+                      itemCount: controller.items.length,
+                      itemBuilder: (context, index) {
+                        final data = controller.items.value[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: PropertyListScreenCard(items: data,),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              );
+            });
+          }else{
+            return Center(child: Text('No Property Available'));
+          }
+        },
+        
       ),
+      
     );
+
   }
 }
 
 class PropertyListScreenCard extends StatelessWidget {
-  final Map<String, dynamic> property;
+  // final Map<String, dynamic> property;
+  final Items? items;
 
-  const PropertyListScreenCard({super.key, required this.property});
+  const PropertyListScreenCard({super.key, this.items});
 
   @override
   Widget build(BuildContext context) {
+
     return GestureDetector(
       onTap: () => Get.to(PropertyDetailScreen()),
       child: CrmCard(
@@ -125,14 +213,14 @@ class PropertyListScreenCard extends StatelessWidget {
             Stack(
               children: [
                 SizedBox(
-                  height: 150,
+                  height: 180,
                   width: double.infinity,
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(12),
                       topRight: Radius.circular(12),
                     ),
-                    child: Image.asset(property["image"], fit: BoxFit.cover),
+                    child: Image.network(items!.propertyMedia!.images?.first ?? IMGRes.home1, fit: BoxFit.fill),
                   ),
                 ),
               ],
@@ -149,7 +237,7 @@ class PropertyListScreenCard extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Text(
-                          property["title"],
+                          items!.title!,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -194,7 +282,7 @@ class PropertyListScreenCard extends StatelessWidget {
                             SizedBox(
                               width: MediaQuery.of(context).size.width / 4.5,
                               child: Text(
-                                property["price"],
+                                items!.propertyDetails!.financialInfo!.price!.toString(),
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.black,
@@ -203,17 +291,18 @@ class PropertyListScreenCard extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              width: 80,
-                              child: Text(
-                                property["availability"],
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey[700],
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
+                            // SizedBox(
+                            //   width: 80,
+                            //   child:
+                            //   Text(
+                            //     property["availability"],
+                            //     style: TextStyle(
+                            //       fontSize: 12,
+                            //       color: Colors.grey[700],
+                            //     ),
+                            //     overflow: TextOverflow.ellipsis,
+                            //   ),
+                            // ),
                           ],
                         ),
                         SizedBox(width: 6),
@@ -227,14 +316,14 @@ class PropertyListScreenCard extends StatelessWidget {
                           width: MediaQuery.of(context).size.width / 4.5,
                           child: Column(
                             children: [
-                              Text(
-                                property["area"],
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                              // Text(
+                              //   property["area"],
+                              //   style: TextStyle(
+                              //     fontSize: 14,
+                              //     color: Colors.black,
+                              //     fontWeight: FontWeight.bold,
+                              //   ),
+                              // ),
                               SizedBox(
                                 width: 80,
                                 child: Text(
@@ -263,7 +352,7 @@ class PropertyListScreenCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                property["type"],
+                                items!.propertyDetails!.propertyBuiltUpArea!.toString(),
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.black,
@@ -271,7 +360,7 @@ class PropertyListScreenCard extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                property["furnishing"],
+                                items!.propertyDetails!.furnishInfo!.furnishType!,
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Colors.grey[700],
@@ -286,62 +375,13 @@ class PropertyListScreenCard extends StatelessWidget {
                     ),
                   ),
 
-                  // Divider(
-                  //   indent: 12,
-                  //   endIndent: 12,
-                  //   color: Colors.grey.shade300,
-                  // ),
                   const SizedBox(height: 4),
-                  // Row(
-                  //   children: [
-                  //     Container(
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.circular(AppRadius.small),
-                  //         color: Color(0xFFDBEAFE),
-                  //       ),
-                  //       child: Padding(
-                  //         padding: const EdgeInsets.symmetric(
-                  //           vertical: 4.0,
-                  //           horizontal: 8,
-                  //         ),
-                  //         child: Text(
-                  //           property["floor"],
-                  //           style: TextStyle(
-                  //             fontWeight: FontWeight.w600,
-                  //             fontSize: 10,
-                  //             color: Color(0xFF2563EB),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     SizedBox(width: 8),
-                  //     Container(
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.circular(AppRadius.small),
-                  //         color: Color(0xFFDBEAFE),
-                  //       ),
-                  //       child: Padding(
-                  //         padding: const EdgeInsets.symmetric(
-                  //           vertical: 4.0,
-                  //           horizontal: 8,
-                  //         ),
-                  //         child: Text(
-                  //           property["age"],
-                  //           style: TextStyle(
-                  //             fontWeight: FontWeight.w600,
-                  //             fontSize: 10,
-                  //             color: Color(0xFF2563EB),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
+
                   SizedBox(height: 4),
 
                   /// Description
                   Text(
-                    property["description"],
+                    items!.propertyDescription!,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -365,7 +405,7 @@ class PropertyListScreenCard extends StatelessWidget {
                         child: CircleAvatar(
                           radius: 30,
                           backgroundImage: AssetImage(
-                            property["image"], // Replace with actual image URL
+                            IMGRes.home1, // Replace with actual image URL
                           ),
                         ),
                       ),
@@ -386,7 +426,7 @@ class PropertyListScreenCard extends StatelessWidget {
                             ),
                             SizedBox(height: 4),
                             Text(
-                              property["postedBy"],
+                              items!.ownerName!,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12,
@@ -406,34 +446,7 @@ class PropertyListScreenCard extends StatelessWidget {
                             height: 40,
                             child: CrmButton(onTap: () {}, title: "Call"),
                           ),
-                          // SizedBox(width: 6),
-                          // SizedBox(
-                          //   width: 40,
-                          //   height: 40,
-                          //   child: ElevatedButton(
-                          //     onPressed: () {
-                          //       // Your onPressed logic
-                          //     },
-                          //     style: ElevatedButton.styleFrom(
-                          //       backgroundColor: const Color(0xFFDBEAFE),
-                          //       padding:
-                          //           EdgeInsets.zero, // Remove default padding
-                          //       shape: RoundedRectangleBorder(
-                          //         borderRadius: BorderRadius.circular(
-                          //           AppRadius.medium,
-                          //         ),
-                          //       ),
-                          //       elevation: 0, // Optional: flat look
-                          //     ),
-                          //     child: Icon(
-                          //       Icons.phone_outlined,
-                          //       size: 20, // Optional: control icon size
-                          //       color:
-                          //           ColorRes
-                          //               .primary, // Optional: set icon color
-                          //     ),
-                          //   ),
-                          // ),
+
                         ],
                       ),
                     ],

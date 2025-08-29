@@ -4,6 +4,7 @@ import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/app/constants/img_res.dart';
 import 'package:housing_flutter_app/app/constants/size_manager.dart';
 import 'package:housing_flutter_app/widgets/button/crm_button.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../app/widgets/texts/headline_text.dart';
 
@@ -14,75 +15,80 @@ class PropertyDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorRes.white,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildImageBanner(),
-            _buildTitleSection(),
-            Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.only(bottom: kBottomNavigationBarHeight),
 
-            SizedBox(height: 12),
-            TitleWithViewAll(title: 'Highlights'),
-            SizedBox(height: 18),
-            HighLights(),
-            SizedBox(height: 12),
-            Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
+          // prevents overlap
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildImageBanner(),
+              _buildTitleSection(),
+              Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
-            SizedBox(height: 12),
-            TitleWithViewAll(title: 'Property Details'),
-            SizedBox(height: 18),
-            Details(),
-            SizedBox(height: 12),
-            Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
+              SizedBox(height: 12),
+              TitleWithViewAll(title: 'Highlights'),
+              SizedBox(height: 18),
+              HighLights(),
+              SizedBox(height: 12),
+              Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
-            SizedBox(height: 12),
-            TitleWithViewAll(title: 'Furniture'),
-            SizedBox(height: 18),
-            FurnitureSection(),
-            SizedBox(height: 12),
-            Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
+              SizedBox(height: 12),
+              TitleWithViewAll(title: 'Property Details'),
+              SizedBox(height: 18),
+              Details(),
+              SizedBox(height: 12),
+              Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
-            SizedBox(height: 12),
-            TitleWithViewAll(title: 'Description'),
-            SizedBox(height: 18),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                'Breathtaking 4-bedroom penthouse on the 34th floor, boasting 270° sea and city views,'
-                ' floor-to-ceiling windows, private infinity terrace, and designer interiors.'
-                ' A rare gem for urban luxury seekers.',
-                style: TextStyle(fontSize: 12),
+              SizedBox(height: 12),
+              TitleWithViewAll(title: 'Furniture'),
+              SizedBox(height: 18),
+              FurnitureSection(),
+              SizedBox(height: 12),
+              Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
+
+              SizedBox(height: 12),
+              TitleWithViewAll(title: 'Description'),
+              SizedBox(height: 18),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
+                  'Breathtaking 4-bedroom penthouse on the 34th floor, boasting 270° sea and city views,'
+                  ' floor-to-ceiling windows, private infinity terrace, and designer interiors.'
+                  ' A rare gem for urban luxury seekers.',
+                  style: TextStyle(fontSize: 12),
+                ),
               ),
-            ),
-            SizedBox(height: 12),
-            Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
+              SizedBox(height: 12),
+              Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
-            SizedBox(height: 12),
-            TitleWithViewAll(title: 'Location'),
-            SizedBox(height: 18),
-            AddressAndMapDetails(),
-            SizedBox(height: 12),
-            Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
+              SizedBox(height: 12),
+              TitleWithViewAll(title: 'Location'),
+              SizedBox(height: 18),
+              AddressAndMapDetails(),
+              SizedBox(height: 12),
+              Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
-            SizedBox(height: 12),
-            TitleWithViewAll(title: 'Nearby Locations'),
-            SizedBox(height: 18),
-            NearbyPropertyDetails(),
-            SizedBox(height: 12),
-            Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
+              SizedBox(height: 12),
+              TitleWithViewAll(title: 'Nearby Locations'),
+              SizedBox(height: 18),
+              NearbyPropertyDetails(),
+              SizedBox(height: 12),
+              Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
-            SizedBox(height: 12),
-            TitleWithViewAll(title: 'Owner Details'),
-            SizedBox(height: 18),
-            OwnerInformation(),
-            SizedBox(height: 12),
-            const SizedBox(height: 36), // Extra spacing at bottom
-          ],
+              SizedBox(height: 12),
+              TitleWithViewAll(title: 'Owner Details'),
+              SizedBox(height: 18),
+              OwnerInformation(),
+              SizedBox(height: 12),
+              const SizedBox(height: 36), // Extra spacing at bottom
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: PropertyBottomBar(
-        price: '₹ 8.9 Cr',
+        price: '₹ 11199,24,000',
         onCallOwner: () {},
         onScheduleVisit: () {},
       ),
@@ -90,72 +96,214 @@ class PropertyDetailScreen extends StatelessWidget {
   }
 
   Widget _buildImageBanner() {
-    return Stack(
-      children: [
-        Container(
-          height: 300,
-          width: double.infinity,
-          child: Image.asset(IMGRes.home1, fit: BoxFit.cover),
-        ),
-        Positioned(
-          top: 30,
-          left: 20,
-          child: Row(
+    final PageController _pageController = PageController();
+    final List<String> images = [
+      IMGRes.home1,
+      IMGRes.home2,
+      IMGRes.home3,
+      IMGRes.home4,
+      IMGRes.home4,
+      IMGRes.home4,
+    ];
+
+    int currentPage = 0;
+
+    return SafeArea(
+      // top: true, // ensures it stays below status bar
+      child: StatefulBuilder(
+        builder: (context, setState) {
+          return Stack(
             children: [
-              CircularIcon(
-                icon: Icons.arrow_back_rounded,
-                onPressed: () => Get.back(),
+              SizedBox(
+                height: 350,
+                width: double.infinity,
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: images.length,
+                  onPageChanged: (index) {
+                    setState(() {
+                      currentPage = index;
+                    });
+                  },
+                  itemBuilder: (context, index) {
+                    return Image.asset(
+                      images[index],
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    );
+                  },
+                ),
               ),
-              SizedBox(width: 12),
-              // Container(
-              //   decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.circular(AppRadius.extraLarge),
-              //     color: Colors.black.withOpacity(0.7),
-              //   ),
-              //   child: Padding(
-              //     padding: const EdgeInsets.symmetric(
-              //       vertical: 8.0,
-              //       horizontal: 12,
-              //     ),
-              //     child: Text(
-              //       'For Rent',
-              //       style: TextStyle(fontSize: 12, color: Colors.white),
-              //     ),
-              //   ),
-              // ),
-            ],
-          ),
-        ),
-        Positioned(
-          top: 30,
-          right: 20,
-          child: Row(
-            children: [
-              CircularIcon(
-                icon: Icons.favorite_border_rounded,
-                onPressed: () {},
+              // Back button
+              Positioned(
+                top: 16,
+                left: 16,
+                child: CircularIcon(
+                  icon: Icons.arrow_back_rounded,
+                  backgroundColor: Colors.white, // set background color
+                  onPressed: () => Get.back(),
+                ),
               ),
-              SizedBox(width: 12),
-              CircularIcon(icon: Icons.share_outlined, onPressed: () {}),
+              // Right side icons
+              Positioned(
+                top: 16,
+                right: 16,
+                child: Row(
+                  children: [
+                    CircularIcon(
+                      icon: Icons.favorite_border_rounded,
+                      backgroundColor: Colors.white,
+                      onPressed: () {},
+                    ),
+                    const SizedBox(width: 12),
+                    CircularIcon(
+                      icon: Icons.share_outlined,
+                      onPressed: () {},
+                      backgroundColor: Colors.white,
+                    ),
+                  ],
+                ),
+              ),
+              // Page indicator
+              Positioned(
+                bottom: 16,
+                right: 16,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black54,
+                    borderRadius: BorderRadius.circular(AppRadius.small),
+                  ),
+                  child: Text(
+                    '${currentPage + 1}/${images.length}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
             ],
-          ),
-        ),
-      ],
+          );
+        },
+      ),
     );
   }
 
   Widget _buildTitleSection() {
     return Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Text(
-        "Skyline Penthouse with Infinity Terrace in Mumbai",
-        style: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
-          color: ColorRes.textPrimary,
-        ),
-        maxLines: 3,
-        overflow: TextOverflow.ellipsis,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Price
+          Text(
+            "₹ 8,25,000",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
+            ),
+          ),
+          const SizedBox(height: 4),
+
+          // Property Title
+          Text(
+            "Skyline Penthouse with Infinity Terrace aaaaaaaaa",
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: ColorRes.textPrimary,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 4),
+
+          // Location Row
+          Row(
+            children: [
+              Icon(Icons.location_on, size: 16, color: Color(0xFF2563EB)),
+              const SizedBox(width: 4),
+              Expanded(
+                child: Text(
+                  "Mumbai, Maharashtra aaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 8),
+
+          // Type + See on Map Row (aligned with start)
+          Row(
+            children: [
+              // Type Chip
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: ColorRes.primary.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(AppRadius.small),
+                ),
+                child: Text(
+                  "For Sale",
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: ColorRes.primary,
+                  ),
+                ),
+              ),
+
+              const Spacer(),
+
+              // See on Map Button
+              GestureDetector(
+                onTap: () {
+                  // TODO: Add map navigation logic
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: ColorRes.primary.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(AppRadius.small),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.location_pin,
+                        size: 16,
+                        color: ColorRes.primary,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        "See on Map",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: ColorRes.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -247,8 +395,16 @@ class PropertyDetailScreen extends StatelessWidget {
 class CircularIcon extends StatelessWidget {
   final IconData icon;
   final VoidCallback? onPressed;
+  final Color? backgroundColor; // add this
+  final Color? iconColor; // add this
 
-  const CircularIcon({super.key, required this.icon, this.onPressed});
+  const CircularIcon({
+    super.key,
+    required this.icon,
+    this.onPressed,
+    this.backgroundColor, // add this
+    this.iconColor, // add this
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -258,10 +414,10 @@ class CircularIcon extends StatelessWidget {
         height: 40,
         width: 40,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppRadius.extraLarge),
-          color: Colors.grey.shade300,
+          borderRadius: BorderRadius.circular(50),
+          color: backgroundColor ?? Colors.grey.shade300, // fallback
         ),
-        child: Icon(icon),
+        child: Icon(icon, color: iconColor ?? Colors.black),
       ),
     );
   }
@@ -306,7 +462,7 @@ class PropertyBottomBar extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
-                  color: Colors.green,
+                  color: Colors.black,
                 ),
                 overflow: TextOverflow.ellipsis,
               ),
@@ -374,18 +530,9 @@ class HighLights extends StatelessWidget {
     Icons.date_range,
     Icons.person,
   ];
-  final List<Color> bgColor = [
-    Color(0xFFDBEAFE),
-    Color(0xFFDCFCE7),
-    Color(0xFFFFEDD5),
-    Color(0xFFF3E8FF),
-  ];
-  final List<Color> txtColor = [
-    Color(0xFF2563EB),
-    Color(0xFF16A34A),
-    Color(0xFFEA580C),
-    Color(0xFF9333EA),
-  ];
+
+  final Color bgColor = Color(0xFFDBEAFE); // Single background color
+  final Color txtColor = Color(0xFF2563EB); // Single text/icon color
 
   @override
   Widget build(BuildContext context) {
@@ -401,8 +548,8 @@ class HighLights extends StatelessWidget {
               child: HighLightsCard(
                 label: labels[index],
                 icon: icons[index],
-                bgColor: bgColor[index % 4],
-                foreColor: txtColor[index % 4],
+                bgColor: bgColor,
+                foreColor: txtColor,
               ),
             );
           }),
@@ -536,29 +683,8 @@ class FurnitureSection extends StatelessWidget {
     {'icon': Icons.solar_power, 'label': "Solar Panels"},
   ];
 
-  final List<Color> bgColor = [
-    Color(0xFFDBEAFE), // Light Blue
-    Color(0xFFDCFCE7), // Light Green
-    Color(0xFFFFEDD5), // Light Orange
-    Color(0xFFF3E8FF), // Light Purple
-    Color(0xFFFFE4E6), // Light Rose
-    Color(0xFFFEF9C3), // Light Yellow
-    Color(0xFFE0F2FE), // Light Sky Blue
-    Color(0xFFF0FDF4), // Light Emerald
-    Color(0xFFFAE8FF), // Light Fuchsia
-  ];
-
-  final List<Color> txtColor = [
-    Color(0xFF2563EB), // Blue
-    Color(0xFF16A34A), // Green
-    Color(0xFFEA580C), // Orange
-    Color(0xFF9333EA), // Purple
-    Color(0xFFE11D48), // Rose
-    Color(0xFFCA8A04), // Yellow
-    Color(0xFF0284C7), // Sky Blue
-    Color(0xFF22C55E), // Emerald
-    Color(0xFFC026D3), // Fuchsia
-  ];
+  final Color bgColor = Color(0xFFDBEAFE); // single background color
+  final Color txtColor = Color(0xFF2563EB); // single text/icon color
 
   @override
   Widget build(BuildContext context) {
@@ -567,34 +693,34 @@ class FurnitureSection extends StatelessWidget {
       child: Wrap(
         spacing: 12,
         runSpacing: 12,
-        children: List.generate(amenities.length, (index) {
-          final bg = bgColor[index % bgColor.length];
-          final color = txtColor[index % txtColor.length];
-          final item = amenities[index];
-
-          return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              color: bg,
-              borderRadius: BorderRadius.circular(24),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(item['icon'], size: 16, color: color),
-                const SizedBox(width: 8),
-                Text(
-                  item['label'],
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: color,
-                  ),
+        children:
+            amenities.map((item) {
+              return Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
                 ),
-              ],
-            ),
-          );
-        }),
+                decoration: BoxDecoration(
+                  color: bgColor,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(item['icon'], size: 16, color: txtColor),
+                    const SizedBox(width: 8),
+                    Text(
+                      item['label'],
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: txtColor,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
       ),
     );
   }

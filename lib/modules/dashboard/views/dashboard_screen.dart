@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:housing_flutter_app/modules/home/views/home_screen.dart';
 import 'package:housing_flutter_app/widgets/bar/navigation_bar/crm_navigation_Bar.dart';
 import '../../../widgets/bar/app_bar/crm_app_bar.dart';
 import '../../../widgets/dialogs/crm_delete_dialog.dart';
 import '../../../widgets/drawer/crm_drawer.dart';
 import 'package:get/get.dart';
+
+import '../../home/views/home_screen.dart';
 
 // class HomeScreen extends StatefulWidget {
 //   const HomeScreen({Key? key}) : super(key: key);
