@@ -3,16 +3,24 @@ import 'package:get/get.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/app/constants/img_res.dart';
 import 'package:housing_flutter_app/app/constants/size_manager.dart';
+import 'package:housing_flutter_app/app/manager/icon_manager.dart';
+import 'package:housing_flutter_app/app/manager/string_manager.dart';
 import 'package:housing_flutter_app/widgets/button/crm_button.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:video_player/video_player.dart';
 
+import '../../../app/manager/property_detail_manager.dart';
+import '../../../app/manager/property_highlight_manager.dart';
 import '../../../app/widgets/texts/headline_text.dart';
+import '../../../data/network/property/models/property_model.dart';
 
 class PropertyDetailScreen extends StatelessWidget {
-  const PropertyDetailScreen({super.key});
+  final Items? property;
+  const PropertyDetailScreen({super.key, this.property});
 
   @override
   Widget build(BuildContext context) {
+    print("[DEBUG]=> Property : ${property?.toJson()}");
     return Scaffold(
       backgroundColor: ColorRes.white,
       body: SafeArea(
@@ -23,64 +31,71 @@ class PropertyDetailScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildImageBanner(),
-              _buildTitleSection(),
+              _buildMediaBanner(property?.propertyMedia ?? PropertyMedia()),
+              _buildTitleSection(property ?? Items()),
               Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
               SizedBox(height: 12),
               TitleWithViewAll(title: 'Highlights'),
               SizedBox(height: 18),
-              HighLights(),
+              HighLights(property: property ?? Items()),
               SizedBox(height: 12),
               Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
               SizedBox(height: 12),
               TitleWithViewAll(title: 'Property Details'),
               SizedBox(height: 18),
-              Details(),
+              Details(property: property!),
               SizedBox(height: 12),
               Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
-              SizedBox(height: 12),
-              TitleWithViewAll(title: 'Furniture'),
-              SizedBox(height: 18),
-              FurnitureSection(),
-              SizedBox(height: 12),
-              Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
-
-              SizedBox(height: 12),
-              TitleWithViewAll(title: 'Description'),
-              SizedBox(height: 18),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
-                  'Breathtaking 4-bedroom penthouse on the 34th floor, boasting 270° sea and city views,'
-                  ' floor-to-ceiling windows, private infinity terrace, and designer interiors.'
-                  ' A rare gem for urban luxury seekers.',
-                  style: TextStyle(fontSize: 12),
+              if (property?.propertyDetails?.amenities != null) ...[
+                SizedBox(height: 12),
+                TitleWithViewAll(title: 'Amenities'),
+                SizedBox(height: 18),
+                AmenitiesSection(
+                  amenities: property!.propertyDetails!.amenities ?? [],
                 ),
-              ),
-              SizedBox(height: 12),
-              Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
+                SizedBox(height: 12),
+                Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
+              ],
+
+              if (property?.propertyDescription != null) ...[
+                SizedBox(height: 12),
+                TitleWithViewAll(title: 'Description'),
+                SizedBox(height: 18),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    property?.propertyDescription ?? '-',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
+                SizedBox(height: 12),
+                Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
+              ],
 
               SizedBox(height: 12),
               TitleWithViewAll(title: 'Location'),
               SizedBox(height: 18),
-              AddressAndMapDetails(),
+              AddressAndMapDetails(property: property!),
               SizedBox(height: 12),
               Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
               SizedBox(height: 12),
               TitleWithViewAll(title: 'Nearby Locations'),
               SizedBox(height: 18),
-              NearbyPropertyDetails(),
+              if (property?.nearbyLocations != null)
+                NearbyPropertyDetails(
+                  nearbyLocations: property?.nearbyLocations ?? [],
+                ),
               SizedBox(height: 12),
               Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
               SizedBox(height: 12),
               TitleWithViewAll(title: 'Owner Details'),
               SizedBox(height: 18),
-              OwnerInformation(),
+              OwnerInformation(property: property!),
               SizedBox(height: 12),
               const SizedBox(height: 36), // Extra spacing at bottom
             ],
@@ -88,28 +103,125 @@ class PropertyDetailScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: PropertyBottomBar(
-        price: '₹ 11199,24,000',
+        price: '₹ ${property?.propertyDetails?.financialInfo?.price ?? '0'}',
         onCallOwner: () {},
         onScheduleVisit: () {},
       ),
     );
   }
 
-  Widget _buildImageBanner() {
+  // Widget _buildImageBanner(PropertyMedia media) {
+  //   final PageController _pageController = PageController();
+  //   final images = media.images ?? [];
+  //   // final List<String> images = [
+  //   //   IMGRes.home1,
+  //   //   IMGRes.home2,
+  //   //   IMGRes.home3,
+  //   //   IMGRes.home4,
+  //   //   IMGRes.home4,
+  //   //   IMGRes.home4,
+  //   // ];
+  //
+  //   int currentPage = 0;
+  //
+  //   return SafeArea(
+  //     // top: true, // ensures it stays below status bar
+  //     child: StatefulBuilder(
+  //       builder: (context, setState) {
+  //         return Stack(
+  //           children: [
+  //             SizedBox(
+  //               height: 350,
+  //               width: double.infinity,
+  //               child: PageView.builder(
+  //                 controller: _pageController,
+  //                 itemCount: images.length,
+  //                 onPageChanged: (index) {
+  //                   setState(() {
+  //                     currentPage = index;
+  //                   });
+  //                 },
+  //                 itemBuilder: (context, index) {
+  //                   return Image.network(
+  //                     images[index],
+  //                     fit: BoxFit.cover,
+  //                     width: double.infinity,
+  //                   );
+  //                 },
+  //               ),
+  //             ),
+  //             // Back button
+  //             Positioned(
+  //               top: 16,
+  //               left: 16,
+  //               child: CircularIcon(
+  //                 icon: Icons.arrow_back_rounded,
+  //                 backgroundColor: Colors.white, // set background color
+  //                 onPressed: () => Get.back(),
+  //               ),
+  //             ),
+  //             // Right side icons
+  //             Positioned(
+  //               top: 16,
+  //               right: 16,
+  //               child: Row(
+  //                 children: [
+  //                   CircularIcon(
+  //                     icon: Icons.favorite_border_rounded,
+  //                     backgroundColor: Colors.white,
+  //                     onPressed: () {},
+  //                   ),
+  //                   const SizedBox(width: 12),
+  //                   CircularIcon(
+  //                     icon: Icons.share_outlined,
+  //                     onPressed: () {},
+  //                     backgroundColor: Colors.white,
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //             // Page indicator
+  //             Positioned(
+  //               bottom: 16,
+  //               right: 16,
+  //               child: Container(
+  //                 padding: const EdgeInsets.symmetric(
+  //                   horizontal: 8,
+  //                   vertical: 4,
+  //                 ),
+  //                 decoration: BoxDecoration(
+  //                   color: Colors.black54,
+  //                   borderRadius: BorderRadius.circular(AppRadius.small),
+  //                 ),
+  //                 child: Text(
+  //                   '${currentPage + 1}/${images.length}',
+  //                   style: const TextStyle(
+  //                     color: Colors.white,
+  //                     fontSize: 12,
+  //                     fontWeight: FontWeight.w600,
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //           ],
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
+
+  Widget _buildMediaBanner(PropertyMedia media) {
     final PageController _pageController = PageController();
-    final List<String> images = [
-      IMGRes.home1,
-      IMGRes.home2,
-      IMGRes.home3,
-      IMGRes.home4,
-      IMGRes.home4,
-      IMGRes.home4,
+    final images = media.images ?? [];
+    final videos = media.videos ?? []; // Add videos list
+    final List<Map<String, String>> mediaList = [
+      ...images.map((e) => {"type": "image", "url": e}),
+      ...videos.map((e) => {"type": "video", "url": e}),
     ];
 
     int currentPage = 0;
 
     return SafeArea(
-      // top: true, // ensures it stays below status bar
       child: StatefulBuilder(
         builder: (context, setState) {
           return Stack(
@@ -119,18 +231,24 @@ class PropertyDetailScreen extends StatelessWidget {
                 width: double.infinity,
                 child: PageView.builder(
                   controller: _pageController,
-                  itemCount: images.length,
+                  itemCount: mediaList.length,
                   onPageChanged: (index) {
                     setState(() {
                       currentPage = index;
                     });
                   },
                   itemBuilder: (context, index) {
-                    return Image.asset(
-                      images[index],
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                    );
+                    final item = mediaList[index];
+                    if (item["type"] == "image") {
+                      return Image.network(
+                        item["url"]!,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      );
+                    } else if (item["type"] == "video") {
+                      return _buildVideoPlayer(item["url"]!);
+                    }
+                    return const SizedBox.shrink();
                   },
                 ),
               ),
@@ -140,7 +258,7 @@ class PropertyDetailScreen extends StatelessWidget {
                 left: 16,
                 child: CircularIcon(
                   icon: Icons.arrow_back_rounded,
-                  backgroundColor: Colors.white, // set background color
+                  backgroundColor: Colors.white,
                   onPressed: () => Get.back(),
                 ),
               ),
@@ -175,10 +293,10 @@ class PropertyDetailScreen extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: Colors.black54,
-                    borderRadius: BorderRadius.circular(AppRadius.small),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
-                    '${currentPage + 1}/${images.length}',
+                    '${currentPage + 1}/${mediaList.length}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 12,
@@ -194,7 +312,29 @@ class PropertyDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTitleSection() {
+  /// Inline video player builder
+  Widget _buildVideoPlayer(String url) {
+    final VideoPlayerController _videoController =
+        VideoPlayerController.network(url);
+
+    return FutureBuilder(
+      future: _videoController.initialize(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          _videoController.setLooping(true);
+          _videoController.play();
+          return AspectRatio(
+            aspectRatio: _videoController.value.aspectRatio,
+            child: VideoPlayer(_videoController),
+          );
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
+    );
+  }
+
+  Widget _buildTitleSection(Items property) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Column(
@@ -202,7 +342,7 @@ class PropertyDetailScreen extends StatelessWidget {
         children: [
           // Price
           Text(
-            "₹ 8,25,000",
+            property.propertyDetails?.financialInfo?.price?.toString() ?? '0',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,
@@ -213,7 +353,7 @@ class PropertyDetailScreen extends StatelessWidget {
 
           // Property Title
           Text(
-            "Skyline Penthouse with Infinity Terrace aaaaaaaaa",
+            property.title ?? "-",
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w500,
@@ -231,7 +371,7 @@ class PropertyDetailScreen extends StatelessWidget {
               const SizedBox(width: 4),
               Expanded(
                 child: Text(
-                  "Mumbai, Maharashtra aaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  '${property.city ?? '-'}, ${property.state ?? "-"}',
                   style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -245,24 +385,25 @@ class PropertyDetailScreen extends StatelessWidget {
           Row(
             children: [
               // Type Chip
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 4,
-                ),
-                decoration: BoxDecoration(
-                  color: ColorRes.primary.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(AppRadius.small),
-                ),
-                child: Text(
-                  "For Sale",
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: ColorRes.primary,
+              if (property.listingType != null)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: ColorRes.primary.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(AppRadius.small),
+                  ),
+                  child: Text(
+                    property.listingType!.toUpperCase(),
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: ColorRes.primary,
+                    ),
                   ),
                 ),
-              ),
 
               const Spacer(),
 
@@ -513,51 +654,154 @@ class PropertyBottomBar extends StatelessWidget {
   }
 }
 
+// class HighLights extends StatelessWidget {
+//   HighLights({super.key});
+//
+//   final List<String> labels = [
+//     'Fully furnished',
+//     '1650 Sq ft',
+//     'Floor 6/8',
+//     '3 to 5 years old',
+//     'For Male, Family, Female',
+//   ];
+//   final List<IconData> icons = [
+//     Icons.bed,
+//     Icons.zoom_out_map_outlined,
+//     Icons.layers_outlined,
+//     Icons.date_range,
+//     Icons.person,
+//   ];
+//
+//   final Color bgColor = Color(0xFFDBEAFE); // Single background color
+//   final Color txtColor = Color(0xFF2563EB); // Single text/icon color
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return SizedBox(
+//       child: SingleChildScrollView(
+//         scrollDirection: Axis.horizontal,
+//         padding: const EdgeInsets.symmetric(horizontal: 16),
+//         child: Row(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: List.generate(labels.length, (index) {
+//             return Padding(
+//               padding: const EdgeInsets.only(right: 12),
+//               child: HighLightsCard(
+//                 label: labels[index],
+//                 icon: icons[index],
+//                 bgColor: bgColor,
+//                 foreColor: txtColor,
+//               ),
+//             );
+//           }),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 class HighLights extends StatelessWidget {
-  HighLights({super.key});
+  final Items property;
+  final Color bgColor;
+  final Color txtColor;
 
-  final List<String> labels = [
-    'Fully furnished',
-    '1650 Sq ft',
-    'Floor 6/8',
-    '3 to 5 years old',
-    'For Male, Family, Female',
-  ];
-  final List<IconData> icons = [
-    Icons.bed,
-    Icons.zoom_out_map_outlined,
-    Icons.layers_outlined,
-    Icons.date_range,
-    Icons.person,
-  ];
+  HighLights({
+    super.key,
+    required this.property,
+    this.bgColor = const Color(0xFFDBEAFE),
+    this.txtColor = const Color(0xFF2563EB),
+  });
 
-  final Color bgColor = Color(0xFFDBEAFE); // Single background color
-  final Color txtColor = Color(0xFF2563EB); // Single text/icon color
+  // Map detail keys to icons
+  final Map<String, IconData> iconMap = {
+    "BHK": Icons.bed,
+    "Furnishing": Icons.chair_alt,
+    "Built-up Area": Icons.zoom_out_map_outlined,
+    "Carpet Area": Icons.square_foot,
+    "Floor": Icons.layers_outlined,
+    "Age of Property": Icons.date_range,
+    "Rent": Icons.attach_money,
+    "Price": Icons.price_change,
+    "Possession": Icons.home_work,
+    "Amenities": Icons.checklist_rtl,
+    "Parking": Icons.local_parking,
+    "Facing": Icons.explore,
+    "Condition": Icons.handyman,
+    // Add more mappings if needed
+  };
 
   @override
   Widget build(BuildContext context) {
+    final highlights = PropertyHighlightManager(property).getHighlights();
+
     return SizedBox(
+      height: 100,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: List.generate(labels.length, (index) {
-            return Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: HighLightsCard(
-                label: labels[index],
-                icon: icons[index],
-                bgColor: bgColor,
-                foreColor: txtColor,
-              ),
-            );
-          }),
+          children:
+              highlights.map((item) {
+                final key = item.keys.first;
+                final value = item.values.first;
+                final icon = iconMap[key] ?? Icons.info_outline;
+
+                return Padding(
+                  padding: const EdgeInsets.only(right: 12),
+                  child: HighLightsCard(
+                    label: "$value",
+                    icon: icon,
+                    bgColor: bgColor,
+                    foreColor: txtColor,
+                  ),
+                );
+              }).toList(),
         ),
       ),
     );
   }
 }
+
+// Example of HighLightsCard widget
+// class HighLightsCard extends StatelessWidget {
+//   final String label;
+//   final IconData icon;
+//   final Color bgColor;
+//   final Color foreColor;
+//
+//   const HighLightsCard({
+//     super.key,
+//     required this.label,
+//     required this.icon,
+//     required this.bgColor,
+//     required this.foreColor,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+//       decoration: BoxDecoration(
+//         color: bgColor,
+//         borderRadius: BorderRadius.circular(12),
+//       ),
+//       child: Row(
+//         children: [
+//           Icon(icon, color: foreColor, size: 20),
+//           const SizedBox(width: 6),
+//           Text(
+//             label,
+//             style: TextStyle(
+//               color: foreColor,
+//               fontWeight: FontWeight.w600,
+//               fontSize: 12,
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class HighLightsCard extends StatelessWidget {
   final String label;
@@ -604,36 +848,93 @@ class HighLightsCard extends StatelessWidget {
   }
 }
 
+// class Details extends StatelessWidget {
+//   Details({super.key});
+//
+//   final List<String> title = [
+//     "Age of the Property",
+//     "BHK Types",
+//     "Furnished Types",
+//     "Built-up Area",
+//     "Floors",
+//     "Notice Period",
+//   ];
+//
+//   final List<String> data = [
+//     "3 to 5 years old",
+//     "3 BHK",
+//     "Fully Furnished",
+//     "1,650 Sq.ft.",
+//     "6 of 8",
+//     "1 month",
+//   ];
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return ListView.builder(
+//       shrinkWrap: true,
+//       physics: NeverScrollableScrollPhysics(),
+//       // disable scroll if inside another scroll
+//       itemCount: title.length,
+//       padding: const EdgeInsets.symmetric(horizontal: 24),
+//       itemBuilder: (context, index) {
+//         return Padding(
+//           padding: const EdgeInsets.symmetric(vertical: 4),
+//           child: Row(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               SizedBox(
+//                 width: MediaQuery.of(context).size.width / 2.2,
+//                 child: Text(
+//                   title[index],
+//                   overflow: TextOverflow.ellipsis,
+//                   style: TextStyle(
+//                     fontSize: 12,
+//                     fontWeight: FontWeight.w500,
+//                     color: Colors.grey[600],
+//                   ),
+//                 ),
+//               ),
+//               const SizedBox(width: 4),
+//               Expanded(
+//                 child: Text(
+//                   data[index],
+//                   overflow: TextOverflow.ellipsis,
+//                   style: const TextStyle(
+//                     fontSize: 12,
+//                     fontWeight: FontWeight.w600,
+//                     color: Colors.black,
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
+
 class Details extends StatelessWidget {
-  Details({super.key});
+  final Items property;
 
-  final List<String> title = [
-    "Age of the Property",
-    "BHK Types",
-    "Furnished Types",
-    "Built-up Area",
-    "Floors",
-    "Notice Period",
-  ];
-
-  final List<String> data = [
-    "3 to 5 years old",
-    "3 BHK",
-    "Fully Furnished",
-    "1,650 Sq.ft.",
-    "6 of 8",
-    "1 month",
-  ];
+  const Details({super.key, required this.property});
 
   @override
   Widget build(BuildContext context) {
+    final manager = PropertyDetailManager(property);
+    final details = manager.getDetails(); // Returns List<Map<String, String>>
+
     return ListView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      // disable scroll if inside another scroll
-      itemCount: title.length,
+      physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: 24),
+      itemCount: details.length,
       itemBuilder: (context, index) {
+        final entry = details[index];
+        final title = entry.keys.first;
+        final value = entry.values.first;
+
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: Row(
@@ -642,7 +943,7 @@ class Details extends StatelessWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width / 2.2,
                 child: Text(
-                  title[index],
+                  title,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 12,
@@ -654,7 +955,7 @@ class Details extends StatelessWidget {
               const SizedBox(width: 4),
               Expanded(
                 child: Text(
-                  data[index],
+                  value,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 12,
@@ -671,17 +972,19 @@ class Details extends StatelessWidget {
   }
 }
 
-class FurnitureSection extends StatelessWidget {
-  FurnitureSection({super.key});
+class AmenitiesSection extends StatelessWidget {
+  final List<String> amenities;
 
-  final List<Map<String, dynamic>> amenities = [
-    {'icon': Icons.pool, 'label': "Infinity Pool"},
-    {'icon': Icons.wine_bar, 'label': "Sky Lounge"},
-    {'icon': Icons.support_agent, 'label': "24x7 Concierge"},
-    {'icon': Icons.elevator, 'label': "Private Elevator"},
-    {'icon': Icons.lightbulb, 'label': "Smart Lighting"},
-    {'icon': Icons.solar_power, 'label': "Solar Panels"},
-  ];
+  AmenitiesSection({super.key, required this.amenities});
+
+  // final List<Map<String, dynamic>> amenities = [
+  //   {'icon': Icons.pool, 'label': "Infinity Pool"},
+  //   {'icon': Icons.wine_bar, 'label': "Sky Lounge"},
+  //   {'icon': Icons.support_agent, 'label': "24x7 Concierge"},
+  //   {'icon': Icons.elevator, 'label': "Private Elevator"},
+  //   {'icon': Icons.lightbulb, 'label': "Smart Lighting"},
+  //   {'icon': Icons.solar_power, 'label': "Solar Panels"},
+  // ];
 
   final Color bgColor = Color(0xFFDBEAFE); // single background color
   final Color txtColor = Color(0xFF2563EB); // single text/icon color
@@ -707,10 +1010,10 @@ class FurnitureSection extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(item['icon'], size: 16, color: txtColor),
+                    Icon(IconManager.getIcon(item), size: 16, color: txtColor),
                     const SizedBox(width: 8),
                     Text(
-                      item['label'],
+                      StringManager.formatLabel(item) ?? ' -',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -727,7 +1030,8 @@ class FurnitureSection extends StatelessWidget {
 }
 
 class AddressAndMapDetails extends StatelessWidget {
-  const AddressAndMapDetails({super.key});
+  final Items property;
+  const AddressAndMapDetails({super.key, required this.property});
 
   @override
   Widget build(BuildContext context) {
@@ -740,7 +1044,7 @@ class AddressAndMapDetails extends StatelessWidget {
           SizedBox(width: 8),
           Flexible(
             child: Text(
-              "3401, Platinum Sky Residences, Worli Sea Link Road",
+              "${property.address ?? ''}, ${property.city ?? ''}, ${property.state ?? ''}, ${property.zipCode ?? ''},",
               style: TextStyle(fontSize: 12),
             ),
           ),
@@ -752,7 +1056,8 @@ class AddressAndMapDetails extends StatelessWidget {
 }
 
 class NearbyPropertyDetails extends StatelessWidget {
-  NearbyPropertyDetails({super.key});
+  final List<NearbyLocations> nearbyLocations;
+  NearbyPropertyDetails({super.key, required this.nearbyLocations});
 
   final List<Map<String, String>> nearby = [
     {"name": "Worli Sea Link", "distance": "0.5 km"},
@@ -765,7 +1070,7 @@ class NearbyPropertyDetails extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children:
-          nearby
+          nearbyLocations
               .map(
                 (loc) => Padding(
                   padding: const EdgeInsets.symmetric(
@@ -778,7 +1083,7 @@ class NearbyPropertyDetails extends StatelessWidget {
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          loc['name']!,
+                          loc.name ?? "-",
                           style: const TextStyle(
                             fontSize: 12,
                             color: Colors.black,
@@ -786,7 +1091,7 @@ class NearbyPropertyDetails extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        loc['distance']!,
+                        "${loc.distance.toString()} KM" ?? '-',
                         style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                       ),
                     ],
@@ -799,7 +1104,8 @@ class NearbyPropertyDetails extends StatelessWidget {
 }
 
 class OwnerInformation extends StatelessWidget {
-  const OwnerInformation({super.key});
+  final Items property;
+  const OwnerInformation({super.key, required this.property});
 
   @override
   Widget build(BuildContext context) {
@@ -817,7 +1123,7 @@ class OwnerInformation extends StatelessWidget {
                   CircleAvatar(
                     radius: 28,
                     backgroundImage: AssetImage(
-                      IMGRes.home1,
+                      IMGRes.home2,
                     ), // Use a real image or placeholder
                     // backgroundColor: Colors.grey[300], // fallback if no image
                   ),
@@ -825,43 +1131,48 @@ class OwnerInformation extends StatelessWidget {
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
-                          "Anita Desai",
+                          property.ownerName ?? "Anita Desai",
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                         SizedBox(height: 4),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.phone_outlined,
-                              size: 18,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(width: 6),
-                            Text(
-                              "+91 9988776655",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.email_outlined,
-                              size: 18,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(width: 6),
-                            Text(
-                              "anita.desai@example.com",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ],
-                        ),
+                        if (property.ownerPhone != null)
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.phone_outlined,
+                                size: 18,
+                                color: Colors.grey,
+                              ),
+                              SizedBox(width: 6),
+                              Text(
+                                "+91 ${property.ownerPhone ?? '-'} ",
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ],
+                          ),
+                        if (property.ownerEmail != null)
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.email_outlined,
+                                size: 18,
+                                color: Colors.grey,
+                              ),
+                              SizedBox(width: 6),
+                              Expanded(
+                                child: Text(
+                                  property.ownerEmail ?? '-',
+                                  style: TextStyle(color: Colors.black),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
                       ],
                     ),
                   ),

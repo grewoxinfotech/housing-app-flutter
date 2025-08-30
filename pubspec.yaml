@@ -28,6 +28,7 @@ dependencies:
   flutter_svg:
   google_fonts:
   smooth_page_indicator:
+  video_player:
 
 dev_dependencies:
   flutter_test:

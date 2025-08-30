@@ -17,9 +17,8 @@ class PropertyListScreenCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
-      onTap: () => Get.to(()=>PropertyDetailScreen()),
+      onTap: () => Get.to(() => PropertyDetailScreen(property: items)),
       child: CrmCard(
         padding: EdgeInsets.zero,
         child: Column(
@@ -37,29 +36,40 @@ class PropertyListScreenCard extends StatelessWidget {
                       topRight: Radius.circular(12),
                     ),
                     // child: Image.network(items!.propertyMedia!.images?.first ?? IMGRes.home1, fit: BoxFit.fill),
-                    child:  Image.network(
-                      (items?.propertyMedia?.images?.isNotEmpty ?? false)
-                          ? items!.propertyMedia!.images!.first
-                          : IMGRes.home1,
-                      fit: BoxFit.cover,
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child; // Loaded
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                (loadingProgress.expectedTotalBytes ?? 1)
-                                : null,
-                          ),
-                        );
-                      },
-                      errorBuilder: (context, error, stackTrace) {
-                        return Image.asset(
-                          IMGRes.home1, // fallback image
-                          fit: BoxFit.cover,
-                        );
-                      },
-                    ),
+                    child:
+                        (items?.propertyMedia?.images?.isNotEmpty ?? false)
+                            ? Image.network(
+                              items!.propertyMedia!.images!.first,
+                              fit: BoxFit.cover,
+                              loadingBuilder: (
+                                context,
+                                child,
+                                loadingProgress,
+                              ) {
+                                if (loadingProgress == null)
+                                  return child; // Loaded
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value:
+                                        loadingProgress.expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                (loadingProgress
+                                                        .expectedTotalBytes ??
+                                                    1)
+                                            : null,
+                                  ),
+                                );
+                              },
+                              errorBuilder: (context, error, stackTrace) {
+                                return Image.asset(
+                                  IMGRes.home1, // fallback image
+                                  fit: BoxFit.cover,
+                                );
+                              },
+                            )
+                            : Image.asset(IMGRes.home1, fit: BoxFit.cover),
                   ),
                 ),
               ],
@@ -121,7 +131,8 @@ class PropertyListScreenCard extends StatelessWidget {
                             SizedBox(
                               width: MediaQuery.of(context).size.width / 4.5,
                               child: Text(
-                                items!.propertyDetails!.financialInfo!.price!.toString(),
+                                items!.propertyDetails!.financialInfo!.price!
+                                    .toString(),
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.black,
@@ -156,7 +167,8 @@ class PropertyListScreenCard extends StatelessWidget {
                           child: Column(
                             children: [
                               Text(
-                                items!.propertyDetails!.propertyBuiltUpArea!.toString(),
+                                items!.propertyDetails!.propertyBuiltUpArea!
+                                    .toString(),
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.black,
@@ -191,7 +203,8 @@ class PropertyListScreenCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                items!.propertyDetails!.propertyBuiltUpArea!.toString(),
+                                items!.propertyDetails!.propertyBuiltUpArea!
+                                    .toString(),
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.black,
@@ -199,7 +212,10 @@ class PropertyListScreenCard extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                items!.propertyDetails!.furnishInfo!.furnishType!,
+                                items!
+                                    .propertyDetails!
+                                    .furnishInfo!
+                                    .furnishType!,
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Colors.grey[700],
@@ -285,7 +301,6 @@ class PropertyListScreenCard extends StatelessWidget {
                             height: 40,
                             child: CrmButton(onTap: () {}, title: "Call"),
                           ),
-
                         ],
                       ),
                     ],
