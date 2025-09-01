@@ -136,6 +136,7 @@ class HomeScreen extends StatelessWidget {
                                 "Villa Newly Renovated Villa Newly Renovated Villa Newly Renovated",
                             price: "9.8 Cr",
                             location: "Juhu, Maharashtra",
+                            isRecentlyViewed: true,
                           ),
                         );
                       },

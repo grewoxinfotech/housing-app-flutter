@@ -9,6 +9,8 @@ class PropertyCard extends StatefulWidget {
   final String title;
   final String price;
   final String location;
+  final bool isRecentlyViewed;
+
 
   const PropertyCard({
     Key? key,
@@ -16,6 +18,7 @@ class PropertyCard extends StatefulWidget {
     required this.title,
     required this.price,
     required this.location,
+    this.isRecentlyViewed = false,
   }) : super(key: key);
 
   @override
@@ -75,13 +78,12 @@ class _PropertyCardState extends State<PropertyCard> {
                     ),
                   ),
 
-                  // Rent Tag
+                  // Rent Tag (top-left)
                   Positioned(
                     top: 10,
                     left: 10,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 4, horizontal: 8),
+                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                       decoration: BoxDecoration(
                         color: ColorRes.primary.withOpacity(0.9),
                         borderRadius: BorderRadius.circular(8),
@@ -97,7 +99,7 @@ class _PropertyCardState extends State<PropertyCard> {
                     ),
                   ),
 
-                  // Favorite Button
+                  // Favorite Button (top-right)
                   Positioned(
                     top: 10,
                     right: 10,
@@ -130,6 +132,28 @@ class _PropertyCardState extends State<PropertyCard> {
                       ),
                     ),
                   ),
+
+                  // Recently Viewed Badge (bottom-left)
+                  if (widget.isRecentlyViewed) // only show if true
+                    Positioned(
+                      bottom: 10,
+                      left: 10,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.7),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: const Text(
+                          "Recently Viewed",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -162,7 +186,7 @@ class _PropertyCardState extends State<PropertyCard> {
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
-                          color: Colors.green,
+                          color: ColorRes.primary,
                         ),
                       ),
                     ],
