@@ -11,6 +11,7 @@ import 'package:housing_flutter_app/app/constants/img_res.dart';
 import 'package:housing_flutter_app/app/widgets/cards/crm_banner_card_with_text.dart';
 import 'package:housing_flutter_app/app/widgets/texts/headline_text.dart';
 import 'package:housing_flutter_app/app/widgets/texts/title_with_disc.dart';
+import 'package:housing_flutter_app/modules/property/controllers/property_controller.dart';
 import 'package:housing_flutter_app/modules/property/views/property_list_screen.dart';
 import 'package:housing_flutter_app/modules/property/views/widgets/city_filter.dart';
 import 'package:housing_flutter_app/modules/property/views/widgets/property_card.dart';
@@ -53,6 +54,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => PropertyController());
+    final PropertyController controller = Get.find();
     return Scaffold(
       // backgroundColor: Colors.white,
       body: SafeArea(
@@ -120,27 +123,90 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  SizedBox(
-                    height: 260,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      clipBehavior: Clip.none,
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      itemCount: images.length,
-                      separatorBuilder: (_, __) => const SizedBox(width: 12),
-                      itemBuilder: (context, index) {
-                        return Container(
-                          child: PropertyCard(
-                            imageUrl: images[index],
-                            title:
-                                "Villa Newly Renovated Villa Newly Renovated Villa Newly Renovated",
-                            price: "9.8 Cr",
-                            location: "Juhu, Maharashtra",
-                            isRecentlyViewed: true,
+
+                  // SizedBox(
+                  //   height: 260,
+                  //   child: ListView.separated(
+                  //     scrollDirection: Axis.horizontal,
+                  //     clipBehavior: Clip.none,
+                  //     padding: const EdgeInsets.symmetric(horizontal: 12),
+                  //     itemCount: images.length,
+                  //     separatorBuilder: (_, __) => const SizedBox(width: 12),
+                  //     itemBuilder: (context, index) {
+                  //       return Container(
+                  //         child: PropertyCard(
+                  //           imageUrl: images[index],
+                  //           title:
+                  //               "Villa Newly Renovated Villa Newly Renovated Villa Newly Renovated",
+                  //           price: "9.8 Cr",
+                  //           location: "Juhu, Maharashtra",
+                  //           isRecentlyViewed: true,
+                  //         ),
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
+                  FutureBuilder(
+                    future: controller.loadInitial(),
+                    builder: (context, asyncSnapshot) {
+                      print('asyncSnapshot: ${asyncSnapshot.connectionState}');
+
+                      if (asyncSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        // Show loader while waiting
+                        return Center(child: CircularProgressIndicator());
+                      } else if (asyncSnapshot.hasError) {
+                        // Show error message if future fails
+                        return Center(
+                          child: Text(
+                            'Error: ${asyncSnapshot.error}',
+                            style: TextStyle(color: Colors.red),
                           ),
                         );
-                      },
-                    ),
+                      } else if (asyncSnapshot.connectionState ==
+                          ConnectionState.done) {
+                        return Obx(() {
+                          if (!controller.isLoading.value &&
+                              controller.items.isEmpty) {
+                            return const Center(
+                              child: Text("No Property found."),
+                            );
+                          }
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: NotificationListener<ScrollNotification>(
+                              onNotification: (scrollEnd) {
+                                final metrics = scrollEnd.metrics;
+                                if (metrics.atEdge && metrics.pixels != 0) {
+                                  controller.loadMore();
+                                }
+                                return false;
+                              },
+                              child: SizedBox(
+                                height: 260,
+                                child: ListView.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: 10,
+                                  separatorBuilder:
+                                      (_, __) => const SizedBox(width: 12),
+                                  itemBuilder: (context, index) {
+                                    final data = controller.items[index];
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0,
+                                      ),
+                                      child: PropertyCard(property: data),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          );
+                        });
+                      } else {
+                        return Center(child: Text('No Property Available'));
+                      }
+                    },
                   ),
 
                   const SizedBox(height: 12),

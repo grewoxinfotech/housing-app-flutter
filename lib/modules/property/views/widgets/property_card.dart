@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
+import 'package:housing_flutter_app/app/constants/img_res.dart';
 import 'package:housing_flutter_app/app/constants/size_manager.dart';
+import '../../../../data/network/property/models/property_model.dart';
 import '../property_detail_screen.dart';
 
 class PropertyCard extends StatefulWidget {
-  final String imageUrl;
-  final String title;
-  final String price;
-  final String location;
+  final Items property;
+  // final String imageUrl;
+  // final String title;
+  // final String price;
+  // final String location;
   final bool isRecentlyViewed;
-
 
   const PropertyCard({
     Key? key,
-    required this.imageUrl,
-    required this.title,
-    required this.price,
-    required this.location,
+    // required this.imageUrl,
+    // required this.title,
+    // required this.price,
+    // required this.location,
     this.isRecentlyViewed = false,
+    required this.property,
   }) : super(key: key);
 
   @override
@@ -31,7 +34,8 @@ class _PropertyCardState extends State<PropertyCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.to(() => PropertyDetailScreen()),
+      onTap:
+          () => Get.to(() => PropertyDetailScreen(property: widget.property)),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
         curve: Curves.easeInOut,
@@ -57,15 +61,22 @@ class _PropertyCardState extends State<PropertyCard> {
               ),
               child: Stack(
                 children: [
-                  Image.asset(
-                    widget.imageUrl,
-                    height: 160,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
+                  widget.property.propertyMedia!.images!.isNotEmpty
+                      ? Image.network(
+                        widget.property.propertyMedia!.images!.first,
+                        height: 150,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      )
+                      : Image.asset(
+                        IMGRes.home1,
+                        height: 150,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
                   // Overlay gradient
                   Container(
-                    height: 160,
+                    height: 150,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
@@ -83,13 +94,16 @@ class _PropertyCardState extends State<PropertyCard> {
                     top: 10,
                     left: 10,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 4,
+                        horizontal: 8,
+                      ),
                       decoration: BoxDecoration(
                         color: ColorRes.primary.withOpacity(0.9),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: const Text(
-                        "Rent",
+                      child: Text(
+                        widget.property.listingType ?? '-',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 12,
@@ -139,7 +153,10 @@ class _PropertyCardState extends State<PropertyCard> {
                       bottom: 10,
                       left: 10,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 4,
+                          horizontal: 8,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.black.withOpacity(0.7),
                           borderRadius: BorderRadius.circular(6),
@@ -170,7 +187,7 @@ class _PropertyCardState extends State<PropertyCard> {
                     children: [
                       Expanded(
                         child: Text(
-                          widget.title,
+                          widget.property.title ?? '-',
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 14,
@@ -182,7 +199,7 @@ class _PropertyCardState extends State<PropertyCard> {
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        "₹ ${widget.price}",
+                        "₹ ${widget.property.propertyDetails?.financialInfo?.price ?? '0'}",
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
@@ -197,22 +214,22 @@ class _PropertyCardState extends State<PropertyCard> {
                   // Property Info
                   Text(
                     "4 BHK · 3000 sqft",
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey.shade700,
-                    ),
+                    style: TextStyle(fontSize: 13, color: Colors.grey.shade700),
                   ),
 
                   const SizedBox(height: 4),
 
                   Row(
                     children: [
-                      const Icon(Icons.location_on,
-                          size: 14, color: ColorRes.primary),
+                      const Icon(
+                        Icons.location_on,
+                        size: 14,
+                        color: ColorRes.primary,
+                      ),
                       const SizedBox(width: 4),
                       Expanded(
                         child: Text(
-                          widget.location,
+                          widget.property.address ?? '-',
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.grey.shade600,
