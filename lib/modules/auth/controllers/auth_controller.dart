@@ -4,7 +4,7 @@ import 'package:housing_flutter_app/data/network/auth/model/user_model.dart' sho
 import 'package:housing_flutter_app/data/network/auth/service/auth_service.dart';
 import 'package:housing_flutter_app/data/database/secure_storage_service.dart';
 import 'package:housing_flutter_app/modules/auth/views/ResetPasswordScreen.dart';
-import 'package:housing_flutter_app/widgets/messages/crm_snack_bar.dart';
+import 'package:housing_flutter_app/widgets/messages/snack_bar.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import '../../dashboard/views/dashboard_screen.dart';
 import '../views/login_screen.dart';
@@ -81,7 +81,7 @@ class AuthController extends GetxController {
       Get.offAll(() => DashboardScreen());
     } catch (e) {
       errorMessage.value = e.toString();
-      CrmSnackBar.showAwesomeSnackbar(
+      NesticoPeSnackBar.showAwesomeSnackbar(
         title: "Login Failed",
         message: e.toString(),
         contentType: ContentType.failure,
@@ -142,7 +142,7 @@ class AuthController extends GetxController {
       }
     } catch (e) {
       errorMessage.value = e.toString();
-      CrmSnackBar.showAwesomeSnackbar(
+      NesticoPeSnackBar.showAwesomeSnackbar(
         title: "Registration Failed",
         message: e.toString(),
         contentType: ContentType.failure,
@@ -203,13 +203,13 @@ class AuthController extends GetxController {
       print("$token");
       print("forgeopasswordid$id");
 
-      CrmSnackBar.showAwesomeSnackbar(
+      NesticoPeSnackBar.showAwesomeSnackbar(
         title: 'Success',
         message: 'OTP sent to your email or Phone.$token',
         contentType: ContentType.success,
       );
     } catch (e) {
-      CrmSnackBar.showAwesomeSnackbar(
+      NesticoPeSnackBar.showAwesomeSnackbar(
         title: 'Error',
         message: e.toString().replaceAll('Exception:', '').trim(),
         contentType: ContentType.failure,
@@ -230,13 +230,13 @@ class AuthController extends GetxController {
 
       Get.to(() => ResetPasswordScreen());
 
-      CrmSnackBar.showAwesomeSnackbar(
+      NesticoPeSnackBar.showAwesomeSnackbar(
         title: 'Success',
         message: 'OTP verified. Please set your new password.',
         contentType: ContentType.success,
       );
     } catch (e) {
-      CrmSnackBar.showAwesomeSnackbar(
+      NesticoPeSnackBar.showAwesomeSnackbar(
         title: 'Error',
         message: e.toString().replaceAll('Exception:', '').trim(),
         contentType: ContentType.failure,
@@ -259,13 +259,13 @@ class AuthController extends GetxController {
 
       Get.offAll(() => LoginScreen());
 
-      CrmSnackBar.showAwesomeSnackbar(
+      NesticoPeSnackBar.showAwesomeSnackbar(
         title: 'Success',
         message: 'Password reset successful. Please login with your new password.',
         contentType: ContentType.success,
       );
     } catch (e) {
-      CrmSnackBar.showAwesomeSnackbar(
+      NesticoPeSnackBar.showAwesomeSnackbar(
         title: 'Error',
         message: e.toString().replaceAll('Exception:', '').trim(),
         contentType: ContentType.failure,

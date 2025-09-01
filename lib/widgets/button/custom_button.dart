@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housing_flutter_app/app/constants/size_manager.dart';
-import 'package:housing_flutter_app/widgets/display/crm_card.dart';
+import 'package:housing_flutter_app/widgets/display/card.dart';
 
 
 class CustomButton extends StatelessWidget {
@@ -30,7 +30,7 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final button = CrmCard(
+    final button = NesticoPeCard(
       width: width ?? 150,
       height: height ?? 48,
       color: backgroundColor ?? Get.theme.colorScheme.primary,

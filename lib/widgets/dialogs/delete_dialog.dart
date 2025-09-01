@@ -3,15 +3,15 @@ import 'package:get/get.dart';
 
 import '../../app/constants/font_res.dart';
 import '../../app/constants/size_manager.dart';
-import '../button/crm_button.dart';
-import '../display/crm_card.dart';
+import '../button/button.dart';
+import '../display/card.dart';
 
-class CrmDeleteDialog extends StatelessWidget {
+class NesticoPeDeleteDialog extends StatelessWidget {
   final String? entityType;
   final GestureTapCallback? onConfirm;
   final VoidCallback? onCancel;
 
-  const CrmDeleteDialog({
+  const NesticoPeDeleteDialog({
     super.key,
     this.entityType,
     this.onConfirm,
@@ -25,7 +25,7 @@ class CrmDeleteDialog extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         color: Get.theme.dialogBackgroundColor,
-        child: CrmCard(
+        child: NesticoPeCard(
           padding: const EdgeInsets.all(AppPadding.medium),
           width: 300,
           child: Column(
@@ -74,7 +74,7 @@ class CrmDeleteDialog extends StatelessWidget {
                       ),
                     ),
                   ),
-                  CrmButton(
+                  NesticoPeButton(
                     width: 100,
                     height: 35,
                     backgroundColor: Get.theme.colorScheme.error,

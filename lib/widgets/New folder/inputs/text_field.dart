@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:housing_flutter_app/app/constants/color_res.dart';
 
 import '../../../app/constants/size_manager.dart';
 
-class CrmTextField extends StatelessWidget {
+class NesticoPeTextField extends StatelessWidget {
   final TextEditingController? controller;
   final String? title;
   final String? hintText;
@@ -22,7 +23,7 @@ class CrmTextField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final VoidCallback? onTap;
 
-  const CrmTextField({
+  const NesticoPeTextField({
     super.key,
     this.controller,
     required this.title,
@@ -54,8 +55,8 @@ class CrmTextField extends StatelessWidget {
               title!,
               style: TextStyle(
                 fontSize: 14,
-                color: Get.theme.colorScheme.onSecondary,
-                fontWeight: FontWeight.w700,
+                color: ColorRes.black,
+                fontWeight: FontWeight.w600,
               ),
             ),
             if (isRequired)

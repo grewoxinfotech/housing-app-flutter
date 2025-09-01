@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housing_flutter_app/app/constants/size_manager.dart';
 
-class CrmCard extends StatelessWidget {
+class NesticoPeCard extends StatelessWidget {
   final double? width;
   final double? height;
   final EdgeInsetsGeometry? padding;
@@ -18,7 +18,7 @@ class CrmCard extends StatelessWidget {
   final BlendMode? backgroundBlendMode;
   final Widget? child;
 
-  const CrmCard({
+  const NesticoPeCard({
     super.key,
     this.width,
     this.height,

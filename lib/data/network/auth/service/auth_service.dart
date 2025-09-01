@@ -234,7 +234,7 @@ class AuthService {
 //         await SecureStorage.saveUserData(user);
 //         return user;
 //       } else {
-//         CrmSnackBar.showAwesomeSnackbar(
+//         NesticoPeSnackBar.showAwesomeSnackbar(
 //           title: "Update Failed",
 //           message: data["message"] ?? "Failed to update profile",
 //           contentType: ContentType.warning,
@@ -242,7 +242,7 @@ class AuthService {
 //         return null;
 //       }
 //     } catch (e) {
-//       CrmSnackBar.showAwesomeSnackbar(
+//       NesticoPeSnackBar.showAwesomeSnackbar(
 //         title: "Error",
 //         message: "Something went wrong: $e",
 //         contentType: ContentType.failure,
@@ -262,14 +262,14 @@ class AuthService {
 //
 //       final data = jsonDecode(response.body);
 //       if (response.statusCode == 200 && data["success"] == true) {
-//         CrmSnackBar.showAwesomeSnackbar(
+//         NesticoPeSnackBar.showAwesomeSnackbar(
 //           title: "Success",
 //           message: "Password reset instructions sent to your email",
 //           contentType: ContentType.success,
 //         );
 //         return true;
 //       } else {
-//         CrmSnackBar.showAwesomeSnackbar(
+//         NesticoPeSnackBar.showAwesomeSnackbar(
 //
 //           title: "Reset Failed",
 //           message: data["message"] ?? "Failed to reset password",
@@ -278,7 +278,7 @@ class AuthService {
 //         return false;
 //       }
 //     } catch (e) {
-//       CrmSnackBar.showAwesomeSnackbar(
+//       NesticoPeSnackBar.showAwesomeSnackbar(
 //         title: "Error",
 //         message: "Something went wrong: $e",
 //         contentType: ContentType.failure,

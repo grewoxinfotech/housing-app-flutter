@@ -1,12 +1,12 @@
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
-// import 'package:housing_flutter_app/widgets/bar/app_bar/common_crm_bar.dart';
-// import 'package:housing_flutter_app/widgets/button/crm_button.dart';
+// import 'package:housing_flutter_app/widgets/bar/app_bar/common_bar.dart';
+// import 'package:housing_flutter_app/widgets/button/button.dart';
 // import 'package:housing_flutter_app/modules/auth/controllers/auth_controller.dart';
 // import 'package:housing_flutter_app/widgets/input/custom_text_field.dart';
 // import 'package:housing_flutter_app/modules/auth/views/login_screen.dart';
 //
-// import '../../../widgets/New folder/inputs/crm_text_field.dart';
+// import '../../../widgets/New folder/inputs/text_field.dart';
 //
 // enum UserRole { buyer, seller, reseller }
 //
@@ -171,7 +171,7 @@
 //     Get.lazyPut(() => AuthController());
 //
 //     return Scaffold(
-//       appBar: CommonCrmAppBar(
+//       appBar: CommonNesticoPeAppBar(
 //         title: 'Create Account',
 //         showBackArrow: true,
 //         leadingIcon: Icons.arrow_back,
@@ -266,7 +266,7 @@
 //                   ],
 //                 ),
 //                 const SizedBox(height: 24),
-//                 CrmButton(
+//                 NesticoPeButton(
 //                   title: 'Create Account',
 //                   onTap: _isLoading ? null : _register,
 //                 ),
@@ -305,23 +305,26 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:housing_flutter_app/widgets/bar/app_bar/common_crm_bar.dart';
-import 'package:housing_flutter_app/widgets/button/crm_button.dart';
+import 'package:housing_flutter_app/widgets/bar/app_bar/common_bar.dart';
+import 'package:housing_flutter_app/widgets/button/button.dart';
 import 'package:housing_flutter_app/modules/auth/controllers/auth_controller.dart';
 import 'package:housing_flutter_app/widgets/input/custom_text_field.dart';
 import 'package:housing_flutter_app/modules/auth/views/login_screen.dart';
 
-import '../../../app/widgets/snackbar/crm_snackbar.dart';
-import '../../../widgets/New folder/inputs/crm_text_field.dart';
+import '../../../app/widgets/snackbar/snackbar.dart';
+import '../../../widgets/New folder/inputs/text_field.dart';
 
-enum UserRole { buyer, seller, reseller }
+enum UserRole { buyer, seller, reseller, contractor }
+UserRole? selectedRole;
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+  final UserRole role;
+  const RegisterScreen({Key? key, required this.role}) : super(key: key);
 
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
+
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
@@ -341,6 +344,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isLoading = false;
   bool _acceptTerms = false;
   UserRole _selectedRole = UserRole.buyer;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedRole = widget.role;
+  }
 
   @override
   void dispose() {
@@ -396,7 +405,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           _showErrorDialog(authController.errorMessage.value);
         } else {
           // _showSuccessDialog();
-          CrmSnackBar.showAwesomeSnackbar(
+          NesticoPeSnackBar.showAwesomeSnackbar(
             title: "Success",
             message: "OTP sent Successfully",
             contentType: ContentType.success,
@@ -418,11 +427,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         return 'seller';
       case UserRole.reseller:
         return 'reseller';
+      case UserRole.contractor:
+        return 'contractor';
     }
   }
 
   void _showSuccessDialog() {
-    CrmSnackBar.showAwesomeSnackbar(
+    NesticoPeSnackBar.showAwesomeSnackbar(
       title: "Success",
       message: "OTP sent Successfully",
       contentType: ContentType.success,
@@ -460,6 +471,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         return 'Seller';
       case UserRole.reseller:
         return 'Reseller';
+      case UserRole.contractor:
+        return 'contractor';
     }
   }
 
@@ -473,8 +486,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     Get.lazyPut(() => AuthController());
 
     return Scaffold(
-      appBar: CommonCrmAppBar(
-        title: 'Create Account',
+      appBar: CommonNesticoPeAppBar(
+        title: 'Create ${_roleToDisplayText(_selectedRole)} Account',
         showBackArrow: true,
         leadingIcon: Icons.arrow_back,
       ),
@@ -486,57 +499,58 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  'Select Account Type',
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Row(
-                    children:
-                        UserRole.values.map((role) {
-                          return Expanded(
-                            child: GestureDetector(
-                              onTap: () => setState(() => _selectedRole = role),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 12,
-                                ),
-                                decoration: BoxDecoration(
-                                  color:
-                                      _selectedRole == role
-                                          ? theme.colorScheme.primary
-                                          : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    _roleToDisplayText(role),
-                                    style: TextStyle(
-                                      color:
-                                          _selectedRole == role
-                                              ? Colors.white
-                                              : Colors.black87,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                  ),
-                ),
+                // Text(
+                //   'Select Account Type',
+                //   style: theme.textTheme.titleLarge?.copyWith(
+                //     fontWeight: FontWeight.w600,
+                //     color: Colors.black,
+                //     fontSize: 16
+                //   ),
+                // ),
+                //const SizedBox(height: 16),
+                // Container(
+                //   decoration: BoxDecoration(
+                //     color: Colors.white,
+                //     borderRadius: BorderRadius.circular(30),
+                //   ),
+                //   child: Row(
+                //     children:
+                //         UserRole.values.map((role) {
+                //           return Expanded(
+                //             child: GestureDetector(
+                //               onTap: () => setState(() => _selectedRole = role),
+                //               child: Container(
+                //                 padding: const EdgeInsets.symmetric(
+                //                   vertical: 12,
+                //                 ),
+                //                 decoration: BoxDecoration(
+                //                   color:
+                //                       _selectedRole == role
+                //                           ? theme.colorScheme.primary
+                //                           : Colors.transparent,
+                //                   borderRadius: BorderRadius.circular(30),
+                //                 ),
+                //                 child: Center(
+                //                   child: Text(
+                //                     _roleToDisplayText(role),
+                //                     style: TextStyle(
+                //                       color:
+                //                           _selectedRole == role
+                //                               ? Colors.white
+                //                               : Colors.black87,
+                //                       fontWeight: FontWeight.bold,
+                //                     ),
+                //                   ),
+                //                 ),
+                //               ),
+                //             ),
+                //           );
+                //         }).toList(),
+                //   ),
+                // ),
 
-                const SizedBox(height: 15),
-                CrmTextField(
+//                const SizedBox(height: 15),
+                NesticoPeTextField(
                   title: "Username",
                   controller: _usernameController,
                   hintText: 'Enter Username',
@@ -554,7 +568,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Row(
                   children: [
                     Expanded(
-                      child: CrmTextField(
+                      child: NesticoPeTextField(
                         title: "First Name",
                         controller: _firstNameController,
                         hintText: 'Enter First Name',
@@ -570,7 +584,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: CrmTextField(
+                      child: NesticoPeTextField(
                         title: "Last Name",
                         controller: _lastNameController,
                         hintText: 'Enter Last Name',
@@ -588,7 +602,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
 
                 const SizedBox(height: 10),
-                CrmTextField(
+                NesticoPeTextField(
                   title: "Email Address",
                   controller: _emailController,
                   hintText: 'Enter Email Address',
@@ -609,7 +623,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
 
                 const SizedBox(height: 10),
-                CrmTextField(
+                NesticoPeTextField(
                   hintText: 'Enter Phone Number',
                   title: "Phone Number",
                   controller: _phoneController,
@@ -625,7 +639,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
 
                 const SizedBox(height: 10),
-                CrmTextField(
+                NesticoPeTextField(
                   hintText: 'Enter Address',
                   title: "Address",
                   controller: _addressController,
@@ -645,7 +659,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Row(
                   children: [
                     Expanded(
-                      child: CrmTextField(
+                      child: NesticoPeTextField(
                         hintText: 'Enter City',
                         title: "City",
                         controller: _cityController,
@@ -662,7 +676,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: CrmTextField(
+                      child: NesticoPeTextField(
                         hintText: 'Enter State',
                         title: "State",
                         controller: _stateController,
@@ -680,7 +694,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
                 const SizedBox(height: 10),
-                CrmTextField(
+                NesticoPeTextField(
                   hintText: 'Enter Zip Code',
                   title: "Zip Code",
                   controller: _zipCodeController,
@@ -696,7 +710,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
 
                 const SizedBox(height: 10),
-                CrmTextField(
+                NesticoPeTextField(
                   hintText: 'Enter Password',
                   title: "Password",
                   controller: _passwordController,
@@ -726,7 +740,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
 
                 const SizedBox(height: 10),
-                CrmTextField(
+                NesticoPeTextField(
                   hintText: 'Enter Confirm Password',
                   title: "Confirm Password",
                   controller: _confirmPasswordController,
@@ -799,7 +813,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const SizedBox(height: 10),
 
-                CrmButton(
+                NesticoPeButton(
                   title: 'Create Account',
                   onTap: _isLoading ? null : _register,
                 ),

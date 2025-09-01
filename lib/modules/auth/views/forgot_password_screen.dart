@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housing_flutter_app/modules/auth/views/register_screen.dart';
-import 'package:housing_flutter_app/widgets/bar/app_bar/common_crm_bar.dart';
+import 'package:housing_flutter_app/widgets/bar/app_bar/common_bar.dart';
 
 import '../../../app/constants/font_res.dart';
 import '../../../app/utils/validation.dart';
-import '../../../widgets/New folder/inputs/crm_text_field.dart';
-import '../../../widgets/button/crm_button.dart';
+import '../../../widgets/New folder/inputs/text_field.dart';
+import '../../../widgets/button/button.dart';
 import '../controllers/auth_controller.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
@@ -20,7 +20,7 @@ class ForgetPasswordScreen extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: CommonCrmAppBar(
+      appBar: CommonNesticoPeAppBar(
         title: 'Forgot Password',
         showBackArrow: true,
         leadingIcon: Icons.arrow_back,
@@ -45,7 +45,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                   //   ),
                   // ),
                   // Email Field
-                  CrmTextField(
+                  NesticoPeTextField(
                     title: "Email / Phone",
                     controller: authController.emailController,
                     validator: (value) {
@@ -60,7 +60,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                     hintText: "Enter Email or Phone",
                   ),
                   const SizedBox(height: 24),
-                  CrmButton(
+                  NesticoPeButton(
                     title: "Send OTP",
                     onTap:
                         () => authController.forgotPassword(

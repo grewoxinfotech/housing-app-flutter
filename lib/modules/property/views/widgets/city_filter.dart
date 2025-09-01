@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:housing_flutter_app/app/widgets/cards/crm_banner_card_with_text.dart';
+import 'package:housing_flutter_app/app/widgets/cards/banner_card_with_text.dart';
 import '../../../../app/constants/img_res.dart';
 
 class CityFilterList extends StatefulWidget {
@@ -44,7 +44,7 @@ class _CityFilterListState extends State<CityFilterList> {
         itemBuilder: (context, index) {
           final isSelected = selectedIndex == index;
 
-          return CrmBannerCardWithText(
+          return NesticoPeBannerCardWithText(
             imageUrl: images[index],
             title: cities[index],
             height: 100,

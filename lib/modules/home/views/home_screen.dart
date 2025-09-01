@@ -1,14 +1,14 @@
-// import 'package:crm_flutter/app/care/constants/size_manager.dart';
-// import 'package:crm_flutter/app/modules/functions/controller/function_controller.dart';
-// import 'package:crm_flutter/app/modules/functions/widget/functions_widget.dart';
-// import 'package:crm_flutter/app/modules/home/widgets/attendance/views/attendance_widget.dart';
-// import 'package:crm_flutter/app/widgets/_screen/view_screen.dart';
+// import 'package:NesticoPe_flutter/app/care/constants/size_manager.dart';
+// import 'package:NesticoPe_flutter/app/modules/functions/controller/function_controller.dart';
+// import 'package:NesticoPe_flutter/app/modules/functions/widget/functions_widget.dart';
+// import 'package:NesticoPe_flutter/app/modules/home/widgets/attendance/views/attendance_widget.dart';
+// import 'package:NesticoPe_flutter/app/widgets/_screen/view_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/app/constants/font_res.dart';
 import 'package:housing_flutter_app/app/constants/img_res.dart';
-import 'package:housing_flutter_app/app/widgets/cards/crm_banner_card_with_text.dart';
+import 'package:housing_flutter_app/app/widgets/cards/banner_card_with_text.dart';
 import 'package:housing_flutter_app/app/widgets/texts/headline_text.dart';
 import 'package:housing_flutter_app/app/widgets/texts/title_with_disc.dart';
 import 'package:housing_flutter_app/modules/property/controllers/property_controller.dart';
@@ -16,15 +16,15 @@ import 'package:housing_flutter_app/modules/property/views/property_list_screen.
 import 'package:housing_flutter_app/modules/property/views/widgets/city_filter.dart';
 import 'package:housing_flutter_app/modules/property/views/widgets/property_card.dart';
 import 'package:housing_flutter_app/modules/property/views/widgets/trending_area_card.dart';
-import 'package:housing_flutter_app/widgets/New%20folder/inputs/crm_dropdown_field.dart';
-import 'package:housing_flutter_app/widgets/display/crm_card.dart';
+import 'package:housing_flutter_app/widgets/New%20folder/inputs/dropdown_field.dart';
+import 'package:housing_flutter_app/widgets/display/card.dart';
 import '../../../app/constants/ic_res.dart';
 import '../../../app/constants/size_manager.dart';
 import '../../../widgets/_screen/view_screen.dart';
 
 import '../../../widgets/bar/app_bar/custom_appbar.dart';
-import '../../../widgets/display/crm_app_logo.dart';
-import '../../../widgets/display/crm_ic.dart';
+import '../../../widgets/display/app_logo.dart';
+import '../../../widgets/display/ic.dart';
 import '../../property/views/widgets/filter_list.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -225,7 +225,7 @@ class HomeScreen extends StatelessWidget {
                         children: List.generate(banners.length, (index) {
                           return Padding(
                             padding: const EdgeInsets.only(right: 12),
-                            child: CrmBannerCardWithText(
+                            child: NesticoPeBannerCardWithText(
                               height: 200,
                               width: 230,
                               imageUrl: banners[index],
@@ -270,7 +270,7 @@ class HomeScreen extends StatelessWidget {
                       childAspectRatio: 170 / 125,
                       // Width / Height
                       children: List.generate(images.length, (index) {
-                        return CrmBannerCardWithText(
+                        return NesticoPeBannerCardWithText(
                           height: 125,
                           width: 170,
                           imageUrl: images[index],
@@ -292,7 +292,7 @@ class HomeScreen extends StatelessWidget {
                         children: List.generate(banners.length, (index) {
                           return Padding(
                             padding: const EdgeInsets.only(right: 12),
-                            child: CrmBannerCardWithText(
+                            child: NesticoPeBannerCardWithText(
                               height: 125,
                               width: 250,
                               imageUrl: banners[index],
@@ -317,7 +317,7 @@ class HomeScreen extends StatelessWidget {
                         children: List.generate(shops.length, (index) {
                           return Padding(
                             padding: const EdgeInsets.only(right: 12),
-                            child: CrmBannerCardWithText(
+                            child: NesticoPeBannerCardWithText(
                               height: 125,
                               width: 125,
                               imageUrl: shops[index],
@@ -341,7 +341,7 @@ class HomeScreen extends StatelessWidget {
                         children: List.generate(plots.length * 2, (index) {
                           return Padding(
                             padding: const EdgeInsets.only(right: 12),
-                            child: CrmBannerCardWithText(
+                            child: NesticoPeBannerCardWithText(
                               height: 100,
                               width: 100,
                               imageUrl: bhk[index % 3],
@@ -366,7 +366,7 @@ class HomeScreen extends StatelessWidget {
                         children: List.generate(plots.length, (index) {
                           return Padding(
                             padding: const EdgeInsets.only(right: 12),
-                            child: CrmBannerCardWithText(
+                            child: NesticoPeBannerCardWithText(
                               height: 125,
                               width: 200,
                               imageUrl: plots[index],
@@ -462,7 +462,7 @@ class _CityDropdownState extends State<CityDropdown> {
   }
 }
 
-// CrmDropdownField(
+// NesticoPeDropdownField(
 // title: 'Select City',
 // value: selectedCity,
 // items:

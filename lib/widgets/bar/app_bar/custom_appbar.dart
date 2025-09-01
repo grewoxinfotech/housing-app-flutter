@@ -7,7 +7,7 @@ import '../../../app/constants/color_res.dart';
 import '../../../app/constants/font_res.dart';
 import '../../../app/constants/ic_res.dart';
 import '../../../app/constants/size_manager.dart';
-import '../../display/crm_ic.dart';
+import '../../display/ic.dart';
 
 class CustomAppBar extends StatelessWidget {
   final Widget? title;
@@ -64,7 +64,7 @@ class CustomAppBar extends StatelessWidget {
                 ),
               ),
 
-              // leading ?? const CrmAppLogo(),
+              // leading ?? const NesticoPeAppLogo(),
               if (title != null) ...[
                 const SizedBox(width: 16),
                 Expanded(child: title!),
@@ -72,12 +72,12 @@ class CustomAppBar extends StatelessWidget {
                 const Spacer(),
               ...?action ??
                   [
-                    CrmIc(
+                    NesticoPeIc(
                       iconPath: ICRes.search,
                       color: Get.theme.colorScheme.onPrimary,
                     ),
                     AppSpacing.horizontalMedium,
-                    CrmIc(
+                    NesticoPeIc(
                       iconPath: ICRes.notifications,
                       color: Get.theme.colorScheme.onPrimary,
                     ),

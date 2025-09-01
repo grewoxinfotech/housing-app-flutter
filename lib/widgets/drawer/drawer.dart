@@ -4,11 +4,11 @@
 // import '../../app/constants/ic_res.dart';
 // import '../../app/constants/size_manager.dart';
 // import '../../modules/auth/controllers/auth_controller.dart';
-// import '../display/crm_card.dart';
-// import '../display/crm_ic.dart';
+// import '../display/card.dart';
+// import '../display/ic.dart';
 //
-// class CrmDrawer extends StatelessWidget {
-//   const CrmDrawer({super.key});
+// class NesticoPeDrawer extends StatelessWidget {
+//   const NesticoPeDrawer({super.key});
 //
 //   @override
 //   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@
 //     );
 //
 //     return SafeArea(
-//       child: CrmCard(
+//       child: NesticoPeCard(
 //         width: Get.width * 0.6,
 //         margin: const EdgeInsets.only(
 //           left: AppPadding.small,
@@ -56,7 +56,7 @@
 //                 return Obx(
 //                       () => GestureDetector(
 //                     onTap: () => drawerController.onchange(i),
-//                     child: CrmCard(
+//                     child: NesticoPeCard(
 //                       padding: const EdgeInsets.all(AppPadding.small),
 //                       boxShadow: [],
 //                       borderRadius: BorderRadius.circular(
@@ -69,7 +69,7 @@
 //                       child: Row(
 //                         crossAxisAlignment: CrossAxisAlignment.center,
 //                         children: [
-//                           CrmIc(
+//                           NesticoPeIc(
 //                             iconPath: items[i].iconPath.toString(),
 //                             width: 24,
 //                             color:
@@ -112,7 +112,7 @@
 //                     color: Colors.white,
 //                   ),
 //                 ),
-//                 icon: CrmIc(iconPath: ICRes.notifications, color: Colors.white),
+//                 icon: NesticoPeIc(iconPath: ICRes.notifications, color: Colors.white),
 //                 onPressed: () {},
 //               ),
 //             ),
@@ -123,7 +123,7 @@
 //                 onTap: () => Get.put(AuthController()).logout(),
 //                 child: Row(
 //                   children: [
-//                     CrmIc(
+//                     NesticoPeIc(
 //                       iconPath: ICRes.logout,
 //                       color: Get.theme.colorScheme.onSecondary,
 //                     ),
@@ -167,11 +167,11 @@ import 'package:housing_flutter_app/app/constants/font_res.dart';
 import '../../app/constants/ic_res.dart';
 import '../../app/constants/size_manager.dart';
 import '../../modules/auth/controllers/auth_controller.dart';
-import '../display/crm_card.dart';
-import '../display/crm_ic.dart';
+import '../display/card.dart';
+import '../display/ic.dart';
 
-class CrmDrawer extends StatelessWidget {
-  CrmDrawer({Key? key}) : super(key: key);
+class NesticoPeDrawer extends StatelessWidget {
+  NesticoPeDrawer({Key? key}) : super(key: key);
 
   // Initialize DrawerController once here, outside build
   final DrawerController drawerController = Get.put(DrawerController());
@@ -196,7 +196,7 @@ class CrmDrawer extends StatelessWidget {
     );
 
     return SafeArea(
-      child: CrmCard(
+      child: NesticoPeCard(
         width: Get.width * 0.6,
         margin: const EdgeInsets.only(
           left: AppPadding.small,
@@ -216,7 +216,7 @@ class CrmDrawer extends StatelessWidget {
                   final isSelected = drawerController.selectedIndex.value == i;
                   return GestureDetector(
                     onTap: () => drawerController.onChange(i),
-                    child: CrmCard(
+                    child: NesticoPeCard(
                       padding: const EdgeInsets.all(AppPadding.small),
                       boxShadow: const [],
                       borderRadius: BorderRadius.circular(
@@ -229,7 +229,7 @@ class CrmDrawer extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          CrmIc(
+                          NesticoPeIc(
                             iconPath: items[i].iconPath!,
                             width: 24,
                             color:
@@ -274,7 +274,7 @@ class CrmDrawer extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                icon: const CrmIc(
+                icon: const NesticoPeIc(
                   iconPath: ICRes.notifications,
                   color: Colors.white,
                 ),
@@ -290,7 +290,7 @@ class CrmDrawer extends StatelessWidget {
                 onTap: () => Get.put(AuthController()).logout(),
                 child: Row(
                   children: [
-                    CrmIc(
+                    NesticoPeIc(
                       iconPath: ICRes.logout,
                       color: Get.theme.colorScheme.onSecondary,
                     ),

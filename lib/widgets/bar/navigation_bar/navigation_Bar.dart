@@ -3,9 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
-import '../../app/constants/size_manager.dart';
+import '../../../app/constants/size_manager.dart';
 
-class CrmNavigationBar extends StatelessWidget {
+class NesticoPeNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.lazyPut<NavigationController>(() => NavigationController());
@@ -35,7 +35,7 @@ class CrmNavigationBar extends StatelessWidget {
           alignment: Alignment.center,
           child: SalomonBottomBar(
             duration: const Duration(milliseconds: 400),
-            unselectedItemColor: Get.theme.colorScheme.onPrimary,
+            unselectedItemColor: Get.theme.colorScheme.onSurface.withOpacity(0.7),
             margin: const EdgeInsets.all(AppPadding.small),
             itemShape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppRadius.large),

@@ -3,9 +3,11 @@ import 'package:get/get.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/app/constants/font_res.dart';
 import 'package:housing_flutter_app/app/constants/img_res.dart';
+import 'package:housing_flutter_app/data/database/secure_storage_service.dart';
 import 'package:housing_flutter_app/modules/auth/controllers/auth_controller.dart';
-import 'package:housing_flutter_app/widgets/bar/app_bar/common_crm_bar.dart';
-import 'package:housing_flutter_app/widgets/button/crm_button.dart';
+import 'package:housing_flutter_app/modules/auth/views/login_screen.dart';
+import 'package:housing_flutter_app/widgets/bar/app_bar/common_bar.dart';
+import 'package:housing_flutter_app/widgets/button/button.dart';
 
 import '../../profile/views/edit_profile_screen.dart';
 
@@ -17,7 +19,7 @@ class ProfileScreen extends StatelessWidget {
     final AuthController authController = Get.put(AuthController());
 
     return Scaffold(
-      appBar: CommonCrmAppBar(
+      appBar: CommonNesticoPeAppBar(
         title: 'Profile',
         showBackArrow: true,
         leadingIcon: Icons.arrow_back,
@@ -73,6 +75,7 @@ class ProfileScreen extends StatelessWidget {
                       Icons.person_outline,
                       'Username',
                       user.username ?? '-',
+
                     ),
                     _buildTile(
                       Icons.phone_outlined,
@@ -107,12 +110,18 @@ class ProfileScreen extends StatelessWidget {
 
               SizedBox(
                 width: double.infinity,
-                child: CrmButton(onTap: () {}, title: 'Logout'),
+                child: NesticoPeButton(
+                  onTap: () async {
+                    await SecureStorage.clearAll();
+                    Get.offAll(() => LoginScreen());
+                  },
+                  title: 'Logout',
+                ),
               ),
               SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
-                child: CrmButton(
+                child: NesticoPeButton(
                   onTap: () {},
                   title: 'Delete Account',
                   backgroundColor: ColorRes.error,

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class CrmIc extends StatelessWidget {
+class NesticoPeIc extends StatelessWidget {
   final String iconPath;
   final GestureTapCallback? onTap;
   final double? width;
   final double? height;
   final Color? color;
 
-  const CrmIc({
+  const NesticoPeIc({
     super.key,
     required this.iconPath,
     this.onTap,

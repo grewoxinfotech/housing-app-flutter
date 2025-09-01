@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:housing_flutter_app/widgets/bar/app_bar/common_crm_bar.dart';
+import 'package:housing_flutter_app/widgets/bar/app_bar/common_bar.dart';
 
 import '../../../app/constants/font_res.dart';
-import '../../../widgets/New folder/inputs/crm_text_field.dart';
-import '../../../widgets/button/crm_button.dart';
+import '../../../widgets/New folder/inputs/text_field.dart';
+import '../../../widgets/button/button.dart';
 import '../controllers/auth_controller.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
@@ -16,7 +16,7 @@ class ResetPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonCrmAppBar(
+      appBar: CommonNesticoPeAppBar(
         title: 'Reset Password',
         showBackArrow: true,
         leadingIcon: Icons.arrow_back,
@@ -31,7 +31,7 @@ class ResetPasswordScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  CrmTextField(
+                  NesticoPeTextField(
                     title: "New Password",
                     controller: authController.newPasswordController,
                     obscureText: true,
@@ -48,7 +48,7 @@ class ResetPasswordScreen extends StatelessWidget {
                     hintText: "Enter new password",
                   ),
                   const SizedBox(height: 16),
-                  CrmTextField(
+                  NesticoPeTextField(
                     title: "Confirm Password",
                     controller: authController.confirmPasswordController,
                     obscureText: true,
@@ -62,7 +62,7 @@ class ResetPasswordScreen extends StatelessWidget {
                     hintText: "Confirm new password",
                   ),
                   const SizedBox(height: 24),
-                  CrmButton(
+                  NesticoPeButton(
                     title: "Reset Password",
                     onTap: () {
                       if (_formKey.currentState!.validate()) {

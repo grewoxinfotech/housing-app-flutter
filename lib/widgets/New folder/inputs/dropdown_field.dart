@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 
 import '../../../app/constants/ic_res.dart';
 import '../../../app/constants/size_manager.dart';
-import '../../display/crm_ic.dart';
+import '../../display/ic.dart';
 
-class CrmDropdownField<T> extends StatelessWidget {
+class NesticoPeDropdownField<T> extends StatelessWidget {
   final String title;
   final dynamic value;
   final List<DropdownMenuItem<T>> items;
@@ -21,7 +21,7 @@ class CrmDropdownField<T> extends StatelessWidget {
   final bool showSelectedItems;
   final VoidCallback? onMenuOpened;
 
-  const CrmDropdownField({
+  const NesticoPeDropdownField({
     super.key,
     required this.title,
     required this.value,
@@ -96,7 +96,7 @@ class CrmDropdownField<T> extends StatelessWidget {
       ),
       decoration: _getInputDecoration(),
       isExpanded: true,
-      icon: CrmIc(iconPath: ICRes.down, color: Get.theme.colorScheme.primary),
+      icon: NesticoPeIc(iconPath: ICRes.down, color: Get.theme.colorScheme.primary),
       dropdownColor: Get.theme.colorScheme.surface,
       menuMaxHeight: 300,
       itemHeight: 50,
@@ -163,7 +163,7 @@ class CrmDropdownField<T> extends StatelessWidget {
                         }
                         : null,
                 isExpanded: true,
-                icon: CrmIc(
+                icon: NesticoPeIc(
                   iconPath: ICRes.down,
                   color: Get.theme.colorScheme.primary,
                 ),

@@ -5,16 +5,16 @@ import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/modules/profile/views/profile_screen.dart';
 import '../../../app/constants/ic_res.dart';
 import '../../../app/constants/size_manager.dart';
-import '../../display/crm_app_logo.dart';
-import '../../display/crm_ic.dart';
+import '../../display/app_logo.dart';
+import '../../display/ic.dart';
 
-class CrmAppBar extends StatelessWidget implements PreferredSizeWidget {
+class NesticoPeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
   final Widget? title;
   final String? hintText;
   final List<Widget>? action;
 
-  const CrmAppBar({
+  const NesticoPeAppBar({
     super.key,
     this.leading,
     this.title,
@@ -46,19 +46,19 @@ class CrmAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           leading:
               leading ??
-              Align(alignment: Alignment.center, child: CrmAppLogo()),
+              Align(alignment: Alignment.center, child: NesticoPeAppLogo()),
 
           title: title,
           actions:
               action ??
               [
-                CrmIc(
+                NesticoPeIc(
                   iconPath: ICRes.search,
                   color: Get.theme.colorScheme.onPrimary,
                 ),
 
                 AppSpacing.horizontalMedium,
-                CrmIc(
+                NesticoPeIc(
                   iconPath: ICRes.notifications,
                   color: Get.theme.colorScheme.onPrimary,
                 ),

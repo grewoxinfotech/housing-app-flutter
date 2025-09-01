@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:housing_flutter_app/widgets/bar/navigation_bar/crm_navigation_Bar.dart';
-import '../../../widgets/bar/app_bar/crm_app_bar.dart';
-import '../../../widgets/dialogs/crm_delete_dialog.dart';
-import '../../../widgets/drawer/crm_drawer.dart';
+import 'package:housing_flutter_app/widgets/bar/navigation_bar/navigation_Bar.dart';
+import '../../../widgets/bar/app_bar/app_bar.dart';
+import '../../../widgets/dialogs/delete_dialog.dart';
+import '../../../widgets/drawer/drawer.dart';
 import 'package:get/get.dart';
 
 import '../../home/views/home_screen.dart';
@@ -461,13 +461,13 @@ class DashboardScreen extends StatelessWidget {
     final navigationController = Get.put(NavigationController());
     return Scaffold(
       extendBody: true,
-      drawer: CrmDrawer(),
-      bottomNavigationBar: CrmNavigationBar(),
+      drawer: NesticoPeDrawer(),
+      bottomNavigationBar: NesticoPeNavigationBar(),
       body: Obx(() {
         if (navigationController.currentIndex.value == 0) {
           return HomeScreen();
         } else if (navigationController.currentIndex.value == 1) {
-          return Center(child: CrmDeleteDialog());
+          return Center(child: NesticoPeDeleteDialog());
         } else if (navigationController.currentIndex.value == 2) {
           return Center(child: Text("No Update"));
         } else if (navigationController.currentIndex.value == 3) {

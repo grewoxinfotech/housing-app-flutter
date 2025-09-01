@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 
 import '../../app/constants/font_res.dart';
 import '../../app/constants/size_manager.dart';
-import '../display/crm_card.dart';
+import '../display/card.dart';
 
-class CrmButton extends StatelessWidget {
+class NesticoPeButton extends StatelessWidget {
   final GestureTapCallback? onTap;
   final String title;
   final double? width;
@@ -16,7 +16,7 @@ class CrmButton extends StatelessWidget {
   final BorderRadiusGeometry? borderRadius;
   final String? heroTag;
 
-  const CrmButton({
+  const NesticoPeButton({
     super.key,
     required this.title,
     required this.onTap,
@@ -31,7 +31,7 @@ class CrmButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final button = CrmCard(
+    final button = NesticoPeCard(
       width: width ?? 150,
       height: height ?? 48,
       color: backgroundColor ?? Get.theme.colorScheme.primary,

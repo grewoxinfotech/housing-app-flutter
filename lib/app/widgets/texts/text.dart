@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CrmText extends StatelessWidget {
+class NesticoPeText extends StatelessWidget {
   final String data;
   final TextStyle? style;
   final TextAlign? textAlign;
@@ -14,7 +14,7 @@ class CrmText extends StatelessWidget {
   final TextHeightBehavior? textHeightBehavior;
   final bool? softWrap;
 
-  const CrmText(
+  const NesticoPeText(
     this.data, {
     super.key,
     this.style,

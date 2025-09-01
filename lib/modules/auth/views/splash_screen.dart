@@ -113,7 +113,7 @@ class _SplashScreenState extends State<SplashScreen>
                     ),
                     const SizedBox(height: 24),
                     Text(
-                      'BookHome',
+                      'NesticoPe',
                       style: TextStyle(
                         color: theme.colorScheme.primary,
                         fontSize: 28,

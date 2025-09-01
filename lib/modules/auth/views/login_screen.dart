@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:housing_flutter_app/modules/auth/controllers/auth_controller.dart';
 import 'package:housing_flutter_app/modules/auth/views/forgot_password_screen.dart';
+import 'package:housing_flutter_app/modules/auth/views/select_account_type_screen.dart';
 import 'package:housing_flutter_app/widgets/input/custom_text_field.dart';
 import 'package:housing_flutter_app/modules/auth/views/register_screen.dart';
 import 'package:housing_flutter_app/modules/auth/views/otp_login_screen.dart';
@@ -9,9 +10,9 @@ import 'package:get/get.dart';
 import '../../../app/constants/font_res.dart';
 import '../../../app/constants/ic_res.dart';
 import '../../../app/utils/validation.dart';
-import '../../../widgets/New folder/inputs/crm_text_field.dart';
-import '../../../widgets/button/crm_button.dart';
-import '../../../widgets/display/crm_ic.dart';
+import '../../../widgets/New folder/inputs/text_field.dart';
+import '../../../widgets/button/button.dart';
+import '../../../widgets/display/ic.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -133,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(width: 8),
                       Text(
-                        'BookHome',
+                        'NesticoPe',
                         style: TextStyle(
                           fontSize: 20,
                           fontFamily: FontRes.nuNunitoSans,
@@ -157,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 24),
 
                   // Email Field
-                  CrmTextField(
+                  NesticoPeTextField(
                     title: "Email / phone",
                     controller: authController.emailController,
                     validator: (value) => emailValidation(value ?? ''),
@@ -169,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   const SizedBox(height: 16),
 
-                  CrmTextField(
+                  NesticoPeTextField(
                     title: "Password",
                     controller: authController.passwordController,
                     validator: (value) => passwordValidation(value ?? ''),
@@ -181,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 50,
                       width: 50,
                       alignment: Alignment.center,
-                      child: CrmIc(
+                      child: NesticoPeIc(
                         iconPath: ICRes.viewPassword,
                         onTap: _togglePasswordVisibility,
                         height: 24,
@@ -291,7 +292,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 24),
 
                   // Login Button
-                  CrmButton(
+                  NesticoPeButton(
                     title: "Login",
                     onTap: () {
                       if (_formKey.currentState!.validate()) {
@@ -328,7 +329,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           TextButton(
-                            onPressed: () => Get.to(() => RegisterScreen()),
+                           // onPressed: () => Get.to(() => RegisterScreen()),
+                            onPressed: () => Get.to(() => SelectAccountTypeScreen()),
                             child: Text(
                               'Sign Up here',
                               style: TextStyle(

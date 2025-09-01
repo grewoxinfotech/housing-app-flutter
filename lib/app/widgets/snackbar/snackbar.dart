@@ -1,8 +1,7 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter/material.dart';import 'package:get/get.dart';
 
-class CrmSnackBar {
+class NesticoPeSnackBar {
   static void showAwesomeSnackbar({
     required String title,
     required String message,

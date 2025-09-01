@@ -7,7 +7,7 @@ import 'package:housing_flutter_app/data/network/auth/model/user_model.dart';
 import 'package:housing_flutter_app/modules/auth/controllers/auth_controller.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../app/widgets/snackbar/crm_snackbar.dart';
+import '../../../app/widgets/snackbar/snackbar.dart';
 
 class EditProfileController extends GetxController {
   final formKey = GlobalKey<FormState>();
@@ -103,7 +103,7 @@ class EditProfileController extends GetxController {
       );
     } catch (e) {
       authController.errorMessage.value = e.toString();
-      CrmSnackBar.showAwesomeSnackbar(
+      NesticoPeSnackBar.showAwesomeSnackbar(
         title: "Login Failed",
         message: e.toString(),
         contentType: ContentType.failure,

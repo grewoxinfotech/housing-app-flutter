@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class CommonCrmAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CommonNesticoPeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool showBackArrow;
   final List<Widget>? actions;
   final VoidCallback? onBack;
   final IconData? leadingIcon;
 
-  const CommonCrmAppBar({
+  const CommonNesticoPeAppBar({
     Key? key,
     required this.title,
     this.showBackArrow = false,
@@ -60,8 +60,8 @@ class CommonCrmAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: Text(
                 title,
                 style: theme.appBarTheme.titleTextStyle?.copyWith(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
                 ),
 
                 maxLines: 1,

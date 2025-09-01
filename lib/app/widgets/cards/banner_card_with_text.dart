@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CrmBannerCardWithText extends StatelessWidget {
+class NesticoPeBannerCardWithText extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String? description;
@@ -12,7 +12,7 @@ class CrmBannerCardWithText extends StatelessWidget {
   final int titleMaxLines;
   final int descriptionMaxLines;
 
-  const CrmBannerCardWithText({
+  const NesticoPeBannerCardWithText({
     super.key,
     required this.imageUrl,
     required this.title,

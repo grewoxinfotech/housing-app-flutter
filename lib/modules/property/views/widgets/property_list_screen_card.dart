@@ -5,8 +5,8 @@ import '../../../../app/constants/color_res.dart';
 import '../../../../app/constants/img_res.dart';
 import '../../../../app/constants/size_manager.dart';
 import '../../../../data/network/property/models/property_model.dart';
-import '../../../../widgets/button/crm_button.dart';
-import '../../../../widgets/display/crm_card.dart';
+import '../../../../widgets/button/button.dart';
+import '../../../../widgets/display/card.dart';
 import '../property_detail_screen.dart';
 
 class PropertyListScreenCard extends StatelessWidget {
@@ -19,7 +19,7 @@ class PropertyListScreenCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Get.to(() => PropertyDetailScreen(property: items)),
-      child: CrmCard(
+      child: NesticoPeCard(
         padding: EdgeInsets.zero,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -301,7 +301,7 @@ class PropertyListScreenCard extends StatelessWidget {
                           SizedBox(
                             width: 80,
                             height: 40,
-                            child: CrmButton(onTap: () {}, title: "Call"),
+                            child: NesticoPeButton(onTap: () {}, title: "Call"),
                           ),
                         ],
                       ),

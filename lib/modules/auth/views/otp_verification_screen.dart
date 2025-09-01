@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housing_flutter_app/modules/auth/controllers/auth_controller.dart';
 import '../../../data/database/secure_storage_service.dart';
-import '../../../widgets/button/crm_button.dart';
-import 'package:housing_flutter_app/widgets/messages/crm_snack_bar.dart';
+import '../../../widgets/button/button.dart';
+import 'package:housing_flutter_app/widgets/messages/snack_bar.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 import '../../dashboard/views/dashboard_screen.dart';
@@ -77,7 +77,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           _token ?? widget.token ?? '',
         );
 
-        CrmSnackBar.showAwesomeSnackbar(
+        NesticoPeSnackBar.showAwesomeSnackbar(
           title: "Success",
           message: "OTP verified. Please set your new password.",
           contentType: ContentType.success,
@@ -89,7 +89,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           _token ?? widget.token ?? '',
         );
 
-        CrmSnackBar.showAwesomeSnackbar(
+        NesticoPeSnackBar.showAwesomeSnackbar(
           title: "Success",
           message: "Account verified",
           contentType: ContentType.success,
@@ -97,7 +97,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
         Get.offAll(() => DashboardScreen());
       }
     } catch (e) {
-      CrmSnackBar.showAwesomeSnackbar(
+      NesticoPeSnackBar.showAwesomeSnackbar(
         title: "Error",
         message: e.toString().replaceAll('Exception: ', ''),
         contentType: ContentType.failure,
@@ -109,7 +109,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
   Future<void> _resendOtp() async {
     if (_token == null && widget.token == null) {
-      CrmSnackBar.showAwesomeSnackbar(
+      NesticoPeSnackBar.showAwesomeSnackbar(
         title: "Error",
         message: "Unable to resend OTP - missing token",
         contentType: ContentType.failure,
@@ -133,13 +133,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       setState(() => _resendTimeout = 60);
       _startResendTimer();
 
-      CrmSnackBar.showAwesomeSnackbar(
+      NesticoPeSnackBar.showAwesomeSnackbar(
         title: "OTP Resent",
         message: "New OTP sent to ${widget.phone}",
         contentType: ContentType.success,
       );
     } catch (e) {
-      CrmSnackBar.showAwesomeSnackbar(
+      NesticoPeSnackBar.showAwesomeSnackbar(
         title: "Resend Failed",
         message: e.toString(),
         contentType: ContentType.failure,
@@ -179,7 +179,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 40),
-              // CrmTextField(
+              // NesticoPeTextField(
               //   hintText: '••••••',
               //   title: "OTP",
               //   controller: _otpController,
@@ -226,7 +226,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               ),
               const SizedBox(height: 30),
 
-              CrmButton(
+              NesticoPeButton(
                 title: widget.isPasswordReset
                     ? 'Enter OTP'
                     : 'Enter OTP',

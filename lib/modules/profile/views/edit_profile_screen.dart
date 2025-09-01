@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housing_flutter_app/app/constants/font_res.dart';
-import 'package:housing_flutter_app/widgets/New%20folder/inputs/crm_dropdown_field.dart';
-import 'package:housing_flutter_app/widgets/button/crm_button.dart';
+import 'package:housing_flutter_app/widgets/New%20folder/inputs/dropdown_field.dart';
+import 'package:housing_flutter_app/widgets/button/button.dart';
 
-import '../../../widgets/New folder/inputs/crm_text_field.dart';
+import '../../../widgets/New folder/inputs/text_field.dart';
 import '../controllers/edit_profile_controller.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -57,7 +57,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ),
               SizedBox(height: 18),
-              CrmDropdownField(
+              NesticoPeDropdownField(
                 title: "Select Role",
                 value: controller.selectedUserType,
                 items:
@@ -113,7 +113,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 keyboardType: TextInputType.number,
               ),
               const SizedBox(height: 24),
-              CrmButton(
+              NesticoPeButton(
                 onTap: () {
                   controller.updateProfile();
                   // if (_formKey.currentState?.validate() ?? false) {
@@ -144,7 +144,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
-      child: CrmTextField(
+      child: NesticoPeTextField(
         hintText: "Enter $label",
         obscureText: obscureText,
         title: label,
