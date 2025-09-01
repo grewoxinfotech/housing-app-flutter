@@ -5,6 +5,7 @@ import 'package:housing_flutter_app/app/constants/img_res.dart';
 import 'package:housing_flutter_app/app/constants/size_manager.dart';
 import 'package:housing_flutter_app/app/manager/icon_manager.dart';
 import 'package:housing_flutter_app/app/manager/string_manager.dart';
+import 'package:housing_flutter_app/app/widgets/video_player/custom_video_player.dart';
 import 'package:housing_flutter_app/widgets/button/crm_button.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:video_player/video_player.dart';
@@ -246,7 +247,7 @@ class PropertyDetailScreen extends StatelessWidget {
                         width: double.infinity,
                       );
                     } else if (item["type"] == "video") {
-                      return _buildVideoPlayer(item["url"]!);
+                      return CustomVideoPlayer(url: item["url"]!);
                     }
                     return const SizedBox.shrink();
                   },

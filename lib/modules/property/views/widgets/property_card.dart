@@ -212,10 +212,47 @@ class _PropertyCardState extends State<PropertyCard> {
                   const SizedBox(height: 6),
 
                   // Property Info
-                  Text(
-                    "4 BHK · 3000 sqft",
-                    style: TextStyle(fontSize: 13, color: Colors.grey.shade700),
-                  ),
+                  // if (widget.property.propertyDetails?.bhk != null) ...[
+                  //   Text(
+                  //     "${widget.property.propertyDetails!.bhk} BHK · 3000 sqft",
+                  //     style: TextStyle(
+                  //       fontSize: 13,
+                  //       color: Colors.grey.shade700,
+                  //     ),
+                  //   ),
+                  // ],
+                  // Inside your property card
+                  if (widget.property.propertyDetails != null) ...[
+                    Text(
+                      [
+                        if (widget.property.propertyDetails!.bhk != null)
+                          "${widget.property.propertyDetails!.bhk} BHK",
+                        // if (widget.property.propertyDetails!.area != null)
+                        //   "${widget.property.propertyDetails!.area} sqft",
+                        if (widget
+                                .property
+                                .propertyDetails
+                                ?.furnishInfo
+                                ?.furnishType !=
+                            null)
+                          widget
+                              .property
+                              .propertyDetails!
+                              .furnishInfo!
+                              .furnishType,
+                        if (widget.property.propertyDetails?.propertyFacing !=
+                            null)
+                          widget.property.propertyDetails!.propertyFacing!,
+                        // if (widget.property.propertyDetails!.bathrooms != null)
+                        //   "${widget.property.propertyDetails!.bathrooms} Bath",
+                      ].join(" · "),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey.shade800,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
 
                   const SizedBox(height: 4),
 
@@ -245,6 +282,17 @@ class _PropertyCardState extends State<PropertyCard> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildDetailChip(String text) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: 12,
+        color: Colors.grey.shade800,
+        fontWeight: FontWeight.w500,
       ),
     );
   }

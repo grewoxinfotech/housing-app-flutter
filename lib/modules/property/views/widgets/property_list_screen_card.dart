@@ -105,14 +105,17 @@ class PropertyListScreenCard extends StatelessWidget {
                           color: ColorRes.primary,
                           borderRadius: BorderRadius.circular(AppRadius.small),
                         ),
-                        child: Text(
-                          "Rent",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 12,
-                            color: Colors.white,
-                          ),
-                        ),
+                        child:
+                            items?.listingType != null
+                                ? Text(
+                                  "${items!.listingType}",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                  ),
+                                )
+                                : SizedBox(),
                       ),
                     ],
                   ),
@@ -203,8 +206,7 @@ class PropertyListScreenCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                items!.propertyDetails!.propertyBuiltUpArea!
-                                    .toString(),
+                                '${items!.propertyDetails!.bhk ?? '0'} BHK',
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.black,
