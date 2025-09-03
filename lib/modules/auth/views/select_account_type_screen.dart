@@ -69,7 +69,7 @@ class SelectAccountTypeScreen extends StatelessWidget {
                       Get.to(() => RegisterScreen(role: role));
                     },
                     child: Card(
-                      color: const Color(0xFFDBEAFE),
+                      color: ColorRes.primary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
@@ -80,7 +80,7 @@ class SelectAccountTypeScreen extends StatelessWidget {
                           Icon(
                             _roleIcon(role),
                             size: 48,
-                            color: ColorRes.primary,
+                            color: ColorRes.white,
                           ),
                           const SizedBox(height: 12),
                           Text(
@@ -88,7 +88,7 @@ class SelectAccountTypeScreen extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
-                              color: ColorRes.black,
+                              color: ColorRes.white,
                             ),
                           ),
                         ],

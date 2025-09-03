@@ -16,7 +16,6 @@ class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
-  // final authController = Get.find<AuthController>();
 
   @override
   void initState() {
@@ -34,9 +33,6 @@ class _SplashScreenState extends State<SplashScreen>
     _animationController.forward();
 
     splash();
-    // Timer(const Duration(seconds: 3), () {
-    //   _checkAuth();
-    // });
   }
 
   @override
@@ -45,28 +41,19 @@ class _SplashScreenState extends State<SplashScreen>
     super.dispose();
   }
 
-  // void _checkAuth() async {
-  //   try {
-  //     if (authController.authState == AuthState.authenticated) {
-  //       Get.offAll(() => const DashboardScreen());
-  //     } else {
-  //       Get.offAll(() => const LoginScreen());
-  //     }
-  //   } catch (e) {
-  //     print('Auth check error: $e');
-  //     Get.offAll(() => const LoginScreen());
-  //   }
-  // }
-
   void splash() async {
     await Future.delayed(const Duration(seconds: 1));
     bool isLogin = await SecureStorage.getLoggedIn();
-    bool rememberMe = await SecureStorage.getRememberMe();
     String? token = await SecureStorage.getToken();
-    if (isLogin == true && rememberMe && token != null && token.isNotEmpty) {
-      Get.offAll(() => DashboardScreen());
+
+    print("DEBUG >> isLogin=$isLogin, token=$token");
+
+    if (isLogin == true && token != null && token.isNotEmpty) {
+      Get.offAll(() => const DashboardScreen());
+      print("dashboard_old_token $token");
     } else {
-      Get.offAll(() => LoginScreen());
+      Get.offAll(() => const LoginScreen());
+      print("login_new_token $token");
     }
   }
 

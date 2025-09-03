@@ -14,6 +14,7 @@ class CustomTextField extends StatelessWidget {
   final void Function(String)? onChanged;
   final int maxLines;
   final TextCapitalization textCapitalization; // Add this line
+  final double radius;
 
   const CustomTextField({
     Key? key,
@@ -28,6 +29,7 @@ class CustomTextField extends StatelessWidget {
     this.onChanged,
     this.maxLines = 1,
     this.textCapitalization = TextCapitalization.none, // Add with default
+    this.radius = 8.0,
   }) : super(key: key);
 
   @override
@@ -47,25 +49,25 @@ class CustomTextField extends StatelessWidget {
         suffixIcon: suffixIcon,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(radius?? 8.0),
           borderSide: BorderSide(color: Colors.grey.shade300),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(radius?? 8.0),
           borderSide: BorderSide(
             color: Theme.of(context).primaryColor,
             width: 2.0,
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(radius?? 8.0),
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.error,
             width: 1.0,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(radius?? 8.0),
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.error,
             width: 2.0,

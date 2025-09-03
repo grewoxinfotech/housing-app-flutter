@@ -11,33 +11,27 @@ import '../views/login_screen.dart';
 import '../views/otp_verification_screen.dart';
 
 enum AuthState { initial, authenticated, unauthenticated }
-
 enum UserRole { buyer, seller, reseller }
 
 class AuthController extends GetxController {
-  // Initialize services properly
   final AuthService authService = AuthService();
   final SecureStorage secureStorage = SecureStorage();
 
-  // Reactive state
   final authState = AuthState.initial.obs;
   final errorMessage = ''.obs;
   final verificationId = ''.obs;
   final selectedRole = UserRole.seller.obs;
   final currentUser = Rxn<UserModel>();
   final isLoading = false.obs;
-  final rememberMe = false.obs;
 
   final newPasswordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final resetToken = ''.obs;
 
-  // Form controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  // Getters
   String get selectedRoleString =>
       selectedRole.value.toString().split('.').last;
 
@@ -47,7 +41,6 @@ class AuthController extends GetxController {
     checkAuthStatus();
   }
 
-  //test-commit
   @override
   void onClose() {
     emailController.clear();
@@ -72,8 +65,8 @@ class AuthController extends GetxController {
 
       await SecureStorage.saveToken(user.token!);
       await SecureStorage.saveUserData(user);
-      await SecureStorage.saveRememberMe(rememberMe.value);
       await SecureStorage.saveLoggedIn(true);
+
       currentUser.value = user;
       print("[Debug]-> User data: ${currentUser.value!.user!.firstName}");
       authState.value = AuthState.authenticated;
@@ -125,12 +118,10 @@ class AuthController extends GetxController {
         final token = response['data']['token'];
         await SecureStorage.saveToken(token);
 
-        // Get.offAll(() => DashboardScreen());
-        print("Token: $token");
         Get.to(
-          () => OtpVerificationScreen(
+              () => OtpVerificationScreen(
             phone: phone,
-            token: token, // Pass the token to OTP screen
+            token: token,
           ),
         );
 
@@ -172,8 +163,8 @@ class AuthController extends GetxController {
 
       await SecureStorage.saveToken(user.token!);
       await SecureStorage.saveUserData(user);
-      await SecureStorage.saveRememberMe(true);
       await SecureStorage.saveLoggedIn(true);
+
       currentUser.value = user;
       authState.value = AuthState.authenticated;
     } catch (e) {
@@ -190,9 +181,6 @@ class AuthController extends GetxController {
       final token = await authService.forgotPassword(id);
       isLoading.value = false;
 
-
-
-
       Get.to(
             () => OtpVerificationScreen(
           phone: id,
@@ -200,8 +188,6 @@ class AuthController extends GetxController {
           isPasswordReset: true,
         ),
       );
-      print("$token");
-      print("forgeopasswordid$id");
 
       NesticoPeSnackBar.showAwesomeSnackbar(
         title: 'Success',
@@ -219,14 +205,11 @@ class AuthController extends GetxController {
     }
   }
 
-  // Add these new methods
   Future<void> verifyPasswordResetOtp(String otp, String token) async {
     try {
       isLoading.value = true;
       final newResetToken = await authService.verifyPasswordResetOtp(otp, token);
       resetToken.value = newResetToken;
-
-      print('resettoken$newResetToken');
 
       Get.to(() => ResetPasswordScreen());
 
@@ -255,8 +238,6 @@ class AuthController extends GetxController {
       isLoading.value = true;
       await authService.resetPassword(newPasswordController.text, resetToken.value);
 
-      print("nfmfdjknhfdkjnfdkj$newPasswordController.text");
-
       Get.offAll(() => LoginScreen());
 
       NesticoPeSnackBar.showAwesomeSnackbar(
@@ -275,32 +256,20 @@ class AuthController extends GetxController {
     }
   }
 
-  // Future<void> verifyResetPasswordOtp(String otp, String token) async {
-  //   try {
-  //     isLoading.value = true;
-  //     final user = await authService.verifyOtp(otp, token);
-  //
-  //     await SecureStorage.saveToken(user.token!);
-  //     await SecureStorage.saveUserData(user);
-  //     await SecureStorage.saveRememberMe(true);
-  //     await SecureStorage.saveLoggedIn(true);
-  //     currentUser.value = user;
-  //     authState.value = AuthState.authenticated;
-  //   } catch (e) {
-  //     errorMessage.value = e.toString();
-  //     rethrow;
-  //   } finally {
-  //     isLoading.value = false;
-  //   }
-  // }
-
   Future<void> checkAuthStatus() async {
     try {
       final token = await SecureStorage.getToken();
-      if (token != null) {
+      final isLoggedIn = await SecureStorage.getLoggedIn();
+
+      if (token != null && isLoggedIn) {
         final user = await SecureStorage.getUserData();
-        currentUser.value = user;
-        authState.value = AuthState.authenticated;
+        if (user != null) {
+          currentUser.value = user;
+          authState.value = AuthState.authenticated;
+          Get.offAll(() => DashboardScreen());
+        } else {
+          authState.value = AuthState.unauthenticated;
+        }
       } else {
         authState.value = AuthState.unauthenticated;
       }

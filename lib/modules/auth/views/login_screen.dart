@@ -26,8 +26,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
-  bool _isLoading = false;
-  bool _rememberMe = false;
 
   @override
   void dispose() {
@@ -42,41 +40,6 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  // Future<void> _login() async {
-  //   if (_formKey.currentState!.validate()) {
-  //     setState(() {
-  //       _isLoading = true;
-  //     });
-  //
-  //     try {
-  //       final authController = Provider.of<AuthController>(context, listen: false);
-  //       final success = await authController.login(
-  //         context,
-  //         _emailController.text.trim(),
-  //         _passwordController.text.trim(),
-  //       );
-  //
-  //       if (success) {
-  //         Navigator.of(context).pushReplacement(
-  //           MaterialPageRoute(builder: (context) => HomeScreen())
-  //         );
-  //       } else {
-  //         print('Login failed with message: ${authController.errorMessage}');
-  //         _showErrorDialog(authController.errorMessage ?? 'Login failed');
-  //       }
-  //     } catch (e) {
-  //       print('error$e');
-  //       _showErrorDialog('An unexpected error occurred: ${e.toString()}');
-  //     } finally {
-  //       if (mounted) {
-  //         setState(() {
-  //           _isLoading = false;
-  //         });
-  //       }
-  //     }
-  //   }
-  // }
-
   void _navigateToOtpLogin() {
     Navigator.of(
       context,
@@ -88,15 +51,15 @@ class _LoginScreenState extends State<LoginScreen> {
       context: context,
       builder:
           (context) => AlertDialog(
-            title: const Text('Login Error'),
-            content: Text(message),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('OK'),
-              ),
-            ],
+        title: const Text('Login Error'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('OK'),
           ),
+        ],
+      ),
     );
   }
 
@@ -163,7 +126,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: authController.emailController,
                     validator: (value) => emailValidation(value ?? ''),
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-
                     prefixIcon: Icons.person_outline,
                     hintText: "Enter Email",
                   ),
@@ -188,94 +150,22 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 24,
                         width: 24,
                         color:
-                            _isPasswordVisible
-                                ? Get.theme.colorScheme.outline
-                                : Get.theme.colorScheme.primary,
+                        _isPasswordVisible
+                            ? Get.theme.colorScheme.outline
+                            : Get.theme.colorScheme.primary,
                       ),
                     ),
                   ),
 
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 10),
 
-                  // Row(
-                  //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     Obx(
-                  //       () => Row(
-                  //         children: [
-                  //           Checkbox(
-                  //             value: authController.rememberMe.value,
-                  //             onChanged:
-                  //                 (value) =>
-                  //                     authController.rememberMe.value =
-                  //                         value ?? false,
-                  //             side: const BorderSide(
-                  //               color: Colors.black,
-                  //               width: 2,
-                  //             ),
-                  //             checkColor: Colors.white,
-                  //             // Checkmark color
-                  //             activeColor: theme.colorScheme.primary,
-                  //           ),
-                  //
-                  //           Text(
-                  //             'Remember me',
-                  //             style: TextStyle(
-                  //               color: Colors.black,
-                  //               fontWeight: FontWeight.w600,
-                  //               fontFamily: FontRes.nuNunitoSans,
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //     GestureDetector(
-                  //       onTap: () {
-                  //         Get.to(ForgetPasswordScreen());
-                  //       },
-                  //       child: Text(
-                  //         'Forgot Password?',
-                  //         style: TextStyle(
-                  //           color: Get.theme.colorScheme.primary,
-                  //           fontWeight: FontWeight.bold,
-                  //           fontFamily: FontRes.nuNunitoSans,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  const SizedBox(height: 16),
+                  // Forgot Password aligned to right
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Obx(
-                        () => Checkbox(
-                          value: authController.rememberMe.value,
-                          onChanged: (value) {
-                            authController.rememberMe.value = value ?? false;
-                          },
-                          side: const BorderSide(color: Colors.black, width: 2),
-                          checkColor: Colors.white,
-                          activeColor: theme.colorScheme.primary,
-                          visualDensity: VisualDensity.compact,
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          'Remember me',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: FontRes.nuNunitoSans,
-                          ),
-                        ),
-                      ),
                       GestureDetector(
                         onTap: () {
-                          Get.to(ForgetPasswordScreen());
+                          Get.to(() => ForgetPasswordScreen());
                         },
                         child: Text(
                           'Forgot Password?',
@@ -305,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 16),
 
-                  // OTP Login Button
+                  // OTP Login Button (optional)
                   // CustomButton(
                   //   text: 'Login with OTP',
                   //   onPressed: _navigateToOtpLogin,
@@ -329,7 +219,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           TextButton(
-                           // onPressed: () => Get.to(() => RegisterScreen()),
                             onPressed: () => Get.to(() => SelectAccountTypeScreen()),
                             child: Text(
                               'Sign Up here',

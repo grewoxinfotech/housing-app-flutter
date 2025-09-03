@@ -17,16 +17,26 @@ class AuthService {
 
   // Login
   Future<UserModel> login(String email, String password) async {
-
     final response = await http.post(
       Uri.parse(ApiConstants.loginEndpoint),
       headers: {i: j},
       body: jsonEncode({'id': email, 'password': password}),
     );
+
     final data = jsonDecode(response.body);
 
     if (response.statusCode == 200 && data["success"] == true) {
-      return UserModel.fromJson(data['data']);
+      final user = UserModel.fromJson(data['data']);
+      final token = data['token'] ?? user.token;
+
+      if (token != null && token.isNotEmpty) {
+        await SecureStorage.saveToken(token);
+      }
+
+      await SecureStorage.saveUserData(user);
+      await SecureStorage.saveLoggedIn(true);
+
+      return user;
     } else {
       throw Exception(data["message"] ?? "Login failed");
     }
@@ -99,24 +109,6 @@ class AuthService {
     throw Exception(data['message'] ?? 'OTP verification failed');
   }
 
-  // Future<String> forgotPassword(String email) async {
-  //   final response = await http.post(
-  //     Uri.parse('${ApiConstants.auth}/forgot-password'),
-  //     headers: {i: j},
-  //     body: jsonEncode({'email': email}),
-  //   );
-  //
-  //   final data = jsonDecode(response.body);
-  //   if (response.statusCode == 200 && data['success'] == true) {
-  //     print("Forget Password Data: $data");
-  //     return data['data']['token'];
-  //   } else {
-  //     throw Exception(data['message'] ?? 'Incorrect Email');
-  //   }
-  // }
-
-  // In AuthService class
-
   Future<String> forgotPassword(String id) async {
     final response = await http.post(
       Uri.parse('${ApiConstants.auth}/forgot-password'),
@@ -154,8 +146,6 @@ class AuthService {
       body: jsonEncode({'newPassword': newPassword}),
     );
 
-    print("dfjdhfjdhfik$newPassword");
-
     final data = jsonDecode(response.body);
     if (response.statusCode != 200 || data['success'] != true) {
       throw Exception(data["message"] ?? "Password reset failed");
@@ -167,124 +157,3 @@ class AuthService {
     Get.offAll(LoginScreen());
   }
 }
-
-// Get current user
-// Future<UserModel?> getCurrentUser() async {
-//   try {
-//     final token = await SecureStorage.getToken();
-//
-//     if (token == null) {
-//       return null;
-//     }
-//
-//     final response = await http.get(
-//       Uri.parse('$url/me'),
-//       headers: {'Authorization': 'Bearer $token', i: j},
-//     );
-//
-//     final data = jsonDecode(response.body);
-//     if (response.statusCode == 200 && data["success"] == true) {
-//       return UserModel.fromJson(data['data']['user']);
-//     } else if (response.statusCode == 401) {
-//       // Token expired or invalid
-//       await SecureStorage.deleteToken();
-//       return null;
-//     } else {
-//       print('Failed to get user profile: ${response.body}');
-//       return null;
-//     }
-//   } catch (e) {
-//     print('Get current user failed: $e');
-//     return null;
-//   }
-// }
-
-// Logout
-//
-
-// Update profile
-//   Future<UserModel?> updateProfile(
-//     BuildContext context, {
-//     required String userId,
-//     String? name,
-//     String? phone,
-//     String? address,
-//   }) async {
-//     try {
-//       final token = await SecureStorage.getToken();
-//
-//       if (token == null) {
-//         throw Exception('Not authenticated');
-//       }
-//
-//       final Map<String, dynamic> body = {};
-//       if (name != null) body['name'] = name;
-//       if (phone != null) body['phone'] = phone;
-//       if (address != null) body['address'] = address;
-//
-//       final response = await http.patch(
-//         Uri.parse('$url/users/$userId'),
-//         headers: {'Authorization': 'Bearer $token', i: j},
-//         body: jsonEncode(body),
-//       );
-//
-//       final data = jsonDecode(response.body);
-//       if (response.statusCode == 200 && data["success"] == true) {
-//         final user = UserModel.fromJson(data['data']['user']);
-//         await SecureStorage.saveUserData(user);
-//         return user;
-//       } else {
-//         NesticoPeSnackBar.showAwesomeSnackbar(
-//           title: "Update Failed",
-//           message: data["message"] ?? "Failed to update profile",
-//           contentType: ContentType.warning,
-//         );
-//         return null;
-//       }
-//     } catch (e) {
-//       NesticoPeSnackBar.showAwesomeSnackbar(
-//         title: "Error",
-//         message: "Something went wrong: $e",
-//         contentType: ContentType.failure,
-//       );
-//       return null;
-//     }
-//   }
-//
-//   // Reset password
-//   Future<bool> resetPassword(BuildContext context, String email) async {
-//     try {
-//       final response = await http.post(
-//         Uri.parse('$url/reset-password'),
-//         headers: {i: j},
-//         body: jsonEncode({'email': email}),
-//       );
-//
-//       final data = jsonDecode(response.body);
-//       if (response.statusCode == 200 && data["success"] == true) {
-//         NesticoPeSnackBar.showAwesomeSnackbar(
-//           title: "Success",
-//           message: "Password reset instructions sent to your email",
-//           contentType: ContentType.success,
-//         );
-//         return true;
-//       } else {
-//         NesticoPeSnackBar.showAwesomeSnackbar(
-//
-//           title: "Reset Failed",
-//           message: data["message"] ?? "Failed to reset password",
-//           contentType: ContentType.warning,
-//         );
-//         return false;
-//       }
-//     } catch (e) {
-//       NesticoPeSnackBar.showAwesomeSnackbar(
-//         title: "Error",
-//         message: "Something went wrong: $e",
-//         contentType: ContentType.failure,
-//       );
-//       return false;
-//     }
-//   }
-// }
-// }

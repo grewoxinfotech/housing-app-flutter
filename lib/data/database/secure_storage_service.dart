@@ -1,5 +1,4 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'dart:math';
 import 'dart:convert';
 
 import 'package:housing_flutter_app/data/network/auth/model/user_model.dart';
@@ -10,7 +9,6 @@ class SecureStorage {
   // Keys
   static const String _keyToken = 'authToken';
   static const String _keyUsername = 'username';
-  static const String _keyRememberMe = 'rememberMe';
   static const String _keyLoggedIn = 'isLogin';
   static const String _keyUserData = 'user';
   static const String _keyClientId = 'clientId';
@@ -28,7 +26,7 @@ class SecureStorage {
     await _storage.delete(key: _keyToken);
   }
 
-  // user data
+  // User data
   static Future<void> saveUserData(UserModel data) async {
     await _storage.write(
       key: _keyUserData,
@@ -42,12 +40,10 @@ class SecureStorage {
     return UserModel.fromJson(jsonDecode(jsonString));
   }
 
-
   static Future<void> deleteUserData() async {
     await _storage.delete(key: _keyUserData);
     await _storage.delete(key: _keyClientId);
   }
-
 
   static Future<String?> getClientId() async {
     final clientId = await _storage.read(key: _keyClientId);
@@ -81,20 +77,6 @@ class SecureStorage {
 
   static Future<void> deleteLoggedIn() async {
     await _storage.delete(key: _keyLoggedIn);
-  }
-
-  // Remember Me
-  static Future<void> saveRememberMe(bool value) async {
-    await _storage.write(key: _keyRememberMe, value: value.toString());
-  }
-
-  static Future<bool> getRememberMe() async {
-    final value = await _storage.read(key: _keyRememberMe);
-    return value?.toLowerCase() == 'true';
-  }
-
-  static Future<void> deleteRememberMe() async {
-    await _storage.delete(key: _keyRememberMe);
   }
 
   // Clear everything

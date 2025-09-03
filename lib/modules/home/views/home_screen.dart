@@ -4,6 +4,7 @@
 // import 'package:NesticoPe_flutter/app/modules/home/widgets/attendance/views/attendance_widget.dart';
 // import 'package:NesticoPe_flutter/app/widgets/_screen/view_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/app/constants/font_res.dart';
@@ -11,6 +12,8 @@ import 'package:housing_flutter_app/app/constants/img_res.dart';
 import 'package:housing_flutter_app/app/widgets/cards/banner_card_with_text.dart';
 import 'package:housing_flutter_app/app/widgets/texts/headline_text.dart';
 import 'package:housing_flutter_app/app/widgets/texts/title_with_disc.dart';
+import 'package:housing_flutter_app/modules/home/widgets/city_card.dart';
+import 'package:housing_flutter_app/modules/home/widgets/home_header.dart';
 import 'package:housing_flutter_app/modules/property/controllers/property_controller.dart';
 import 'package:housing_flutter_app/modules/property/views/property_list_screen.dart';
 import 'package:housing_flutter_app/modules/property/views/widgets/city_filter.dart';
@@ -52,6 +55,34 @@ class HomeScreen extends StatelessWidget {
   static final List<String> plots = [IMGRes.plot1, IMGRes.plot2, IMGRes.plot3];
   static final List<String> bhk = [IMGRes.bhk1, IMGRes.bhk2, IMGRes.bhk3];
 
+  final List<Map<String, dynamic>> cities = [
+    {
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgiSMhfr1LlJcuQraQeqAGmt1ma5s9tGvoVQ&s",
+      "cityName": "Delhi / NCR",
+      "propertyCount": "232,000+ Properties",
+    },
+    {
+      "imageUrl": "https://sitasurat.in/assets/images/about/surat-city.jpg",
+      "cityName": "Surat",
+      "propertyCount": "232,000+ Properties",
+    },
+    {
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgiSMhfr1LlJcuQraQeqAGmt1ma5s9tGvoVQ&s",
+      "cityName": "Bangalore",
+      "propertyCount": "63,000+ Properties",
+    },
+    {
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgiSMhfr1LlJcuQraQeqAGmt1ma5s9tGvoVQ&s",
+      "cityName": "Pune",
+      "propertyCount": "64,000+ Properties",
+    },
+    {
+      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgiSMhfr1LlJcuQraQeqAGmt1ma5s9tGvoVQ&s",
+      "cityName": "Hyderabad",
+      "propertyCount": "30,000+ Properties",
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => PropertyController());
@@ -63,7 +94,7 @@ class HomeScreen extends StatelessWidget {
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
-              const CustomAppBar(),
+              const HomeHeader(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -75,7 +106,7 @@ class HomeScreen extends StatelessWidget {
                   // SizedBox(height: 12),
                   // FilterTagList(),
                   SizedBox(height: 10),
-                  FilterTagList(),
+              //    FilterTagList(),
 
                   /// Banner
                   // const SizedBox(height: 24),
@@ -251,7 +282,27 @@ class HomeScreen extends StatelessWidget {
                   const TitleWithViewAll(title: "City", showViewAll: true),
                   const SizedBox(height: 12),
 
-                  const CityFilterList(),
+
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: Row(
+                      children: cities.map((city) {
+                        return CityCard(
+                          imageUrl: city["imageUrl"],
+                          cityName: city["cityName"],
+                          propertyCount: city["propertyCount"],
+                        );
+                      }).toList(),
+                    ),
+
+                  ),
+
+
+                  // const SizedBox(height: 12),
+                  //
+                  // const CityFilterList(),
 
                   const SizedBox(height: 12),
                   const SizedBox(height: 12),

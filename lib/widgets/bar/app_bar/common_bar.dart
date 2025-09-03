@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:housing_flutter_app/app/constants/color_res.dart';
 
 class CommonNesticoPeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -45,7 +46,7 @@ class CommonNesticoPeAppBar extends StatelessWidget implements PreferredSizeWidg
               IconButton(
                 icon: Icon(
                   leadingIcon ?? Icons.arrow_back,
-                  color: theme.colorScheme.onPrimary, // Themed icon color
+                  color: ColorRes.primary, // Themed icon color
                 ),
                 onPressed: onBack ?? () => Navigator.of(context).pop(),
                 tooltip: 'Back',
