@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final AuthController authController = Get.put(AuthController());
     final theme = Theme.of(context);
-
+    authController.fillTestCredentials();
     return Scaffold(
       body: SafeArea(
         child: Center(

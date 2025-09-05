@@ -51,8 +51,8 @@ class AuthController extends GetxController {
   }
 
   void fillTestCredentials() {
-    emailController.text = "pAlk";
-    passwordController.text = "password123";
+    emailController.text = "CRM_GrewoxAdmin@yopmail.com";
+    passwordController.text = "CRM_GrewoxAdmin@123";
   }
 
   void setRole(UserRole role) => selectedRole.value = role;

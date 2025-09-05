@@ -25,17 +25,15 @@ void main() async {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       home: SplashScreen(),
+      builder: (context, child) {
+        final mediaQuery = MediaQuery.of(context);
+        return MediaQuery(
+          data: mediaQuery.copyWith(
+            textScaler: const TextScaler.linear(1.0), // 🔒 Lock font scaling
+          ),
+          child: child!,
+        );
+      },
     ),
   );
-
-  // runApp(
-  //   ChangeNotifierProvider(
-  //     create: (_) => AuthController(),
-  //     child: GetMaterialApp(
-  //       debugShowCheckedModeBanner: false,
-  //       theme: AppTheme.lightTheme,
-  //       home: SplashScreen(),
-  //     ),
-  //   ),
-  // );
 }

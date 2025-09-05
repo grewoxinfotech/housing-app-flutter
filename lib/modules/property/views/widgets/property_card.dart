@@ -176,108 +176,112 @@ class _PropertyCardState extends State<PropertyCard> {
             ),
 
             // 🔹 Content Section
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Title & Price
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          widget.property.title ?? '-',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            color: Colors.black87,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Title & Price
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            widget.property.title ?? '-',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              color: Colors.black87,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                         ),
-                      ),
-                      const SizedBox(width: 10),
+                        const SizedBox(width: 10),
+                        Text(
+                          "₹ ${widget.property.propertyDetails?.financialInfo?.price ?? '0'}",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: ColorRes.primary,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 6),
+
+                    // Property Info
+                    // if (widget.property.propertyDetails?.bhk != null) ...[
+                    //   Text(
+                    //     "${widget.property.propertyDetails!.bhk} BHK · 3000 sqft",
+                    //     style: TextStyle(
+                    //       fontSize: 13,
+                    //       color: Colors.grey.shade700,
+                    //     ),
+                    //   ),
+                    // ],
+                    // Inside your property card
+                    if (widget.property.propertyDetails != null) ...[
                       Text(
-                        "₹ ${widget.property.propertyDetails?.financialInfo?.price ?? '0'}",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                        [
+                          if (widget.property.propertyDetails!.bhk != null)
+                            "${widget.property.propertyDetails!.bhk} BHK",
+                          // if (widget.property.propertyDetails!.area != null)
+                          //   "${widget.property.propertyDetails!.area} sqft",
+                          if (widget
+                                  .property
+                                  .propertyDetails
+                                  ?.furnishInfo
+                                  ?.furnishType !=
+                              null)
+                            widget
+                                .property
+                                .propertyDetails!
+                                .furnishInfo!
+                                .furnishType,
+                          if (widget.property.propertyDetails?.propertyFacing !=
+                              null)
+                            widget.property.propertyDetails!.propertyFacing!,
+                          // if (widget.property.propertyDetails!.bathrooms != null)
+                          //   "${widget.property.propertyDetails!.bathrooms} Bath",
+                        ].join(" · "),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey.shade800,
+                          fontWeight: FontWeight.w500,
+
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+
+                    const SizedBox(height: 4),
+
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.location_on,
+                          size: 14,
                           color: ColorRes.primary,
                         ),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 6),
-
-                  // Property Info
-                  // if (widget.property.propertyDetails?.bhk != null) ...[
-                  //   Text(
-                  //     "${widget.property.propertyDetails!.bhk} BHK · 3000 sqft",
-                  //     style: TextStyle(
-                  //       fontSize: 13,
-                  //       color: Colors.grey.shade700,
-                  //     ),
-                  //   ),
-                  // ],
-                  // Inside your property card
-                  if (widget.property.propertyDetails != null) ...[
-                    Text(
-                      [
-                        if (widget.property.propertyDetails!.bhk != null)
-                          "${widget.property.propertyDetails!.bhk} BHK",
-                        // if (widget.property.propertyDetails!.area != null)
-                        //   "${widget.property.propertyDetails!.area} sqft",
-                        if (widget
-                                .property
-                                .propertyDetails
-                                ?.furnishInfo
-                                ?.furnishType !=
-                            null)
-                          widget
-                              .property
-                              .propertyDetails!
-                              .furnishInfo!
-                              .furnishType,
-                        if (widget.property.propertyDetails?.propertyFacing !=
-                            null)
-                          widget.property.propertyDetails!.propertyFacing!,
-                        // if (widget.property.propertyDetails!.bathrooms != null)
-                        //   "${widget.property.propertyDetails!.bathrooms} Bath",
-                      ].join(" · "),
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey.shade800,
-                        fontWeight: FontWeight.w500,
-                      ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            widget.property.address ?? '-',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey.shade600,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
-
-                  const SizedBox(height: 4),
-
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.location_on,
-                        size: 14,
-                        color: ColorRes.primary,
-                      ),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Text(
-                          widget.property.address ?? '-',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey.shade600,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
             ),
           ],

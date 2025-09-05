@@ -12,8 +12,10 @@ import 'package:housing_flutter_app/app/constants/img_res.dart';
 import 'package:housing_flutter_app/app/widgets/cards/banner_card_with_text.dart';
 import 'package:housing_flutter_app/app/widgets/texts/headline_text.dart';
 import 'package:housing_flutter_app/app/widgets/texts/title_with_disc.dart';
+import 'package:housing_flutter_app/data/network/property/models/property_model.dart';
 import 'package:housing_flutter_app/modules/home/widgets/city_card.dart';
 import 'package:housing_flutter_app/modules/home/widgets/home_header.dart';
+import 'package:housing_flutter_app/modules/home/widgets/top_locations.dart';
 import 'package:housing_flutter_app/modules/property/controllers/property_controller.dart';
 import 'package:housing_flutter_app/modules/property/views/property_list_screen.dart';
 import 'package:housing_flutter_app/modules/property/views/widgets/city_filter.dart';
@@ -57,7 +59,8 @@ class HomeScreen extends StatelessWidget {
 
   final List<Map<String, dynamic>> cities = [
     {
-      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgiSMhfr1LlJcuQraQeqAGmt1ma5s9tGvoVQ&s",
+      "imageUrl":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgiSMhfr1LlJcuQraQeqAGmt1ma5s9tGvoVQ&s",
       "cityName": "Delhi / NCR",
       "propertyCount": "232,000+ Properties",
     },
@@ -67,20 +70,67 @@ class HomeScreen extends StatelessWidget {
       "propertyCount": "232,000+ Properties",
     },
     {
-      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgiSMhfr1LlJcuQraQeqAGmt1ma5s9tGvoVQ&s",
+      "imageUrl":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgiSMhfr1LlJcuQraQeqAGmt1ma5s9tGvoVQ&s",
       "cityName": "Bangalore",
       "propertyCount": "63,000+ Properties",
     },
     {
-      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgiSMhfr1LlJcuQraQeqAGmt1ma5s9tGvoVQ&s",
+      "imageUrl":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgiSMhfr1LlJcuQraQeqAGmt1ma5s9tGvoVQ&s",
       "cityName": "Pune",
       "propertyCount": "64,000+ Properties",
     },
     {
-      "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgiSMhfr1LlJcuQraQeqAGmt1ma5s9tGvoVQ&s",
+      "imageUrl":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgiSMhfr1LlJcuQraQeqAGmt1ma5s9tGvoVQ&s",
       "cityName": "Hyderabad",
       "propertyCount": "30,000+ Properties",
     },
+  ];
+  final List<Items> dummyProperties = [
+    Items(
+      title: "Luxury Apartment",
+      propertyMedia: PropertyMedia(
+        images: ["https://sitasurat.in/assets/images/about/surat-city.jpg"],
+      ),
+      address: "Ring Road",
+      city: "Surat",
+      state: "Gujarat",
+      propertyDetails: PropertyDetails(propertyBuiltUpArea: 5.8),
+    ),
+    Items(
+      title: "Luxury Apartment",
+      propertyDescription: "Pro",
+      propertyMedia: PropertyMedia(
+        images: ["https://sitasurat.in/assets/images/about/surat-city.jpg"],
+      ),
+      address: "Ring Road",
+      city: "Surat",
+      state: "Gujarat",
+      propertyDetails: PropertyDetails(propertyBuiltUpArea: 5.8),
+    ),
+    Items(
+      title: "Luxury Apartment",
+      propertyMedia: PropertyMedia(
+        images: ["https://sitasurat.in/assets/images/about/surat-city.jpg"],
+      ),
+      propertyDescription: "Pro",
+      address: "Ring Road",
+      city: "Surat",
+      state: "Gujarat",
+      propertyDetails: PropertyDetails(propertyBuiltUpArea: 5.8),
+    ),
+    Items(
+      title: "Luxury Apartment",
+      propertyMedia: PropertyMedia(
+        images: ["https://sitasurat.in/assets/images/about/surat-city.jpg"],
+      ),
+      address: "Ring Road",
+      city: "Surat",
+      state: "Gujarat",
+      propertyDetails: PropertyDetails(propertyBuiltUpArea: 5.8),
+    ),
   ];
 
   @override
@@ -106,7 +156,7 @@ class HomeScreen extends StatelessWidget {
                   // SizedBox(height: 12),
                   // FilterTagList(),
                   SizedBox(height: 10),
-              //    FilterTagList(),
+                  //    FilterTagList(),
 
                   /// Banner
                   // const SizedBox(height: 24),
@@ -146,14 +196,99 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 10),
                   Column(
                     children: [
-                      TitleWithViewAll(
-                        title: "Newly added properties",
-                        showViewAll: true,
-                        onViewAll: () => Get.to(PropertyListScreen()),
+                      Column(
+                        children: [
+                          TitleWithViewAll(
+                            title: "Newly added properties",
+                            showViewAll: true,
+                            onViewAll: () => Get.to(PropertyListScreen()),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      FutureBuilder(
+                        future: controller.loadInitial(),
+                        builder: (context, asyncSnapshot) {
+                          print(
+                            'asyncSnapshot: ${asyncSnapshot.connectionState}',
+                          );
+
+                          if (asyncSnapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            // Show loader while waiting
+                            return Center(child: CircularProgressIndicator());
+                          } else if (asyncSnapshot.hasError) {
+                            // Show error message if future fails
+                            return Center(
+                              child: Text(
+                                'Error: ${asyncSnapshot.error}',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            );
+                          } else if (asyncSnapshot.connectionState ==
+                              ConnectionState.done) {
+                            return Obx(() {
+                              if (!controller.isLoading.value &&
+                                  controller.items.isEmpty) {
+                                return const Center(
+                                  child: Text("No Property found."),
+                                );
+                              }
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                ),
+                                child: NotificationListener<ScrollNotification>(
+                                  onNotification: (scrollEnd) {
+                                    final metrics = scrollEnd.metrics;
+                                    if (metrics.atEdge && metrics.pixels != 0) {
+                                      controller.loadMore();
+                                    }
+                                    return false;
+                                  },
+                                  child: SizedBox(
+                                    height: 260,
+                                    child: ClipRRect(
+                                      child: ListView.separated(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: 10,
+                                        separatorBuilder:
+                                            (_, __) =>
+                                                const SizedBox(width: 12),
+                                        itemBuilder: (context, index) {
+                                          final data = controller.items[index];
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              vertical: 8.0,
+                                            ),
+                                            child: MediaQuery(
+                                              data: MediaQuery.of(
+                                                context,
+                                              ).copyWith(
+                                                textScaler:
+                                                    const TextScaler.linear(
+                                                      1.0,
+                                                    ),
+                                              ),
+                                              child: PropertyCard(
+                                                property: data,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            });
+                          } else {
+                            return Center(child: Text('No Property Available'));
+                          }
+                        },
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
 
                   // SizedBox(
                   //   height: 260,
@@ -177,69 +312,6 @@ class HomeScreen extends StatelessWidget {
                   //     },
                   //   ),
                   // ),
-                  FutureBuilder(
-                    future: controller.loadInitial(),
-                    builder: (context, asyncSnapshot) {
-                      print('asyncSnapshot: ${asyncSnapshot.connectionState}');
-
-                      if (asyncSnapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        // Show loader while waiting
-                        return Center(child: CircularProgressIndicator());
-                      } else if (asyncSnapshot.hasError) {
-                        // Show error message if future fails
-                        return Center(
-                          child: Text(
-                            'Error: ${asyncSnapshot.error}',
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        );
-                      } else if (asyncSnapshot.connectionState ==
-                          ConnectionState.done) {
-                        return Obx(() {
-                          if (!controller.isLoading.value &&
-                              controller.items.isEmpty) {
-                            return const Center(
-                              child: Text("No Property found."),
-                            );
-                          }
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: NotificationListener<ScrollNotification>(
-                              onNotification: (scrollEnd) {
-                                final metrics = scrollEnd.metrics;
-                                if (metrics.atEdge && metrics.pixels != 0) {
-                                  controller.loadMore();
-                                }
-                                return false;
-                              },
-                              child: SizedBox(
-                                height: 260,
-                                child: ListView.separated(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: 10,
-                                  separatorBuilder:
-                                      (_, __) => const SizedBox(width: 12),
-                                  itemBuilder: (context, index) {
-                                    final data = controller.items[index];
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0,
-                                      ),
-                                      child: PropertyCard(property: data),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          );
-                        });
-                      } else {
-                        return Center(child: Text('No Property Available'));
-                      }
-                    },
-                  ),
-
                   const SizedBox(height: 12),
 
                   TitleWithDescription(
@@ -275,35 +347,56 @@ class HomeScreen extends StatelessWidget {
 
                   const SizedBox(height: 12),
 
-                  TrendingAreaCard(),
+                  SizedBox(
+                    height: 300,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: dummyProperties.length,
+                      separatorBuilder: (_, __) => const SizedBox(width: 12),
+                      itemBuilder: (context, index) {
+                        final data = dummyProperties[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: MediaQuery(
+                            data: MediaQuery.of(context).copyWith(
+                              textScaler: const TextScaler.linear(1.0),
+                            ),
+                            // ⚡ When using dummy data (Map), adapt fields accordingly
+                            child: TopLocations(property: data),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  //TrendingAreaCard(),
+                  // buildHeadingText('Mumbai’s Rising Localities'),
+                  // SizedBox(height: 7),
+                  // buildTopProjectPriceTrends(166),
 
                   /// Filters by cities
                   const SizedBox(height: 24),
                   const TitleWithViewAll(title: "City", showViewAll: true),
                   const SizedBox(height: 12),
 
-
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
 
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     child: Row(
-                      children: cities.map((city) {
-                        return CityCard(
-                          imageUrl: city["imageUrl"],
-                          cityName: city["cityName"],
-                          propertyCount: city["propertyCount"],
-                        );
-                      }).toList(),
+                      children:
+                          cities.map((city) {
+                            return CityCard(
+                              imageUrl: city["imageUrl"],
+                              cityName: city["cityName"],
+                              propertyCount: city["propertyCount"],
+                            );
+                          }).toList(),
                     ),
-
                   ),
-
 
                   // const SizedBox(height: 12),
                   //
                   // const CityFilterList(),
-
                   const SizedBox(height: 12),
                   const SizedBox(height: 12),
                   const TitleWithViewAll(title: "Residential Properties"),
