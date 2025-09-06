@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:housing_flutter_app/data/network/auth/model/user_model.dart' show UserModel;
+import 'package:housing_flutter_app/data/network/auth/model/user_model.dart'
+    show UserModel;
 import 'package:housing_flutter_app/data/network/auth/service/auth_service.dart';
 import 'package:housing_flutter_app/data/database/secure_storage_service.dart';
 import 'package:housing_flutter_app/modules/auth/views/ResetPasswordScreen.dart';
@@ -11,6 +12,7 @@ import '../views/login_screen.dart';
 import '../views/otp_verification_screen.dart';
 
 enum AuthState { initial, authenticated, unauthenticated }
+
 enum UserRole { buyer, seller, reseller }
 
 class AuthController extends GetxController {
@@ -60,7 +62,6 @@ class AuthController extends GetxController {
   Future<void> login(String email, String password) async {
     try {
       isLoading.value = true;
-
       final user = await authService.login(email, password);
 
       await SecureStorage.saveToken(user.token!);
@@ -79,6 +80,7 @@ class AuthController extends GetxController {
         message: e.toString(),
         contentType: ContentType.failure,
       );
+      print("[Debug]-> Error: $e");
     } finally {
       isLoading.value = false;
     }
@@ -118,12 +120,7 @@ class AuthController extends GetxController {
         final token = response['data']['token'];
         await SecureStorage.saveToken(token);
 
-        Get.to(
-              () => OtpVerificationScreen(
-            phone: phone,
-            token: token,
-          ),
-        );
+        Get.to(() => OtpVerificationScreen(phone: phone, token: token));
 
         return true;
       } else {
@@ -182,7 +179,7 @@ class AuthController extends GetxController {
       isLoading.value = false;
 
       Get.to(
-            () => OtpVerificationScreen(
+        () => OtpVerificationScreen(
           phone: id,
           token: token,
           isPasswordReset: true,
@@ -208,7 +205,10 @@ class AuthController extends GetxController {
   Future<void> verifyPasswordResetOtp(String otp, String token) async {
     try {
       isLoading.value = true;
-      final newResetToken = await authService.verifyPasswordResetOtp(otp, token);
+      final newResetToken = await authService.verifyPasswordResetOtp(
+        otp,
+        token,
+      );
       resetToken.value = newResetToken;
 
       Get.to(() => ResetPasswordScreen());
@@ -236,13 +236,17 @@ class AuthController extends GetxController {
       }
 
       isLoading.value = true;
-      await authService.resetPassword(newPasswordController.text, resetToken.value);
+      await authService.resetPassword(
+        newPasswordController.text,
+        resetToken.value,
+      );
 
       Get.offAll(() => LoginScreen());
 
       NesticoPeSnackBar.showAwesomeSnackbar(
         title: 'Success',
-        message: 'Password reset successful. Please login with your new password.',
+        message:
+            'Password reset successful. Please login with your new password.',
         contentType: ContentType.success,
       );
     } catch (e) {

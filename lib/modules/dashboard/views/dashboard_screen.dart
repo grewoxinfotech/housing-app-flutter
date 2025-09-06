@@ -7,6 +7,7 @@ import '../../../widgets/drawer/drawer.dart';
 import 'package:get/get.dart';
 
 import '../../home/views/home_screen.dart';
+import '../../saved_property/views/saved_property_screen.dart';
 
 // class HomeScreen extends StatefulWidget {
 //   const HomeScreen({Key? key}) : super(key: key);
@@ -471,9 +472,9 @@ class DashboardScreen extends StatelessWidget {
         } else if (navigationController.currentIndex.value == 2) {
           return Center(child: Text("No Update"));
         } else if (navigationController.currentIndex.value == 3) {
-          return Center(child: Text("No Update"));
+          return SavedPropertyScreen();
         } else if (navigationController.currentIndex.value == 4) {
-          return Center(child: Text("No Update"));
+          return SavedPropertyScreen();
         } else {
           return SizedBox();
         }

@@ -18,7 +18,7 @@ class NesticoPeNavigationBar extends StatelessWidget {
     double iconSize = 18;
 
     return Obx(
-          () => Card(
+      () => Card(
         elevation: 5,
         shadowColor: Get.theme.colorScheme.surface,
         color: Get.theme.colorScheme.surface,
@@ -35,7 +35,9 @@ class NesticoPeNavigationBar extends StatelessWidget {
           alignment: Alignment.center,
           child: SalomonBottomBar(
             duration: const Duration(milliseconds: 400),
-            unselectedItemColor: Get.theme.colorScheme.onSurface.withOpacity(0.7),
+            unselectedItemColor: Get.theme.colorScheme.onSurface.withOpacity(
+              0.7,
+            ),
             margin: const EdgeInsets.all(AppPadding.small),
             itemShape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppRadius.large),
@@ -61,7 +63,7 @@ class NesticoPeNavigationBar extends StatelessWidget {
 
               SalomonBottomBarItem(
                 icon: Icon(FontAwesomeIcons.google, size: iconSize),
-                title: Text("google", style: style),
+                title: Text("Saved", style: style),
               ),
             ],
           ),

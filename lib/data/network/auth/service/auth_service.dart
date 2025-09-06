@@ -17,11 +17,13 @@ class AuthService {
 
   // Login
   Future<UserModel> login(String email, String password) async {
+    print("[DEBUG]=> $email $password");
     final response = await http.post(
       Uri.parse(ApiConstants.loginEndpoint),
       headers: {i: j},
       body: jsonEncode({'id': email, 'password': password}),
     );
+    print("[DEBUG]=> $response");
 
     final data = jsonDecode(response.body);
 

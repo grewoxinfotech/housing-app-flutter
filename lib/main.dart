@@ -3,10 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:housing_flutter_app/modules/auth/views/splash_screen.dart';
 import 'package:housing_flutter_app/app/services/network_status_service.dart';
-import 'package:provider/provider.dart';
+
 import 'package:housing_flutter_app/modules/auth/controllers/auth_controller.dart';
+import 'package:housing_flutter_app/modules/dashboard/views/dashboard_screen.dart';
 
 import 'app/theme/themes.dart' as AppTheme;
+import 'modules/saved_property/views/saved_property_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

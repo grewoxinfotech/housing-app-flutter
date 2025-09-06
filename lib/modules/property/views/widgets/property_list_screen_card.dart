@@ -169,15 +169,16 @@ class PropertyListScreenCard extends StatelessWidget {
                           width: MediaQuery.of(context).size.width / 4.5,
                           child: Column(
                             children: [
-                              Text(
-                                items!.propertyDetails!.propertyBuiltUpArea!
-                                    .toString(),
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
+                              if (items?.propertyDetails?.propertyBuiltUpArea !=
+                                  null)
+                                Text(
+                                  "${items!.propertyDetails!.propertyBuiltUpArea} sq.ft",
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
                               SizedBox(
                                 width: 80,
                                 child: Text(
@@ -213,18 +214,23 @@ class PropertyListScreenCard extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text(
-                                items!
-                                    .propertyDetails!
-                                    .furnishInfo!
-                                    .furnishType!,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey[700],
+                              if (items
+                                      ?.propertyDetails
+                                      ?.furnishInfo
+                                      ?.furnishType !=
+                                  null)
+                                Text(
+                                  items!
+                                      .propertyDetails!
+                                      .furnishInfo!
+                                      .furnishType!,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey[700],
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                textAlign: TextAlign.center,
-                                overflow: TextOverflow.ellipsis,
-                              ),
                             ],
                           ),
                         ),
