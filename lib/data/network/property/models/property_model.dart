@@ -1032,8 +1032,6 @@ class PropertyDetails {
   }
 }
 
-// Continue similarly for FloorInfo, FurnishInfo, FurnishDetails, ParkingInfo, FinancialInfo, PossessionInfo, Location, NearbyLocations
-
 class FloorInfo {
   int? floorNumber;
   int? totalFloors;

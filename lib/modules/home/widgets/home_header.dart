@@ -52,16 +52,28 @@ class _HomeHeaderState extends State<HomeHeader> {
             padding: const EdgeInsets.symmetric(vertical: 12),
             //color: ColorRes.primary.withOpacity(1),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: [0.2, 0.8, 1.0],
-                colors: [
-                  ColorRes.primary.withOpacity(0.10),
-                  ColorRes.primary.withOpacity(0.15),
-                  ColorRes.primary.withOpacity(0.25),
-                ],
-              ),
+              color:  ColorRes.primary.withOpacity(0.10),
+              // gradient: LinearGradient(
+              //   begin: Alignment.topCenter,
+              //   end: Alignment.bottomCenter,
+              //   // stops: [0.2, 0.8, 1.0],
+              //   // colors: [
+              //   //   ColorRes.white,
+              //   //   ColorRes.primary.withOpacity(0.5),
+              //   //   ColorRes.primary.withOpacity(0.10),
+              //   // ],
+              //
+              //       // stops: [0.0, 0.3, 1.0], // control smoothness
+              //       colors: [
+              //         // Colors.,
+              //         // ColorRes.success.withOpacity(0.4), // soft transition
+              //         ColorRes.primary,                  // solid bottom
+              //       ],
+              //
+              //
+              //
+              //
+              // ),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
