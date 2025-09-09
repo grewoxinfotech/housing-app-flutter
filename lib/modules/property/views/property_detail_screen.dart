@@ -15,6 +15,7 @@ import '../../../data/network/property/models/property_model.dart';
 
 class PropertyDetailScreen extends StatelessWidget {
   final Items? property;
+
   const PropertyDetailScreen({super.key, this.property});
 
   @override
@@ -35,15 +36,15 @@ class PropertyDetailScreen extends StatelessWidget {
               Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
               SizedBox(height: 12),
-              TitleWithViewAll(title: 'Highlights'),
+              TitleWithViewAll(title: 'Facilities'),
               SizedBox(height: 18),
-              HighLights(property: property ?? Items()),
-              SizedBox(height: 12),
+              Facilities(property: property ?? Items()),
+              SizedBox(height: 6),
               Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
               SizedBox(height: 12),
               TitleWithViewAll(title: 'Property Details'),
-              SizedBox(height: 18),
+              SizedBox(height: 12),
               Details(property: property!),
               SizedBox(height: 12),
               Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
@@ -51,18 +52,18 @@ class PropertyDetailScreen extends StatelessWidget {
               if (property?.propertyDetails?.amenities != null) ...[
                 SizedBox(height: 12),
                 TitleWithViewAll(title: 'Amenities'),
-                SizedBox(height: 18),
+                SizedBox(height: 8),
                 AmenitiesSection(
                   amenities: property!.propertyDetails!.amenities ?? [],
                 ),
-                SizedBox(height: 12),
+                SizedBox(height: 8),
                 Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
               ],
 
               if (property?.propertyDescription != null) ...[
                 SizedBox(height: 12),
                 TitleWithViewAll(title: 'Description'),
-                SizedBox(height: 18),
+                SizedBox(height: 12),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
@@ -76,14 +77,14 @@ class PropertyDetailScreen extends StatelessWidget {
 
               SizedBox(height: 12),
               TitleWithViewAll(title: 'Location'),
-              SizedBox(height: 18),
+              SizedBox(height: 12),
               AddressAndMapDetails(property: property!),
               SizedBox(height: 12),
               Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
-              SizedBox(height: 12),
+              SizedBox(height: 8),
               TitleWithViewAll(title: 'Nearby Locations'),
-              SizedBox(height: 18),
+              SizedBox(height: 12),
               if (property?.nearbyLocations != null)
                 NearbyPropertyDetails(
                   nearbyLocations: property?.nearbyLocations ?? [],
@@ -93,10 +94,10 @@ class PropertyDetailScreen extends StatelessWidget {
 
               SizedBox(height: 12),
               TitleWithViewAll(title: 'Owner Details'),
-              SizedBox(height: 18),
-              OwnerInformation(property: property!),
               SizedBox(height: 12),
-              const SizedBox(height: 36), // Extra spacing at bottom
+              OwnerInformation(property: property!),
+              //SizedBox(height: 12),
+              //const SizedBox(height: 12), // Extra spacing at bottom
             ],
           ),
         ),
@@ -226,7 +227,7 @@ class PropertyDetailScreen extends StatelessWidget {
           return Stack(
             children: [
               SizedBox(
-                height: 350,
+                height: 300,
                 width: double.infinity,
                 child: PageView.builder(
                   controller: _pageController,
@@ -339,34 +340,52 @@ class PropertyDetailScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Price
-          Text(
-            property.propertyDetails?.financialInfo?.price?.toString() ?? '0',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
-            ),
-          ),
-          const SizedBox(height: 4),
-
-          // Property Title
-          Text(
-            property.title ?? "-",
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              color: ColorRes.textPrimary,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 4),
-
-          // Location Row
+          // Title + ⭐ Rating Row
           Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
             children: [
-              Icon(Icons.location_on, size: 16, color: Color(0xFF2563EB)),
+              // Title
+              Expanded(
+                child: Text(
+                  property.title ?? "-",
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                    color: ColorRes.textPrimary,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+
+              const SizedBox(width: 8),
+
+              // ⭐ Rating
+              Row(
+                children: [
+                  Icon(Icons.star, size: 16, color: Colors.amber),
+                  const SizedBox(width: 4),
+                  Text(
+                    "4.5",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 4),
+
+          // 📍 Location Row (icon aligned with title start)
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(Icons.location_on_rounded, size: 16, color: Colors.grey[600]),
               const SizedBox(width: 4),
               Expanded(
                 child: Text(
@@ -378,9 +397,9 @@ class PropertyDetailScreen extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
 
-          // Type + See on Map Row (aligned with start)
+          // Type + See on Map Row
           Row(
             children: [
               // Type Chip
@@ -624,7 +643,10 @@ class PropertyBottomBar extends StatelessWidget {
             children: [
               SizedBox(
                 width: 140,
-                child: NesticoPeButton(onTap: onCallOwner, title: "View Contact"),
+                child: NesticoPeButton(
+                  onTap: onCallOwner,
+                  title: "View Contact",
+                ),
               ),
               SizedBox(width: 6),
               SizedBox(
@@ -653,8 +675,8 @@ class PropertyBottomBar extends StatelessWidget {
   }
 }
 
-// class HighLights extends StatelessWidget {
-//   HighLights({super.key});
+// class Facilities extends StatelessWidget {
+//   Facilities({super.key});
 //
 //   final List<String> labels = [
 //     'Fully furnished',
@@ -685,7 +707,7 @@ class PropertyBottomBar extends StatelessWidget {
 //           children: List.generate(labels.length, (index) {
 //             return Padding(
 //               padding: const EdgeInsets.only(right: 12),
-//               child: HighLightsCard(
+//               child: FacilitiesCard(
 //                 label: labels[index],
 //                 icon: icons[index],
 //                 bgColor: bgColor,
@@ -699,12 +721,12 @@ class PropertyBottomBar extends StatelessWidget {
 //   }
 // }
 
-class HighLights extends StatelessWidget {
+class Facilities extends StatelessWidget {
   final Items property;
   final Color bgColor;
   final Color txtColor;
 
-  HighLights({
+  Facilities({
     super.key,
     required this.property,
     this.bgColor = const Color(0xFFDBEAFE),
@@ -740,35 +762,81 @@ class HighLights extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           children:
-              highlights.map((item) {
-                final key = item.keys.first;
-                final value = item.values.first;
-                final icon = iconMap[key] ?? Icons.info_outline;
+          highlights.map((item) {
+            final key = item.keys.first;
+            final value = item.values.first;
+            final icon = iconMap[key] ?? Icons.info_outline;
 
-                return Padding(
-                  padding: const EdgeInsets.only(right: 12),
-                  child: HighLightsCard(
-                    label: "$value",
-                    icon: icon,
-                    bgColor: bgColor,
-                    foreColor: txtColor,
-                  ),
-                );
-              }).toList(),
+            return Padding(
+              padding: const EdgeInsets.only(right: 12),
+              child: FacilitiesCard(
+                label: "$value",
+                icon: icon,
+                bgColor: bgColor,
+                foreColor: txtColor,
+              ),
+            );
+          }).toList(),
         ),
       ),
     );
   }
 }
 
-// Example of HighLightsCard widget
-// class HighLightsCard extends StatelessWidget {
+class FacilitiesCard extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final Color bgColor;
+  final Color foreColor;
+
+  const FacilitiesCard({
+    Key? key,
+    required this.label,
+    required this.icon,
+    required this.bgColor,
+    required this.foreColor,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey.shade300, width: 1),
+        borderRadius: BorderRadius.circular(12), // Rounded like screenshot
+        color: Colors.white, // Background white
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 16,
+            color: Colors.grey.shade800, // Dark grey icons
+          ),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: Colors.grey.shade800, // Dark grey text
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// Example of FacilitiesCard widget
+// class FacilitiesCard extends StatelessWidget {
 //   final String label;
 //   final IconData icon;
 //   final Color bgColor;
 //   final Color foreColor;
 //
-//   const HighLightsCard({
+//   const FacilitiesCard({
 //     super.key,
 //     required this.label,
 //     required this.icon,
@@ -802,50 +870,7 @@ class HighLights extends StatelessWidget {
 //   }
 // }
 
-class HighLightsCard extends StatelessWidget {
-  final String label;
-  final IconData icon;
-  final Color? bgColor, foreColor;
 
-  const HighLightsCard({
-    super.key,
-    required this.label,
-    required this.icon,
-    this.bgColor,
-    this.foreColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 80,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            height: 50,
-            width: 50,
-            decoration: BoxDecoration(
-              color: bgColor,
-              borderRadius: BorderRadius.circular(AppRadius.extraLarge),
-            ),
-            child: Center(child: Icon(icon, color: foreColor)),
-          ),
-          SizedBox(height: 8),
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: foreColor,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 // class Details extends StatelessWidget {
 //   Details({super.key});
@@ -1030,6 +1055,7 @@ class AmenitiesSection extends StatelessWidget {
 
 class AddressAndMapDetails extends StatelessWidget {
   final Items property;
+
   const AddressAndMapDetails({super.key, required this.property});
 
   @override
@@ -1056,6 +1082,7 @@ class AddressAndMapDetails extends StatelessWidget {
 
 class NearbyPropertyDetails extends StatelessWidget {
   final List<NearbyLocations> nearbyLocations;
+
   NearbyPropertyDetails({super.key, required this.nearbyLocations});
 
   final List<Map<String, String>> nearby = [
@@ -1104,6 +1131,7 @@ class NearbyPropertyDetails extends StatelessWidget {
 
 class OwnerInformation extends StatelessWidget {
   final Items property;
+
   const OwnerInformation({super.key, required this.property});
 
   @override
@@ -1132,7 +1160,7 @@ class OwnerInformation extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          property.ownerName ?? "Anita Desai",
+                          property.ownerName ?? "-",
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,

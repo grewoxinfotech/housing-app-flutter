@@ -49,6 +49,7 @@ class ApiConstants {
 
   static Future<Map<String, String>> getHeaders() async {
     final token = await SecureStorage.getToken();
+    print("header_token: $token");
     return {contentType: applicationJson, authorization: "Bearer $token"};
   }
 } 

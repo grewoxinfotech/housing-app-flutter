@@ -99,13 +99,13 @@ class _PropertyCardState extends State<PropertyCard> {
                         horizontal: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: ColorRes.primary.withOpacity(0.9),
+                        color: ColorRes.white,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
                         widget.property.listingType ?? '-',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: ColorRes.primary,
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                         ),
@@ -261,12 +261,15 @@ class _PropertyCardState extends State<PropertyCard> {
 
                     Row(
                       children: [
-                        const Icon(
-                          Icons.location_on,
-                          size: 14,
-                          color: ColorRes.primary,
+                        Transform.translate(
+                          offset: const Offset(-2, 0), // move left by 2px
+                          child: const Icon(
+                            Icons.location_on_rounded,
+                            size: 14,
+                            color: ColorRes.grey,
+                          ),
                         ),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: 3),
                         Expanded(
                           child: Text(
                             widget.property.address ?? '-',

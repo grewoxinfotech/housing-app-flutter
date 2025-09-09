@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -14,11 +13,12 @@ import 'package:housing_flutter_app/modules/home/widgets/top_locations.dart';
 import 'package:housing_flutter_app/modules/property/controllers/property_controller.dart';
 import 'package:housing_flutter_app/modules/property/views/property_list_screen.dart';
 import 'package:housing_flutter_app/modules/property/views/widgets/property_card.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../../app/constants/color_res.dart';
 
 class HomeScreen extends StatelessWidget {
-
-
   HomeScreen({super.key});
 
   static final List<String> images = [
@@ -73,14 +73,13 @@ class HomeScreen extends StatelessWidget {
     },
   ];
 
-
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => PropertyController());
     final PropertyController controller = Get.find();
     return Scaffold(
-      // backgroundColor: Colors.white,
       body: SafeArea(
+        // backgroundColor: Colors.white,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
@@ -480,6 +479,18 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
+
+              SizedBox(height: 12),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: ReferralCard(referralCode: "089548"),
+              ),
+              SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: CustomerSupport(phoneNumber: "+912345654323"),
+              ),
+              SizedBox(height: 80),
             ],
           ),
         ),
@@ -906,3 +917,153 @@ final List<String> propertyPercentage = [
   "9.0",
   "16.8",
 ];
+
+class ReferralCard extends StatelessWidget {
+  final String referralCode;
+
+  const ReferralCard({Key? key, required this.referralCode}) : super(key: key);
+
+  void _shareReferral(BuildContext context) {
+    final String shareText =
+        "Hey! Use my referral code 👉 $referralCode to sign up and enjoy benefits! \n\nDownload the app here: https://example.com/app";
+
+    Share.share(shareText, subject: "Join with my referral code");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: Card(
+        elevation: 6,
+        color: ColorRes.primary.withOpacity(0.9),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Refer Friends",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: ColorRes.white,
+                ),
+              ),
+              SizedBox(height: 10),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.75,
+                child: Text(
+                  "Share app and help your friends discover great real estate options!",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                    color: ColorRes.white,
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+              ElevatedButton.icon(
+                onPressed: () => _shareReferral(context),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 12,
+                  ),
+                ),
+                icon: const Icon(Icons.share),
+                label: Text(
+                  "Share Code",
+                  style: TextStyle(color: ColorRes.primary),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomerSupport extends StatelessWidget {
+  final String phoneNumber;
+
+  const CustomerSupport({Key? key, required this.phoneNumber})
+    : super(key: key);
+
+  Future<void> _callSupport() async {
+    final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
+
+    if (!await launchUrl(
+      launchUri,
+      mode: LaunchMode.externalNonBrowserApplication, // 👈 important
+    )) {
+      throw "Could not launch dialer for $phoneNumber";
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: Card(
+        elevation: 6,
+        color: Colors.yellow.shade900,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Customer Support",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.75,
+                child: const Text(
+                  "Need help? Call our support team for assistance anytime.",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton.icon(
+                onPressed: _callSupport,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.yellow.shade900,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 12,
+                  ),
+                ),
+                icon: Icon(Icons.call, color: Colors.yellow.shade900),
+                label: Text(
+                  "Call Support",
+                  style: TextStyle(color: Colors.yellow.shade900),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

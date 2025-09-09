@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/widgets/input/custom_text_field.dart';
@@ -45,14 +47,51 @@ class _HomeHeaderState extends State<HomeHeader> {
           //   height: 220,
           //   fit: BoxFit.cover,
           // ),
+          SizedBox(
+            width: double.infinity,
+            height: 230,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                // Background Image
+                Image.network(
+                  widget.backgroundImage,
+                  width: double.infinity,
+                  height: 230,
+                  fit: BoxFit.cover,
+                ),
+
+                // Gradient overlay (transparent → black)
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.transparent, // top
+                        ColorRes.grey.withOpacity(0.5), // bottom
+                      ],
+                      stops: [0.0, 1.0], // smooth transition
+                    ),
+                  ),
+                ),
+                BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 0.5, sigmaY: 0.5),
+                  // 👈 blur intensity
+                  child: Container(color: Colors.transparent),
+                ),
+              ],
+            ),
+          ),
+
           // Overlay content
           Container(
-            height: 220,
+            height: 230,
 
-            padding: const EdgeInsets.symmetric(vertical: 12),
+            padding: const EdgeInsets.symmetric(vertical: 20),
             //color: ColorRes.primary.withOpacity(1),
             decoration: BoxDecoration(
-              color:  ColorRes.primary.withOpacity(0.10),
+              color: Colors.blueGrey.withOpacity(0.2),
               // gradient: LinearGradient(
               //   begin: Alignment.topCenter,
               //   end: Alignment.bottomCenter,
@@ -98,13 +137,13 @@ class _HomeHeaderState extends State<HomeHeader> {
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                  color: ColorRes.primary,
+                                  color: ColorRes.white,
                                 ),
                               ),
                             ),
                             const Icon(
                               Icons.keyboard_arrow_down,
-                              color: Colors.black,
+                              color: Colors.white,
                             ),
                           ],
                         ),
@@ -130,28 +169,33 @@ class _HomeHeaderState extends State<HomeHeader> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 16),
                 // Search Bar
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                // Container(
+                //   padding: const EdgeInsets.symmetric(horizontal: 12),
+                //
+                //   child: CustomTextField(
+                //     controller: TextEditingController(),
+                //     hintText: "Search for City, locality or property",
+                //     prefixIcon: Icons.search,
+                //     radius: 16,
+                //     suffixIcon: IconButton(
+                //       icon: const Icon(Icons.clear),
+                //       onPressed: () {
+                //         print("Clear button pressed");
+                //       },
+                //     ),
+                //     onChanged: (value) {
+                //       print("Searching: $value");
+                //     },
+                //   ),
+                // ),
 
-                  child: CustomTextField(
-                    controller: TextEditingController(),
-                    hintText: "Search for City, locality or property",
-                    prefixIcon: Icons.search,
-                    radius: 16,
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: () {
-                        print("Clear button pressed");
-                      },
-                    ),
-                    onChanged: (value) {
-                      print("Searching: $value");
-                    },
-                  ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: buildPositionedTextField(context),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 16),
                 // Property Type Tags (Scrollable horizontally, no side padding)
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -176,7 +220,10 @@ class _HomeHeaderState extends State<HomeHeader> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor:
                                   isSelected ? Colors.white : Colors.white,
-                              foregroundColor: isSelected ? ColorRes.primary : ColorRes.black,
+                              foregroundColor:
+                                  isSelected
+                                      ? ColorRes.primary
+                                      : ColorRes.black,
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 12,
                                 vertical: 10,
@@ -228,3 +275,28 @@ class _HomeHeaderState extends State<HomeHeader> {
     );
   }
 }
+
+
+Widget buildPositionedTextField(BuildContext context) {
+  return GestureDetector(
+    onTap: () {
+    },
+    child: CustomTextField(
+      suffixIcon: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        child: const Icon(Icons.search, color: Colors.black, size: 25),
+      ),
+      prefixIcon:
+        Icons.my_location,
+      controller: TextEditingController(),
+      hintText: 'Surat , Gujarat , 395010',
+
+    ),
+  );
+}
+
+
+
+
+
+

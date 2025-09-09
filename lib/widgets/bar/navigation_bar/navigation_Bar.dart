@@ -47,23 +47,28 @@ class NesticoPeNavigationBar extends StatelessWidget {
             onTap: (i) => controller.changeIndex(i),
             items: [
               SalomonBottomBarItem(
-                icon: Icon(FontAwesomeIcons.instagram, size: iconSize),
-                title: Text("Instagram", style: style),
+                icon: Icon(Icons.home, size: iconSize),
+                title: Text("Home", style: style),
               ),
 
               SalomonBottomBarItem(
-                icon: Icon(FontAwesomeIcons.whatsapp, size: iconSize),
-                title: Text("whatsapp", style: style),
+                icon: Icon(Icons.explore, size: iconSize),
+                title: Text("Explore", style: style),
               ),
 
               SalomonBottomBarItem(
-                icon: Icon(FontAwesomeIcons.facebookF, size: iconSize),
-                title: Text("facebook", style: style),
+                icon: Icon(FontAwesomeIcons.heart, size: iconSize),
+                title: Text("Wishlist", style: style),
               ),
 
               SalomonBottomBarItem(
-                icon: Icon(FontAwesomeIcons.google, size: iconSize),
-                title: Text("Saved", style: style),
+                icon: Icon(FontAwesomeIcons.message, size: iconSize),
+                title: Text("Message", style: style),
+              ),
+
+              SalomonBottomBarItem(
+                icon: Icon(FontAwesomeIcons.user, size: iconSize),
+                title: Text("Profile", style: style),
               ),
             ],
           ),

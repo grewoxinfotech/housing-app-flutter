@@ -4,6 +4,8 @@ import 'package:housing_flutter_app/app/constants/api_constants.dart';
 import 'package:housing_flutter_app/data/network/property/models/property_model.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../database/secure_storage_service.dart';
+
 class PropertyService {
   final String baseUrl = ApiConstants.baseURL + "/property";
 
@@ -60,10 +62,13 @@ class PropertyService {
       final uri = Uri.parse(baseUrl).replace(queryParameters: queryParameters);
       final response = await http.get(uri, headers: await headers());
 
+
+
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
 
         print("data: $data");
+
 
         return PaginationResponse<Items>.fromJson(
           data,

@@ -29,7 +29,7 @@ class CustomTextField extends StatelessWidget {
     this.onChanged,
     this.maxLines = 1,
     this.textCapitalization = TextCapitalization.none, // Add with default
-    this.radius = 8.0,
+    this.radius = 16.0,
   }) : super(key: key);
 
   @override

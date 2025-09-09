@@ -469,11 +469,16 @@ class DashboardScreen extends StatelessWidget {
           return HomeScreen();
         } else if (navigationController.currentIndex.value == 1) {
           return Center(child: NesticoPeDeleteDialog());
-        } else if (navigationController.currentIndex.value == 2) {
+        }
+          else if (navigationController.currentIndex.value == 2) {
+          return Center(child: Text("No Update") );
+
+        }
+        else if (navigationController.currentIndex.value == 3) {
           return Center(child: Text("No Update"));
-        } else if (navigationController.currentIndex.value == 3) {
-          return SavedPropertyScreen();
         } else if (navigationController.currentIndex.value == 4) {
+          return SavedPropertyScreen();
+        } else if (navigationController.currentIndex.value == 5) {
           return SavedPropertyScreen();
         } else {
           return SizedBox();

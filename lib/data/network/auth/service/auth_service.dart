@@ -23,7 +23,7 @@ class AuthService {
       headers: {i: j},
       body: jsonEncode({'id': email, 'password': password}),
     );
-    print("[DEBUG]=> $response");
+    print("[DEBUG]=> ${response.body}");
 
     final data = jsonDecode(response.body);
 

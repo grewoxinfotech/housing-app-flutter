@@ -41,21 +41,45 @@ class _SplashScreenState extends State<SplashScreen>
     super.dispose();
   }
 
+  // void splash() async {
+  //   await Future.delayed(const Duration(seconds: 1));
+  //   bool isLogin = await SecureStorage.getLoggedIn();
+  //   String? token = await SecureStorage.getToken();
+  //
+  //   print("DEBUG >> isLogin=$isLogin, token=$token");
+  //
+  //   if (isLogin == true && token != null && token.isNotEmpty) {
+  //     Get.offAll(() => const DashboardScreen());
+  //     print("dashboard_old_token $token");
+  //   } else {
+  //     Get.offAll(() => const LoginScreen());
+  //     print("login_new_token $token");
+  //   }
+  // }
+
+
   void splash() async {
     await Future.delayed(const Duration(seconds: 1));
+
     bool isLogin = await SecureStorage.getLoggedIn();
     String? token = await SecureStorage.getToken();
 
     print("DEBUG >> isLogin=$isLogin, token=$token");
 
     if (isLogin == true && token != null && token.isNotEmpty) {
-      Get.offAll(() => const DashboardScreen());
-      print("dashboard_old_token $token");
+      if (isLogin == true && token != null && token.isNotEmpty) {
+        // ✅ Token exists, go to dashboard
+        Get.offAll(() => const DashboardScreen());
+      } else {
+        // ❌ No token, go to login
+        Get.offAll(() => const LoginScreen());
+      }
     } else {
       Get.offAll(() => const LoginScreen());
       print("login_new_token $token");
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

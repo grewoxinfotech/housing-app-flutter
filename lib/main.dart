@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:housing_flutter_app/data/database/secure_storage_service.dart';
+import 'package:housing_flutter_app/modules/auth/views/login_screen.dart';
 import 'package:housing_flutter_app/modules/auth/views/splash_screen.dart';
 import 'package:housing_flutter_app/app/services/network_status_service.dart';
 
@@ -21,17 +23,16 @@ void main() async {
   );
 
   await Get.putAsync(() => NetworkStatusService().init());
-
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      home: SplashScreen(),
+      home: DashboardScreen(),
       builder: (context, child) {
         final mediaQuery = MediaQuery.of(context);
         return MediaQuery(
           data: mediaQuery.copyWith(
-            textScaler: const TextScaler.linear(1.0), // 🔒 Lock font scaling
+            textScaler: const TextScaler.linear(1.0), // Lock font scaling
           ),
           child: child!,
         );
