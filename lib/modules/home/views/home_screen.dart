@@ -20,6 +20,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../app/constants/color_res.dart';
 
 class HomeScreen extends StatelessWidget {
+  final PropertyController controller = Get.put(PropertyController());
   HomeScreen({super.key});
 
   static final List<String> images = [
@@ -80,8 +81,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => PropertyController());
-    final PropertyController controller = Get.find();
+    // Get.lazyPut(() => PropertyController());
+    // final PropertyController controller = Get.find();
     return Scaffold(
       body: SafeArea(
         // backgroundColor: Colors.white,
@@ -152,87 +153,146 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 12),
-                      FutureBuilder(
-                        future: controller.loadInitial(),
-                        builder: (context, asyncSnapshot) {
-                          print(
-                            'asyncSnapshot: ${asyncSnapshot.connectionState}',
-                          );
 
-                          if (asyncSnapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            // Show loader while waiting
-                            return Center(child: CircularProgressIndicator());
-                          } else if (asyncSnapshot.hasError) {
-                            // Show error message if future fails
-                            return Center(
-                              child: Text(
-                                'Error: ${asyncSnapshot.error}',
-                                style: TextStyle(color: Colors.red),
-                              ),
-                            );
-                          } else if (asyncSnapshot.connectionState ==
-                              ConnectionState.done) {
-                            return Obx(() {
-                              if (!controller.isLoading.value &&
-                                  controller.items.isEmpty) {
-                                return const Center(
-                                  child: Text("No Property found."),
-                                );
+                      // FutureBuilder(
+                      //   future: controller.loadInitial(),
+                      //   builder: (context, asyncSnapshot) {
+                      //     print(
+                      //       'asyncSnapshot: ${asyncSnapshot.connectionState}',
+                      //     );
+                      //
+                      //     if (asyncSnapshot.connectionState ==
+                      //         ConnectionState.waiting) {
+                      //       // Show loader while waiting
+                      //       return Center(child: CircularProgressIndicator());
+                      //     } else if (asyncSnapshot.hasError) {
+                      //       // Show error message if future fails
+                      //       return Center(
+                      //         child: Text(
+                      //           'Error: ${asyncSnapshot.error}',
+                      //           style: TextStyle(color: Colors.red),
+                      //         ),
+                      //       );
+                      //     } else if (asyncSnapshot.connectionState ==
+                      //         ConnectionState.done) {
+                      //       return Obx(() {
+                      //         if (!controller.isLoading.value &&
+                      //             controller.items.isEmpty) {
+                      //           return const Center(
+                      //             child: Text("No Property found."),
+                      //           );
+                      //         }
+                      //         return Padding(
+                      //           padding: const EdgeInsets.symmetric(
+                      //             horizontal: 12,
+                      //           ),
+                      //           child: NotificationListener<ScrollNotification>(
+                      //             onNotification: (scrollEnd) {
+                      //               final metrics = scrollEnd.metrics;
+                      //               if (metrics.atEdge && metrics.pixels != 0) {
+                      //                 controller.loadMore();
+                      //               }
+                      //               return false;
+                      //             },
+                      //             child: SizedBox(
+                      //               height: 260,
+                      //               child: ClipRRect(
+                      //                 child: ListView.separated(
+                      //                   scrollDirection: Axis.horizontal,
+                      //                   itemCount: controller.items.length,
+                      //                   separatorBuilder:
+                      //                       (_, __) =>
+                      //                           const SizedBox(width: 12),
+                      //                   itemBuilder: (context, index) {
+                      //                     final data = controller.items[index];
+                      //                     return Padding(
+                      //                       padding: const EdgeInsets.symmetric(
+                      //                         vertical: 8.0,
+                      //                       ),
+                      //                       child: MediaQuery(
+                      //                         data: MediaQuery.of(
+                      //                           context,
+                      //                         ).copyWith(
+                      //                           textScaler:
+                      //                               const TextScaler.linear(
+                      //                                 1.0,
+                      //                               ),
+                      //                         ),
+                      //                         child: PropertyCard(
+                      //                           property: data,
+                      //                         ),
+                      //                       ),
+                      //                     );
+                      //                   },
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //           ),
+                      //         );
+                      //       });
+                      //     } else {
+                      //       return Center(child: Text('No Property Available'));
+                      //     }
+                      //   },
+                      // ),
+                      Obx(() {
+                        if (controller.isLoading.value &&
+                            controller.items.isEmpty) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        if (!controller.isLoading.value &&
+                            controller.items.isEmpty) {
+                          return const Center(
+                            child: Text("No Property found."),
+                          );
+                        }
+
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: NotificationListener<ScrollNotification>(
+                            onNotification: (scrollEnd) {
+                              final metrics = scrollEnd.metrics;
+                              if (metrics.atEdge && metrics.pixels != 0) {
+                                controller.loadMore(); // pagination trigger
                               }
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                ),
-                                child: NotificationListener<ScrollNotification>(
-                                  onNotification: (scrollEnd) {
-                                    final metrics = scrollEnd.metrics;
-                                    if (metrics.atEdge && metrics.pixels != 0) {
-                                      controller.loadMore();
+                              return false;
+                            },
+                            child: SizedBox(
+                              height: 260,
+                              child: ClipRRect(
+                                child: ListView.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: controller.items.length,
+                                  separatorBuilder:
+                                      (_, __) => const SizedBox(width: 12),
+                                  itemBuilder: (context, index) {
+                                    if (index >= controller.items.length) {
+                                      return const SizedBox(); // ✅ safeguard
                                     }
-                                    return false;
-                                  },
-                                  child: SizedBox(
-                                    height: 260,
-                                    child: ClipRRect(
-                                      child: ListView.separated(
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: controller.items.length,
-                                        separatorBuilder:
-                                            (_, __) =>
-                                                const SizedBox(width: 12),
-                                        itemBuilder: (context, index) {
-                                          final data = controller.items[index];
-                                          return Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                            ),
-                                            child: MediaQuery(
-                                              data: MediaQuery.of(
-                                                context,
-                                              ).copyWith(
-                                                textScaler:
-                                                    const TextScaler.linear(
-                                                      1.0,
-                                                    ),
-                                              ),
-                                              child: PropertyCard(
-                                                property: data,
-                                              ),
-                                            ),
-                                          );
-                                        },
+                                    final data = controller.items[index];
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0,
                                       ),
-                                    ),
-                                  ),
+                                      child: MediaQuery(
+                                        data: MediaQuery.of(context).copyWith(
+                                          textScaler: const TextScaler.linear(
+                                            1.0,
+                                          ),
+                                        ),
+                                        child: PropertyCard(property: data),
+                                      ),
+                                    );
+                                  },
                                 ),
-                              );
-                            });
-                          } else {
-                            return Center(child: Text('No Property Available'));
-                          }
-                        },
-                      ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
                     ],
                   ),
 
@@ -259,7 +319,8 @@ class HomeScreen extends StatelessWidget {
                               imageUrl: banners[index],
                               price: "₹1.25Cr",
                               location: "Mota varacha, Surat",
-                              propertySize: "3 / 4 BHK, 1250 sqft, Semi-Furnished",
+                              propertySize:
+                                  "3 / 4 BHK, 1250 sqft, Semi-Furnished",
                             ),
                           );
                         }),
@@ -498,7 +559,12 @@ class HomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: CustomerSupport(phoneNumber: "+912345654323"),
               ),
-              SizedBox(height: 80),
+              // SizedBox(height: 8),
+              FeedbackComponent(
+                onSubmit: (rating, feedback) {
+                  print("Rating: $rating, Feedback: $feedback");
+                },
+              ),
             ],
           ),
         ),
@@ -1070,6 +1136,162 @@ class CustomerSupport extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class FeedbackComponent extends StatefulWidget {
+  final Function(int rating, String feedback) onSubmit;
+
+  const FeedbackComponent({super.key, required this.onSubmit});
+
+  @override
+  State<FeedbackComponent> createState() => _FeedbackComponentState();
+}
+
+class _FeedbackComponentState extends State<FeedbackComponent> {
+  int _rating = 0;
+  final TextEditingController _feedbackController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        width: MediaQuery.of(context).size.width * 0.9,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.shade400, width: 1),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Rate Our App",
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: ColorRes.primary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "Rating (${_rating}/5)",
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(5, (index) {
+                return IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _rating = index + 1;
+                    });
+                  },
+                  icon: Icon(
+                    Icons.star,
+                    size: 32,
+                    color:
+                        index < _rating
+                            ? ColorRes.primary
+                            : Colors.grey.shade400,
+                  ),
+                );
+              }),
+            ),
+            // Text(
+            //   _rating == 0
+            //       ? "Tap stars to rate"
+            //       : "You rated $_rating star${_rating > 1 ? 's' : ''}",
+            //   style: TextStyle(
+            //     color: Colors.grey[800],
+            //     fontSize: 13,
+            //     fontWeight: FontWeight.w400,
+            //   ),
+            // ),
+            const SizedBox(height: 10),
+
+            TextField(
+              controller: _feedbackController,
+              maxLines: 3,
+              decoration: InputDecoration(
+                hintText: "Write your feedback...",
+                hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
+                filled: true,
+                fillColor: Colors.grey[100],
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: ColorRes.primary),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+            const SizedBox(height: 18),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_rating != 0 ||
+                      _feedbackController.text.trim().isNotEmpty) {
+                    widget.onSubmit(_rating, _feedbackController.text.trim());
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Feedback Submitted'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please add rating & feedback'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                    // toastification.show(
+                    //   context: context,
+                    //   title: Text('Please add rating & feedback'),
+                    //   type: ToastificationType.error,
+                    //   style: ToastificationStyle.flat,
+                    //   autoCloseDuration: Duration(seconds: 2),
+                    //   alignment: Alignment.topRight,
+                    //   direction: TextDirection.ltr,
+                    // );
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorRes.primary,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Text(
+                  "Submit",
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

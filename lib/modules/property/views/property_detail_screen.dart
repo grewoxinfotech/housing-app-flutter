@@ -21,6 +21,7 @@ import '../../../app/manager/property_detail_manager.dart';
 import '../../../app/manager/property_highlight_manager.dart';
 import '../../../app/widgets/texts/headline_text.dart';
 import '../../../data/network/property/models/property_model.dart';
+import '../../../utils/common_widget/rera_widget.dart';
 
 class PropertyDetailScreen extends StatelessWidget {
   final Items? property;
@@ -39,7 +40,7 @@ class PropertyDetailScreen extends StatelessWidget {
       extendBody: true,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.only(bottom: kBottomNavigationBarHeight),
+          padding: EdgeInsets.only(bottom: kBottomNavigationBarHeight / 2),
 
           // prevents overlap
           child: Column(
@@ -215,14 +216,38 @@ class PropertyDetailScreen extends StatelessWidget {
                       units: 256,
                     ),
                     SizedBox(height: 12),
+                    RecommendedInsights(
+                      nearbyLocations: property!.nearbyLocations!,
+                    ),
                   ],
                 );
               }),
+              PropertyFeedbackComponent(
+                onSubmit: (rating, feedback) {
+                  print("Rating: $rating, Feedback: $feedback");
+                },
+              ),
+              SizedBox(height: 12),
+
               // Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
               // SizedBox(height: 12),
               // TitleWithViewAll(title: 'Recommended Project', showViewAll: true),
               // SizedBox(height: 12),
               // RecommendedProperty(),
+              Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
+              SizedBox(height: 12),
+              TitleWithViewAll(title: 'Recommended Project', showViewAll: true),
+              SizedBox(height: 12),
+              RecommendedProperty(),
+              SizedBox(height: 12),
+              Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
+              SizedBox(height: 12),
+              TitleWithViewAll(
+                title: 'Better Price Property',
+                showViewAll: true,
+              ),
+              SizedBox(height: 12),
+              RecommendedProperty(),
 
               //SizedBox(height: 12),
               //const SizedBox(height: 12), // Extra spacing at bottom
@@ -504,35 +529,53 @@ class PropertyDetailScreen extends StatelessWidget {
               ),
 
               /// 🔹 RERA Tag (Bottom Left inside image)
-              Positioned(
-                bottom: 16,
-                left: 16,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
+              // Positioned(
+              //   bottom: 16,
+              //   left: 16,
+              //   child: Container(
+              //     padding: const EdgeInsets.symmetric(
+              //       horizontal: 8,
+              //       vertical: 4,
+              //     ),
+              //     decoration: BoxDecoration(
+              //       color: ColorRes.green.withOpacity(0.9),
+              //       borderRadius: BorderRadius.circular(6),
+              //     ),
+              //     child: Row(
+              //       mainAxisSize: MainAxisSize.min,
+              //       children: [
+              //         const Icon(Icons.verified, size: 14, color: Colors.white),
+              //         const SizedBox(width: 4),
+              //         const Text(
+              //           "RERA",
+              //           style: TextStyle(
+              //             fontSize: 12,
+              //             fontWeight: FontWeight.w600,
+              //             color: Colors.white,
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              Obx(() {
+                return Positioned(
+                  left: 16,
+                  bottom: 16,
+                  child: ReraComponent(
+                    text: (!controller.isDeveloper.value) ? "Verified" : "rera",
+                    backgroundColor: ColorRes.black.withOpacity(0.7),
+                    textColor: ColorRes.background,
+                    fontSize: AppFontSizes.small,
+
+                    borderRadius: AppRadius.small,
+                    fontWeight: AppFontWeights.bold,
+                    showIcon: true,
+                    iconColor: ColorRes.success,
+                    iconSize: 14,
                   ),
-                  decoration: BoxDecoration(
-                    color: ColorRes.green.withOpacity(0.9),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.verified, size: 14, color: Colors.white),
-                      const SizedBox(width: 4),
-                      const Text(
-                        "RERA",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                );
+              }),
             ],
           );
         },
@@ -633,12 +676,12 @@ class PropertyDetailScreen extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(
-                Icons.location_on_rounded,
-                size: 16,
-                color: Colors.grey[600],
-              ),
-              const SizedBox(width: 4),
+              // Icon(
+              //   Icons.location_on_rounded,
+              //   size: 16,
+              //   color: Colors.grey[600],
+              // ),
+              // const SizedBox(width: 4),
               Expanded(
                 child: Text(
                   '${property.city ?? '-'}, ${property.state ?? "-"}',
@@ -1637,6 +1680,75 @@ class NearbyPropertyDetails extends StatelessWidget {
   }
 }
 
+class RecommendedInsights extends StatelessWidget {
+  final List<NearbyLocations> nearbyLocations;
+
+  const RecommendedInsights({super.key, required this.nearbyLocations});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.medium),
+      child: SizedBox(
+        height: 75, // slightly taller for balance
+        child: ListView.separated(
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemCount: nearbyLocations.length,
+          separatorBuilder: (context, index) => const SizedBox(width: 12),
+          itemBuilder: (context, index) {
+            final loc = nearbyLocations[index];
+
+            return Container(
+              margin: EdgeInsets.symmetric(vertical: AppPadding.small),
+              padding: EdgeInsets.symmetric(
+                horizontal: AppPadding.small,
+                vertical: AppPadding.small,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white, // ✅ soft background
+                borderRadius: BorderRadius.circular(AppRadius.medium),
+                border: Border.all(color: Colors.grey.shade300, width: 0.8),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buildCommonText(
+                    loc.name ?? "-",
+                    11,
+                    AppFontWeights.medium,
+                    ColorRes.textColor,
+                    1,
+                  ),
+                  const SizedBox(height: 6),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.location_on,
+                        size: 14,
+                        color: ColorRes.grey.withOpacity(0.7),
+                      ),
+                      const SizedBox(width: 4),
+                      buildCommonText(
+                        (loc.distance != null) ? '${loc.distance}' : "2.5 Km",
+                        AppFontSizes.extraSmall,
+                        AppFontWeights.semiBold,
+                        Colors.grey.shade600,
+                        1,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
 class OwnerInformation extends StatelessWidget {
   final Items property;
   final PropertyController controller;
@@ -1768,9 +1880,182 @@ class OwnerInformation extends StatelessWidget {
   }
 }
 
+// class ContactSellerCard extends StatelessWidget {
+//   final Items property;
+//   const ContactSellerCard({super.key, required this.property});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.symmetric(horizontal: 12),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Container(
+//             decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+//             child: Padding(
+//               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+//               child: Row(
+//                 children: [
+//                   CircleAvatar(
+//                     radius: 18,
+//                     backgroundImage: AssetImage(
+//                       IMGRes.home2,
+//                     ), // Use a real image or placeholder
+//                     // backgroundColor: Colors.grey[300], // fallback if no image
+//                   ),
+//                   const SizedBox(width: 16),
+//                   Expanded(
+//                     child: Column(
+//                       crossAxisAlignment: CrossAxisAlignment.start,
+//                       children: [
+//                         Text(
+//                           property.ownerName ?? "-",
+//                           style: const TextStyle(
+//                             fontSize: 12,
+//                             fontWeight: FontWeight.w600,
+//                           ),
+//                         ),
+//                         SizedBox(height: 4),
+//                         if (property.ownerPhone != null)
+//                           Row(
+//                             children: [
+//                               // Icon(
+//                               //   Icons.phone_outlined,
+//                               //   size: 12,
+//                               //   color: Colors.grey,
+//                               // ),
+//                               // SizedBox(width: 6),
+//                               Text(
+//                                 "+91 ${property.ownerPhone ?? '-'} ",
+//                                 style: TextStyle(
+//                                   color: ColorRes.grey,
+//                                   fontSize: 10,
+//                                 ),
+//                               ),
+//                             ],
+//                           ),
+//                         // if (property.ownerEmail != null)
+//                         //   Row(
+//                         //     children: [
+//                         //       // Icon(
+//                         //       //   Icons.email_outlined,
+//                         //       //   size: 12,
+//                         //       //   color: Colors.grey,
+//                         //       // ),
+//                         //       // SizedBox(width: 6),
+//                         //       Expanded(
+//                         //         child: Text(
+//                         //           property.ownerEmail ?? '-',
+//                         //           style: TextStyle(
+//                         //             color: ColorRes.grey,
+//                         //             fontSize: 10,
+//                         //           ),
+//                         //           overflow: TextOverflow.ellipsis,
+//                         //         ),
+//                         //       ),
+//                         //     ],
+//                         //   ),
+//                       ],
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//           // Checkboxes
+//           Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               Row(
+//                 children: [
+//                   Checkbox(
+//                     value: true,
+//                     side: BorderSide(color: ColorRes.grey, width: 1),
+//                     shape: RoundedRectangleBorder(
+//                       borderRadius: BorderRadius.circular(4),
+//                     ),
+//                     onChanged: (value) {},
+//                     activeColor: ColorRes.primary,
+//                   ),
+//                   const Expanded(
+//                     child: Text(
+//                       "Allow sellers to get in touch",
+//                       style: TextStyle(fontSize: 11),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//               Row(
+//                 children: [
+//                   Checkbox(
+//                     shape: RoundedRectangleBorder(
+//                       borderRadius: BorderRadius.circular(4),
+//                     ),
+//                     value: false,
+//                     side: BorderSide(color: ColorRes.grey, width: 1),
+//                     onChanged: (value) {},
+//                     activeColor: ColorRes.primary,
+//                   ),
+//                   const Expanded(
+//                     child: Text(
+//                       "I am interested in Home loans",
+//                       style: TextStyle(fontSize: 11),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ],
+//           ),
+//
+//           const Row(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               Icon(Icons.thumb_up, size: 15, color: Colors.black54),
+//               SizedBox(width: 6),
+//               Text(
+//                 "Perfect Choice! Users like you also liked this",
+//                 style: TextStyle(
+//                   fontSize: AppFontSizes.extraSmall,
+//                   color: Colors.black54,
+//                 ),
+//               ),
+//             ],
+//           ),
+//           const SizedBox(height: 12),
+//
+//           // Button
+//           ElevatedButton(
+//             style: ElevatedButton.styleFrom(
+//               minimumSize: const Size(double.infinity, 40),
+//               backgroundColor: ColorRes.primary,
+//               padding: const EdgeInsets.symmetric(vertical: 14),
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.circular(16),
+//               ),
+//             ),
+//             onPressed: () {},
+//             child: Text(
+//               "Check availability with seller",
+//               style: TextStyle(
+//                 fontSize: 14,
+//                 fontWeight: FontWeight.w600,
+//                 color: ColorRes.white,
+//               ),
+//             ),
+//           ),
+//           const SizedBox(height: 12),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
 class ContactSellerCard extends StatelessWidget {
   final Items property;
-  const ContactSellerCard({super.key, required this.property});
+  final PropertyController controller = Get.put(PropertyController());
+
+  ContactSellerCard({super.key, required this.property});
 
   @override
   Widget build(BuildContext context) {
@@ -1779,6 +2064,7 @@ class ContactSellerCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Owner Info
           Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
             child: Padding(
@@ -1787,10 +2073,7 @@ class ContactSellerCard extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 18,
-                    backgroundImage: AssetImage(
-                      IMGRes.home2,
-                    ), // Use a real image or placeholder
-                    // backgroundColor: Colors.grey[300], // fallback if no image
+                    backgroundImage: AssetImage(IMGRes.home2),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
@@ -1804,46 +2087,15 @@ class ContactSellerCard extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         if (property.ownerPhone != null)
-                          Row(
-                            children: [
-                              // Icon(
-                              //   Icons.phone_outlined,
-                              //   size: 12,
-                              //   color: Colors.grey,
-                              // ),
-                              // SizedBox(width: 6),
-                              Text(
-                                "+91 ${property.ownerPhone ?? '-'} ",
-                                style: TextStyle(
-                                  color: ColorRes.grey,
-                                  fontSize: 10,
-                                ),
-                              ),
-                            ],
+                          Text(
+                            "+91 ${property.ownerPhone ?? '-'}",
+                            style: TextStyle(
+                              color: ColorRes.grey,
+                              fontSize: 10,
+                            ),
                           ),
-                        // if (property.ownerEmail != null)
-                        //   Row(
-                        //     children: [
-                        //       // Icon(
-                        //       //   Icons.email_outlined,
-                        //       //   size: 12,
-                        //       //   color: Colors.grey,
-                        //       // ),
-                        //       // SizedBox(width: 6),
-                        //       Expanded(
-                        //         child: Text(
-                        //           property.ownerEmail ?? '-',
-                        //           style: TextStyle(
-                        //             color: ColorRes.grey,
-                        //             fontSize: 10,
-                        //           ),
-                        //           overflow: TextOverflow.ellipsis,
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
                       ],
                     ),
                   ),
@@ -1851,51 +2103,59 @@ class ContactSellerCard extends StatelessWidget {
               ),
             ),
           ),
-          // Checkboxes
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Checkbox(
-                    value: true,
-                    side: BorderSide(color: ColorRes.grey, width: 1),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    onChanged: (value) {},
-                    activeColor: ColorRes.primary,
+
+          const SizedBox(height: 8),
+
+          // Checkboxes using Obx
+          Obx(
+            () => Row(
+              children: [
+                Checkbox(
+                  value: controller.allowContact.value,
+                  onChanged:
+                      (val) => controller.allowContact.value = val ?? false,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                  const Expanded(
-                    child: Text(
-                      "Allow sellers to get in touch",
-                      style: TextStyle(fontSize: 11),
-                    ),
+                  side: BorderSide(color: ColorRes.grey, width: 1),
+                  activeColor: ColorRes.primary,
+                ),
+                const Expanded(
+                  child: Text(
+                    "Allow sellers to get in touch",
+                    style: TextStyle(fontSize: 11),
                   ),
-                ],
-              ),
-              Row(
-                children: [
-                  Checkbox(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    value: false,
-                    side: BorderSide(color: ColorRes.grey, width: 1),
-                    onChanged: (value) {},
-                    activeColor: ColorRes.primary,
+                ),
+              ],
+            ),
+          ),
+          Obx(
+            () => Row(
+              children: [
+                Checkbox(
+                  value: controller.interestedInHomeLoan.value,
+                  onChanged:
+                      (val) =>
+                          controller.interestedInHomeLoan.value = val ?? false,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                  const Expanded(
-                    child: Text(
-                      "I am interested in Home loans",
-                      style: TextStyle(fontSize: 11),
-                    ),
+                  side: BorderSide(color: ColorRes.grey, width: 1),
+                  activeColor: ColorRes.primary,
+                ),
+                const Expanded(
+                  child: Text(
+                    "I am interested in Home loans",
+                    style: TextStyle(fontSize: 11),
                   ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
 
+          const SizedBox(height: 12),
+
+          // Info Row
           const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -1923,7 +2183,7 @@ class ContactSellerCard extends StatelessWidget {
               ),
             ),
             onPressed: () {},
-            child: Text(
+            child: const Text(
               "Check availability with seller",
               style: TextStyle(
                 fontSize: 14,
@@ -2345,6 +2605,163 @@ class StatCard extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class PropertyFeedbackComponent extends StatefulWidget {
+  final Function(int rating, String feedback) onSubmit;
+
+  const PropertyFeedbackComponent({super.key, required this.onSubmit});
+
+  @override
+  State<PropertyFeedbackComponent> createState() =>
+      _PropertyFeedbackComponentState();
+}
+
+class _PropertyFeedbackComponentState extends State<PropertyFeedbackComponent> {
+  int _rating = 0;
+  final TextEditingController _feedbackController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        // width: MediaQuery.of(context).size.width * 0.9,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.shade400, width: 1),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Feedback Property",
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: ColorRes.primary,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "Rating (${_rating}/5)",
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(5, (index) {
+                return IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _rating = index + 1;
+                    });
+                  },
+                  icon: Icon(
+                    Icons.star,
+                    size: 32,
+                    color:
+                        index < _rating
+                            ? ColorRes.primary
+                            : Colors.grey.shade400,
+                  ),
+                );
+              }),
+            ),
+            // Text(
+            //   _rating == 0
+            //       ? "Tap stars to rate"
+            //       : "You rated $_rating star${_rating > 1 ? 's' : ''}",
+            //   style: TextStyle(
+            //     color: Colors.grey[800],
+            //     fontSize: 13,
+            //     fontWeight: FontWeight.w400,
+            //   ),
+            // ),
+            const SizedBox(height: 10),
+
+            TextField(
+              controller: _feedbackController,
+              maxLines: 3,
+              decoration: InputDecoration(
+                hintText: "Write your feedback...",
+                hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
+                filled: true,
+                fillColor: Colors.grey[100],
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.grey),
+                ),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: ColorRes.primary),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+            const SizedBox(height: 18),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_rating != 0 ||
+                      _feedbackController.text.trim().isNotEmpty) {
+                    widget.onSubmit(_rating, _feedbackController.text.trim());
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Feedback Submitted'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please add rating & feedback'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                    // toastification.show(
+                    //   context: context,
+                    //   title: Text('Please add rating & feedback'),
+                    //   type: ToastificationType.error,
+                    //   style: ToastificationStyle.flat,
+                    //   autoCloseDuration: Duration(seconds: 2),
+                    //   alignment: Alignment.topRight,
+                    //   direction: TextDirection.ltr,
+                    // );
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ColorRes.primary,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Text(
+                  "Submit",
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -23,19 +23,44 @@ class RecommendedProperty extends StatelessWidget {
             return const Center(child: Text("No Property found."));
           }
 
+          // return Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 12),
+          //   child: SizedBox(
+          //     height: 290,
+          //     child: ListView.separated(
+          //       scrollDirection: Axis.horizontal,
+          //       itemCount: controller.items.length,
+          //       separatorBuilder: (_, __) => const SizedBox(width: 12),
+          //       itemBuilder: (context, index) {
+          //         final data = controller.items[index];
+          //         return RecommendedCard(property: data);
+          //       },
+          //     ),
+          //   ),
+          // );
+
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: SizedBox(
-              height: 260,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemCount: controller.items.length,
-                separatorBuilder: (_, __) => const SizedBox(width: 12),
-                itemBuilder: (context, index) {
-                  final data = controller.items[index];
-                  return RecommendedCard(property: data);
-                },
-              ),
+              height: 335,
+              child: Obx(() {
+                final items = controller.items;
+                if (items.isEmpty) {
+                  return const Center(child: Text("No Property found."));
+                }
+                return ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: items.length, // ✅ Always up-to-date
+                  separatorBuilder: (_, __) => const SizedBox(width: 12),
+                  itemBuilder: (context, index) {
+                    if (index >= items.length) {
+                      return const SizedBox(); // ✅ Prevents RangeError
+                    }
+                    final data = items[index];
+                    return RecommendedCard(property: data);
+                  },
+                );
+              }),
             ),
           );
         }),

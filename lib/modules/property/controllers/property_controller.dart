@@ -46,6 +46,8 @@ class PropertyController extends PaginatedController<Items> {
   RxBool isVerified = false.obs;
   RxBool isExpanded = false.obs;
   RxBool isDeveloper = false.obs;
+  var allowContact = true.obs;
+  var interestedInHomeLoan = false.obs;
 
   // Optional filters
   Map<String, String>? filters;
