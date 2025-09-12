@@ -1,7 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
+import 'package:housing_flutter_app/app/constants/size_manager.dart';
+import 'package:housing_flutter_app/modules/search_property/view/search_screen.dart';
 import 'package:housing_flutter_app/widgets/input/custom_text_field.dart';
 
 class HomeHeader extends StatefulWidget {
@@ -192,8 +196,10 @@ class _HomeHeaderState extends State<HomeHeader> {
                 // ),
 
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: buildPositionedTextField(context),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: buildPositionedTextField(context,() {
+                    Get.to(() => CommonSearchField());
+                  },),
                 ),
                 const SizedBox(height: 16),
                 // Property Type Tags (Scrollable horizontally, no side padding)
@@ -277,17 +283,20 @@ class _HomeHeaderState extends State<HomeHeader> {
 }
 
 
-Widget buildPositionedTextField(BuildContext context) {
+Widget buildPositionedTextField(BuildContext context,VoidCallback? onTap) {
   return GestureDetector(
-    onTap: () {
-    },
+    onTap: onTap,
     child: CustomTextField(
-      suffixIcon: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-        child: const Icon(Icons.search, color: Colors.black, size: 25),
+      enabled:false,
+      radius: 16,
+      suffixIcon: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: AppPadding.small),
+        child: Icon(Icons.search, color: Colors.black, size: 25),
       ),
       prefixIcon:
         Icons.my_location,
+      
+      
       controller: TextEditingController(),
       hintText: 'Surat , Gujarat , 395010',
 

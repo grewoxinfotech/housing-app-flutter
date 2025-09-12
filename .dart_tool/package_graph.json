@@ -7,11 +7,13 @@
       "name": "housing_flutter_app",
       "version": "1.0.0+1",
       "dependencies": [
+        "alphabet_list_view",
         "awesome_snackbar_content",
         "cached_network_image",
         "carousel_slider",
         "connectivity_plus",
         "cupertino_icons",
+        "dropdown_button2",
         "flutter",
         "flutter_secure_storage",
         "flutter_svg",
@@ -101,6 +103,14 @@
         "stream_channel",
         "test_api",
         "vector_math"
+      ]
+    },
+    {
+      "name": "dropdown_button2",
+      "version": "2.3.9",
+      "dependencies": [
+        "flutter",
+        "meta"
       ]
     },
     {
@@ -289,6 +299,14 @@
         "flutter_secure_storage_web",
         "flutter_secure_storage_windows",
         "meta"
+      ]
+    },
+    {
+      "name": "alphabet_list_view",
+      "version": "1.1.6",
+      "dependencies": [
+        "flutter",
+        "flutter_sticky_header"
       ]
     },
     {
@@ -638,7 +656,7 @@
     },
     {
       "name": "async",
-      "version": "2.13.0",
+      "version": "2.12.0",
       "dependencies": [
         "collection",
         "meta"
@@ -1101,6 +1119,14 @@
       ]
     },
     {
+      "name": "flutter_sticky_header",
+      "version": "0.8.0",
+      "dependencies": [
+        "flutter",
+        "value_layout_builder"
+      ]
+    },
+    {
       "name": "http_parser",
       "version": "4.1.2",
       "dependencies": [
@@ -1401,13 +1427,20 @@
       "dependencies": []
     },
     {
+      "name": "value_layout_builder",
+      "version": "0.5.0",
+      "dependencies": [
+        "flutter"
+      ]
+    },
+    {
       "name": "fixnum",
       "version": "1.1.1",
       "dependencies": []
     },
     {
       "name": "vm_service",
-      "version": "15.0.0",
+      "version": "14.3.1",
       "dependencies": []
     },
     {

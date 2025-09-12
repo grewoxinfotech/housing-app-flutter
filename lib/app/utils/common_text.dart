@@ -30,34 +30,34 @@ class CustomText extends StatelessWidget {
   final Paint? background;
 
   CustomText(
-      this.text, {
-        Key? key,
-        // Text defaults
-        this.textAlign = TextAlign.start,
-        this.textDirection,
-        this.locale,
-        this.softWrap = true,
-        this.overflow,
-        this.textScaleFactor = 1.0,
-        this.maxLines,
-        this.semanticsLabel,
-        this.textWidthBasis = TextWidthBasis.parent,
-        // TextStyle defaults
-        this.color = Colors.black,
-        this.fontSize = 14.0,
-        this.fontWeight = FontWeight.normal,
-        this.fontStyle = FontStyle.normal,
-        this.letterSpacing,
-        this.wordSpacing,
-        this.height,
-        this.decoration,
-        this.decorationColor,
-        this.decorationThickness,
-        this.fontFamily,
-        this.shadows,
-        this.foreground,
-        this.background,
-      }) : super(key: key);
+    this.text, {
+    Key? key,
+    // Text defaults
+    this.textAlign = TextAlign.start,
+    this.textDirection,
+    this.locale,
+    this.softWrap = true,
+    this.overflow,
+    this.textScaleFactor = 1.0,
+    this.maxLines,
+    this.semanticsLabel,
+    this.textWidthBasis = TextWidthBasis.parent,
+    // TextStyle defaults
+    this.color = Colors.black,
+    this.fontSize = 14.0,
+    this.fontWeight = FontWeight.normal,
+    this.fontStyle = FontStyle.normal,
+    this.letterSpacing,
+    this.wordSpacing,
+    this.height,
+    this.decoration,
+    this.decorationColor,
+    this.decorationThickness,
+    this.fontFamily,
+    this.shadows,
+    this.foreground,
+    this.background,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +68,7 @@ class CustomText extends StatelessWidget {
       locale: locale,
       softWrap: softWrap,
       overflow: overflow,
+      // ignore: deprecated_member_use
       textScaleFactor: textScaleFactor,
       maxLines: maxLines,
       semanticsLabel: semanticsLabel,

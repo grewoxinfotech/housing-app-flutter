@@ -10,6 +10,7 @@ import 'package:housing_flutter_app/data/network/property/models/property_model.
 import 'package:housing_flutter_app/modules/home/widgets/city_card.dart';
 import 'package:housing_flutter_app/modules/home/widgets/home_header.dart';
 import 'package:housing_flutter_app/modules/home/widgets/top_locations.dart';
+import 'package:housing_flutter_app/modules/propert_detail/view/property_details.dart';
 import 'package:housing_flutter_app/modules/property/controllers/property_controller.dart';
 import 'package:housing_flutter_app/modules/property/views/property_list_screen.dart';
 import 'package:housing_flutter_app/modules/property/views/widgets/property_card.dart';
@@ -85,6 +86,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               const HomeHeader(),
+
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -191,7 +193,7 @@ class HomeScreen extends StatelessWidget {
                                     child: ClipRRect(
                                       child: ListView.separated(
                                         scrollDirection: Axis.horizontal,
-                                        itemCount: 10,
+                                        itemCount: controller.items.length,
                                         separatorBuilder:
                                             (_, __) =>
                                                 const SizedBox(width: 12),
@@ -236,6 +238,7 @@ class HomeScreen extends StatelessWidget {
                     title: "Recommended Properties",
                     showViewAll: true,
                     description: "Best properties for you",
+                    onViewAll: () => Get.to(PropertyDetail()),
                   ),
 
                   SingleChildScrollView(

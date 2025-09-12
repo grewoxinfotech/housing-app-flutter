@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:housing_flutter_app/app/constants/app_font_sizes.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/app/constants/img_res.dart';
 import 'package:housing_flutter_app/app/constants/size_manager.dart';
 import 'package:housing_flutter_app/app/manager/icon_manager.dart';
 import 'package:housing_flutter_app/app/manager/string_manager.dart';
+import 'package:housing_flutter_app/app/utils/bottom_sheet_form.dart';
+import 'package:housing_flutter_app/app/utils/dummy_data.dart';
 import 'package:housing_flutter_app/app/widgets/video_player/custom_video_player.dart';
+import 'package:housing_flutter_app/modules/property/controllers/property_controller.dart';
+import 'package:housing_flutter_app/modules/property/views/property_list_screen.dart';
+import 'package:housing_flutter_app/modules/property/views/recommended_property.dart';
+
+import 'package:housing_flutter_app/modules/search_property/view/search_screen.dart';
 import 'package:housing_flutter_app/widgets/button/button.dart';
 import 'package:video_player/video_player.dart';
 import '../../../app/manager/property_detail_manager.dart';
@@ -16,13 +25,18 @@ import '../../../data/network/property/models/property_model.dart';
 class PropertyDetailScreen extends StatelessWidget {
   final Items? property;
 
-  const PropertyDetailScreen({super.key, this.property});
+  PropertyDetailScreen({super.key, this.property});
+  final PropertyController controller = Get.put(PropertyController());
 
   @override
   Widget build(BuildContext context) {
     print("[DEBUG]=> Property : ${property?.toJson()}");
+    print(
+      "Proprty Features ${property?.propertyDetails?.amenities}  Property List${property?.propertyDetails}",
+    );
     return Scaffold(
       backgroundColor: ColorRes.white,
+      extendBody: true,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.only(bottom: kBottomNavigationBarHeight),
@@ -68,7 +82,7 @@ class PropertyDetailScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
                     property?.propertyDescription ?? '-',
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(fontSize: 11, fontWeight: FontWeight.w400),
                   ),
                 ),
                 SizedBox(height: 12),
@@ -79,11 +93,67 @@ class PropertyDetailScreen extends StatelessWidget {
               TitleWithViewAll(title: 'Location'),
               SizedBox(height: 12),
               AddressAndMapDetails(property: property!),
+              Obx(() {
+                if (controller.isDeveloper.value)
+                  return SizedBox.shrink(); // hide if not developer
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 12),
+                    Divider(
+                      indent: 18,
+                      endIndent: 18,
+                      color: Colors.grey.shade300,
+                    ),
+                    SizedBox(height: 12),
+                    TitleWithViewAll(title: 'Project Specification'),
+                    SizedBox(height: 12),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      child: Wrap(
+                        spacing: 5,
+                        runSpacing: 10,
+                        children:
+                            stats.map((stat) {
+                              return StatCard(
+                                title: stat["title"] as String,
+                                value: stat["value"] as String,
+                                subText: stat["subText"] as String?,
+                                icon: stat["icon"] as IconData?,
+                                iconColor: stat["iconColor"] as Color?,
+                              );
+                            }).toList(),
+                      ),
+                    ),
+                    // SizedBox(height: 12),
+                    // Divider(
+                    //   indent: 18,
+                    //   endIndent: 18,
+                    //   color: Colors.grey.shade300,
+                    // ),
+                    SizedBox(height: 12),
+                    // TitleWithViewAll(title: 'Premium projects nearby'),
+                    // SizedBox(height: 12),
+                    // ProjectDetails(
+                    //   launchedDate: property?.lastRenewalDate ?? '',
+                    //   maxPrice: 3.5,
+                    //   minPrice: 1.8,
+                    //   nearbyProjects: property?.nearbyLocations ?? [],
+                    //   projectArea: 22,
+                    //   projectName: "",
+                    //   reraId: '322',
+                    //   units: 256,
+                    // ),
+                    // SizedBox(height: 12),
+                  ],
+                );
+              }),
               SizedBox(height: 12),
               Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
               SizedBox(height: 8),
-              TitleWithViewAll(title: 'Nearby Locations'),
+              TitleWithViewAll(title: 'Nearby Landmarks'),
               SizedBox(height: 12),
               if (property?.nearbyLocations != null)
                 NearbyPropertyDetails(
@@ -95,17 +165,140 @@ class PropertyDetailScreen extends StatelessWidget {
               SizedBox(height: 12),
               TitleWithViewAll(title: 'Owner Details'),
               SizedBox(height: 12),
-              OwnerInformation(property: property!),
+              OwnerInformation(property: property!, controller: controller),
+              SizedBox(height: 12),
+              Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
+              SizedBox(height: 12),
+              TitleWithViewAll(title: 'Check availability of Agent'),
+              SizedBox(height: 12),
+              ContactSellerCard(property: property ?? Items()),
+
+              SizedBox(height: 12),
+              Obx(() {
+                if (!controller.isDeveloper.value)
+                  return SizedBox.shrink(); // hide if not developer
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Divider(
+                      indent: 18,
+                      endIndent: 18,
+                      color: Colors.grey.shade300,
+                    ),
+                    SizedBox(height: 12),
+                    TitleWithViewAll(title: 'Project Brochures'),
+                    SizedBox(height: 12),
+                    ProjectBrochure(
+                      brochureImageUrl:
+                          'https://cdn.dribbble.com/userupload/12289156/file/original-1b5719cd15e5e7e54052ebe7ed9ad2a7.jpg?resize=400x0',
+                      brochureUrl: "",
+                      totalPages: 4,
+                    ),
+                    SizedBox(height: 12),
+                    Divider(
+                      indent: 18,
+                      endIndent: 18,
+                      color: Colors.grey.shade300,
+                    ),
+                    SizedBox(height: 12),
+                    TitleWithViewAll(title: 'Premium projects nearby'),
+                    SizedBox(height: 12),
+                    ProjectDetails(
+                      launchedDate: property?.lastRenewalDate ?? '',
+                      maxPrice: 3.5,
+                      minPrice: 1.8,
+                      nearbyProjects: property?.nearbyLocations ?? [],
+                      projectArea: 22,
+                      projectName: "",
+                      reraId: '322',
+                      units: 256,
+                    ),
+                    SizedBox(height: 12),
+                  ],
+                );
+              }),
+              // Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
+              // SizedBox(height: 12),
+              // TitleWithViewAll(title: 'Recommended Project', showViewAll: true),
+              // SizedBox(height: 12),
+              // RecommendedProperty(),
+
               //SizedBox(height: 12),
               //const SizedBox(height: 12), // Extra spacing at bottom
             ],
           ),
         ),
       ),
-      bottomNavigationBar: PropertyBottomBar(
-        price: '₹ ${property?.propertyDetails?.financialInfo?.price ?? '0'}',
-        onCallOwner: () {},
-        onScheduleVisit: () {},
+      bottomNavigationBar: SafeArea(
+        child: PropertyBottomBar(
+          price: '₹ ${property?.propertyDetails?.financialInfo?.price ?? '0'}',
+          onCallOwner: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              ),
+              builder:
+                  (context) => DraggableScrollableSheet(
+                    expand: false,
+                    initialChildSize: 0.85, // start with 85% of screen
+                    minChildSize: 0.5,
+                    maxChildSize: 0.85,
+                    builder:
+                        (context, scrollController) => SingleChildScrollView(
+                          controller: scrollController,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom,
+                              left: 16,
+                              right: 16,
+                              top: 16,
+                            ),
+                            child: ContactOwnerBottom(
+                              property: property ?? Items(),
+
+                              // Optional: Customize texts
+                              titleText: "Contact the Owner",
+                              chatButtonText: "Chat via WhatsApp",
+                              formTitle: "Quick Contact Form",
+                              contactButtonText: "Send Request",
+
+                              // Optional: Customize icons
+                              nameIcon: Icons.person,
+                              phoneIcon: Icons.phone,
+                              emailIcon: Icons.email,
+
+                              // Optional: Checkbox initial states
+                              allowSellerContact: true,
+                              homeLoanInterest: false,
+
+                              // Callbacks
+                              onChatPressed: () {
+                                print("WhatsApp button clicked!");
+                              },
+                              onContactPressed: () {
+                                // This triggers after validation
+                                print("Contact Owner button clicked!");
+                                // Access entered values if needed
+                                // Example: use controller values
+                                // name: widget._nameController.text
+                              },
+                              onAllowSellerContactChanged: (value) {
+                                print("Allow sellers changed: $value");
+                              },
+                              onHomeLoanInterestChanged: (value) {
+                                print("Home loan interest changed: $value");
+                              },
+                            ),
+                          ),
+                        ),
+                  ),
+            );
+          },
+          onScheduleVisit: () {},
+        ),
       ),
     );
   }
@@ -340,7 +533,6 @@ class PropertyDetailScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Title + ⭐ Rating Row
           Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
@@ -360,8 +552,6 @@ class PropertyDetailScreen extends StatelessWidget {
               ),
 
               const SizedBox(width: 8),
-
-              // ⭐ Rating
               Row(
                 children: [
                   Icon(Icons.star, size: 16, color: Colors.amber),
@@ -380,13 +570,11 @@ class PropertyDetailScreen extends StatelessWidget {
           ),
 
           const SizedBox(height: 4),
-
-          // 📍 Location Row (icon aligned with title start)
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(Icons.location_on_rounded, size: 16, color: Colors.grey[600]),
-              const SizedBox(width: 4),
+              // Icon(Icons.location_on_rounded, size: 16, color: Colors.grey[600]),
+              // const SizedBox(width: 4),
               Expanded(
                 child: Text(
                   '${property.city ?? '-'}, ${property.state ?? "-"}',
@@ -762,21 +950,21 @@ class Facilities extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           children:
-          highlights.map((item) {
-            final key = item.keys.first;
-            final value = item.values.first;
-            final icon = iconMap[key] ?? Icons.info_outline;
+              highlights.map((item) {
+                final key = item.keys.first;
+                final value = item.values.first;
+                final icon = iconMap[key] ?? Icons.info_outline;
 
-            return Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: FacilitiesCard(
-                label: "$value",
-                icon: icon,
-                bgColor: bgColor,
-                foreColor: txtColor,
-              ),
-            );
-          }).toList(),
+                return Padding(
+                  padding: const EdgeInsets.only(right: 12),
+                  child: FacilitiesCard(
+                    label: "$value",
+                    icon: icon,
+                    bgColor: bgColor,
+                    foreColor: txtColor,
+                  ),
+                );
+              }).toList(),
         ),
       ),
     );
@@ -870,8 +1058,6 @@ class FacilitiesCard extends StatelessWidget {
 //   }
 // }
 
-
-
 // class Details extends StatelessWidget {
 //   Details({super.key});
 //
@@ -939,60 +1125,150 @@ class FacilitiesCard extends StatelessWidget {
 //   }
 // }
 
+// class Details extends StatelessWidget {
+//   final Items property;
+
+//   const Details({super.key, required this.property});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final manager = PropertyDetailManager(property);
+//     final details = manager.getDetails(); // Returns List<Map<String, String>>
+
+//     return ListView.builder(
+//       shrinkWrap: true,
+//       physics: const NeverScrollableScrollPhysics(),
+//       padding: const EdgeInsets.symmetric(horizontal: 24),
+//       itemCount: details.length,
+//       itemBuilder: (context, index) {
+//         final entry = details[index];
+//         final title = entry.keys.first;
+//         final value = entry.values.first;
+
+//         return Padding(
+//           padding: const EdgeInsets.symmetric(vertical: 4),
+//           child: Row(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               SizedBox(
+//                 width: MediaQuery.of(context).size.width / 2.2,
+//                 child: Text(
+//                   title,
+//                   overflow: TextOverflow.ellipsis,
+//                   style: TextStyle(
+//                     fontSize: 12,
+//                     fontWeight: FontWeight.w500,
+//                     color: Colors.grey[600],
+//                   ),
+//                 ),
+//               ),
+//               const SizedBox(width: 4),
+//               Expanded(
+//                 child: Text(
+//                   value,
+//                   overflow: TextOverflow.ellipsis,
+//                   style: const TextStyle(
+//                     fontSize: 12,
+//                     fontWeight: FontWeight.w600,
+//                     color: Colors.black,
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
+
 class Details extends StatelessWidget {
   final Items property;
+  final PropertyController controller = Get.put(PropertyController());
 
-  const Details({super.key, required this.property});
+  Details({super.key, required this.property});
 
   @override
   Widget build(BuildContext context) {
     final manager = PropertyDetailManager(property);
-    final details = manager.getDetails(); // Returns List<Map<String, String>>
+    final details = manager.getDetails();
 
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      itemCount: details.length,
-      itemBuilder: (context, index) {
-        final entry = details[index];
-        final title = entry.keys.first;
-        final value = entry.values.first;
+    return Obx(() {
+      final isExpanded = controller.isExpanded.value;
+      final visibleDetails = isExpanded ? details : details.take(4).toList();
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 2.2,
-                child: Text(
-                  title,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey[600],
-                  ),
-                ),
-              ),
-              const SizedBox(width: 4),
-              Expanded(
-                child: Text(
-                  value,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ],
+      return Column(
+        children: [
+          // 🔹 Details Grid
+          Wrap(
+            spacing: 20,
+            runSpacing: 12,
+            children:
+                visibleDetails.map((entry) {
+                  final title = entry.keys.first;
+                  final value = entry.values.first;
+
+                  return SizedBox(
+                    width: MediaQuery.of(context).size.width / 2 - 26,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey[700],
+                          ),
+                        ),
+                        SizedBox(height: 6),
+                        Text(
+                          value,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
           ),
-        );
-      },
-    );
+
+          if (details.length > 4)
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: GestureDetector(
+                onTap: controller.lessOrReadMore,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      isExpanded ? "Read Less" : "Read More",
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.blue.shade600,
+                      ),
+                    ),
+                    Icon(
+                      isExpanded
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
+                      color: Colors.blue.shade600,
+                      size: 18,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+        ],
+      );
+    });
   }
 }
 
@@ -1028,20 +1304,22 @@ class AmenitiesSection extends StatelessWidget {
                   vertical: 8,
                 ),
                 decoration: BoxDecoration(
-                  color: bgColor,
+                  // color: bgColor,
+                  color: ColorRes.overlay.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(IconManager.getIcon(item), size: 16, color: txtColor),
-                    const SizedBox(width: 8),
+                    // Icon(IconManager.getIcon(item), size: 16, color: txtColor),
+                    // const SizedBox(width: 8),
                     Text(
                       StringManager.formatLabel(item) ?? ' -',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: txtColor,
+                        // color: txtColor,
+                        color: ColorRes.textColor,
                       ),
                     ),
                   ],
@@ -1070,7 +1348,7 @@ class AddressAndMapDetails extends StatelessWidget {
           Flexible(
             child: Text(
               "${property.address ?? ''}, ${property.city ?? ''}, ${property.state ?? ''}, ${property.zipCode ?? ''},",
-              style: TextStyle(fontSize: 12),
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w400),
             ),
           ),
           SizedBox(width: 8),
@@ -1083,56 +1361,81 @@ class AddressAndMapDetails extends StatelessWidget {
 class NearbyPropertyDetails extends StatelessWidget {
   final List<NearbyLocations> nearbyLocations;
 
-  NearbyPropertyDetails({super.key, required this.nearbyLocations});
-
-  final List<Map<String, String>> nearby = [
-    {"name": "Worli Sea Link", "distance": "0.5 km"},
-    {"name": "High Street Phoenix", "distance": "2.1 km"},
-    {"name": "Mumbai International Airport", "distance": "14 km"},
-  ];
+  const NearbyPropertyDetails({super.key, required this.nearbyLocations});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children:
-          nearbyLocations
-              .map(
-                (loc) => Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
-                    vertical: 8,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.medium),
+      child: SizedBox(
+        height: 75, // slightly taller for balance
+        child: ListView.separated(
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemCount: nearbyLocations.length,
+          separatorBuilder: (context, index) => const SizedBox(width: 12),
+          itemBuilder: (context, index) {
+            final loc = nearbyLocations[index];
+
+            return Container(
+              margin: EdgeInsets.symmetric(vertical: AppPadding.small),
+              padding: EdgeInsets.symmetric(
+                horizontal: AppPadding.small,
+                vertical: AppPadding.small,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white, // ✅ soft background
+                borderRadius: BorderRadius.circular(AppRadius.medium),
+                border: Border.all(color: Colors.grey.shade300, width: 0.8),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buildCommonText(
+                    loc.name ?? "-",
+                    11,
+                    AppFontWeights.medium,
+                    ColorRes.textColor,
+                    1,
                   ),
-                  child: Row(
+                  const SizedBox(height: 6),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.place_outlined, size: 16),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          loc.name ?? "-",
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                          ),
-                        ),
+                      Icon(
+                        Icons.location_on,
+                        size: 14,
+                        color: ColorRes.grey.withOpacity(0.7),
                       ),
-                      Text(
-                        "${loc.distance.toString()} KM" ?? '-',
-                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                      const SizedBox(width: 4),
+                      buildCommonText(
+                        (loc.distance != null) ? '${loc.distance}' : "2.5 Km",
+                        AppFontSizes.extraSmall,
+                        AppFontWeights.semiBold,
+                        Colors.grey.shade600,
+                        1,
                       ),
                     ],
                   ),
-                ),
-              )
-              .toList(),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }
 
 class OwnerInformation extends StatelessWidget {
   final Items property;
+  final PropertyController controller;
 
-  const OwnerInformation({super.key, required this.property});
+  const OwnerInformation({
+    super.key,
+    required this.property,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1144,11 +1447,11 @@ class OwnerInformation extends StatelessWidget {
           Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
               child: Row(
                 children: [
                   CircleAvatar(
-                    radius: 28,
+                    radius: 18,
                     backgroundImage: AssetImage(
                       IMGRes.home2,
                     ), // Use a real image or placeholder
@@ -1162,7 +1465,7 @@ class OwnerInformation extends StatelessWidget {
                         Text(
                           property.ownerName ?? "-",
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 12,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -1170,31 +1473,37 @@ class OwnerInformation extends StatelessWidget {
                         if (property.ownerPhone != null)
                           Row(
                             children: [
-                              Icon(
-                                Icons.phone_outlined,
-                                size: 18,
-                                color: Colors.grey,
-                              ),
-                              SizedBox(width: 6),
+                              // Icon(
+                              //   Icons.phone_outlined,
+                              //   size: 12,
+                              //   color: Colors.grey,
+                              // ),
+                              // SizedBox(width: 6),
                               Text(
                                 "+91 ${property.ownerPhone ?? '-'} ",
-                                style: TextStyle(color: Colors.black),
+                                style: TextStyle(
+                                  color: ColorRes.grey,
+                                  fontSize: 10,
+                                ),
                               ),
                             ],
                           ),
                         if (property.ownerEmail != null)
                           Row(
                             children: [
-                              Icon(
-                                Icons.email_outlined,
-                                size: 18,
-                                color: Colors.grey,
-                              ),
-                              SizedBox(width: 6),
+                              // Icon(
+                              //   Icons.email_outlined,
+                              //   size: 12,
+                              //   color: Colors.grey,
+                              // ),
+                              // SizedBox(width: 6),
                               Expanded(
                                 child: Text(
                                   property.ownerEmail ?? '-',
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(
+                                    color: ColorRes.grey,
+                                    fontSize: 10,
+                                  ),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -1206,6 +1515,624 @@ class OwnerInformation extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+          SizedBox(height: 12),
+          Obx(
+            () => ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(double.infinity, 40),
+                backgroundColor:
+                    controller.isDeveloper.value ? Colors.white : Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                    color:
+                        controller.isDeveloper.value
+                            ? ColorRes.primary
+                            : ColorRes.primary,
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              onPressed: controller.checkTheSellerType,
+              child: Text(
+                controller.isDeveloper.value
+                    ? "Chat with Developer"
+                    : "Chat with Owner",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color:
+                      controller.isDeveloper.value
+                          ? ColorRes.primary
+                          : ColorRes.primary,
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 12),
+        ],
+      ),
+    );
+  }
+}
+
+class ContactSellerCard extends StatelessWidget {
+  final Items property;
+  const ContactSellerCard({super.key, required this.property});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage(
+                      IMGRes.home2,
+                    ), // Use a real image or placeholder
+                    // backgroundColor: Colors.grey[300], // fallback if no image
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          property.ownerName ?? "-",
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        if (property.ownerPhone != null)
+                          Row(
+                            children: [
+                              // Icon(
+                              //   Icons.phone_outlined,
+                              //   size: 12,
+                              //   color: Colors.grey,
+                              // ),
+                              // SizedBox(width: 6),
+                              Text(
+                                "+91 ${property.ownerPhone ?? '-'} ",
+                                style: TextStyle(
+                                  color: ColorRes.grey,
+                                  fontSize: 10,
+                                ),
+                              ),
+                            ],
+                          ),
+                        // if (property.ownerEmail != null)
+                        //   Row(
+                        //     children: [
+                        //       // Icon(
+                        //       //   Icons.email_outlined,
+                        //       //   size: 12,
+                        //       //   color: Colors.grey,
+                        //       // ),
+                        //       // SizedBox(width: 6),
+                        //       Expanded(
+                        //         child: Text(
+                        //           property.ownerEmail ?? '-',
+                        //           style: TextStyle(
+                        //             color: ColorRes.grey,
+                        //             fontSize: 10,
+                        //           ),
+                        //           overflow: TextOverflow.ellipsis,
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // Checkboxes
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Checkbox(
+                    value: true,
+                    side: BorderSide(color: ColorRes.grey, width: 1),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    onChanged: (value) {},
+                    activeColor: ColorRes.primary,
+                  ),
+                  const Expanded(
+                    child: Text(
+                      "Allow sellers to get in touch",
+                      style: TextStyle(fontSize: 11),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Checkbox(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    value: false,
+                    side: BorderSide(color: ColorRes.grey, width: 1),
+                    onChanged: (value) {},
+                    activeColor: ColorRes.primary,
+                  ),
+                  const Expanded(
+                    child: Text(
+                      "I am interested in Home loans",
+                      style: TextStyle(fontSize: 11),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.thumb_up, size: 15, color: Colors.black54),
+              SizedBox(width: 6),
+              Text(
+                "Perfect Choice! Users like you also liked this",
+                style: TextStyle(
+                  fontSize: AppFontSizes.extraSmall,
+                  color: Colors.black54,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+
+          // Button
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(double.infinity, 40),
+              backgroundColor: ColorRes.primary,
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+            onPressed: () {},
+            child: Text(
+              "Check availability with seller",
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: ColorRes.white,
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+        ],
+      ),
+    );
+  }
+}
+
+class ProjectBrochure extends StatelessWidget {
+  final String brochureImageUrl;
+  final String brochureUrl;
+  final int totalPages;
+
+  const ProjectBrochure({
+    super.key,
+    required this.brochureImageUrl,
+    required this.brochureUrl,
+    this.totalPages = 9,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      margin: const EdgeInsets.all(12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Text(
+          //   "Project Brochure",
+          //   style: Theme.of(context).textTheme.titleMedium,
+          // ),
+          // const SizedBox(height: 12),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.grey.shade200,
+              border: Border.all(
+                color: ColorRes.grey.withOpacity(0.6),
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: AspectRatio(
+                aspectRatio: 16 / 8,
+                child: Stack(
+                  children: [
+                    Center(
+                      child: Image.network(
+                        brochureImageUrl,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        errorBuilder:
+                            (context, error, stackTrace) => const Icon(
+                              Icons.broken_image,
+                              size: 50,
+                              color: Colors.grey,
+                            ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 8,
+                      left: 8,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.black54,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          "1/$totalPages",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: ColorRes.primary,
+                    ), // outline like OutlinedButton
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      // Share action
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: 8,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(Icons.share, size: 15, color: ColorRes.primary),
+                          SizedBox(width: 8),
+                          Text(
+                            "Share",
+                            style: TextStyle(
+                              color: ColorRes.primary,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.blue, // same as ElevatedButton
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      // TODO: Open PDF viewer or download
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 12,
+                        horizontal: 8,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(Icons.download, size: 15, color: Colors.white),
+                          SizedBox(width: 8),
+                          Text(
+                            "Download",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ProjectDetails extends StatelessWidget {
+  final String projectName;
+  final double minPrice;
+  final double maxPrice;
+  final String launchedDate;
+  final int units;
+  final double projectArea;
+  final String reraId;
+  final List<NearbyLocations> nearbyProjects;
+
+  const ProjectDetails({
+    super.key,
+    required this.projectName,
+    required this.minPrice,
+    required this.maxPrice,
+    required this.launchedDate,
+    required this.units,
+    required this.projectArea,
+    required this.reraId,
+    required this.nearbyProjects,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 80,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: nearbyProjects.length,
+              separatorBuilder: (_, __) => const SizedBox(width: 12),
+              itemBuilder: (context, index) {
+                final project = nearbyProjects[index];
+                return Container(
+                  margin: EdgeInsets.symmetric(vertical: AppPadding.small),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppPadding.small,
+                    vertical: AppPadding.small,
+                  ),
+                  decoration: BoxDecoration(
+                    color: ColorRes.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color:
+                          project.name == projectName
+                              ? Colors.deepPurple
+                              : Colors.grey.shade300,
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        project.name!,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: ColorRes.textColor,
+                          fontWeight: AppFontWeights.medium,
+                        ),
+                      ),
+                      SizedBox(height: 6),
+                      Text(
+                        '${project.distance ?? '2.1 Km'}',
+                        style: TextStyle(
+                          color: ColorRes.grey,
+                          fontSize: AppFontSizes.extraSmall,
+                          fontWeight: AppFontWeights.semiBold,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+
+          const SizedBox(height: 16),
+          // Additional Details
+          Row(
+            spacing: 25,
+            children: [
+              _detailItem("Launched in", 'Jul,2024'),
+              _verticalDivider(),
+              _detailItem("Units", units.toString()),
+              _verticalDivider(),
+              _detailItem("Project area", "$projectArea Acres"),
+            ],
+          ),
+          const SizedBox(height: 12),
+          // Text(
+          //   "RERA ID: $reraId",
+          //   style: TextStyle(
+          //     color: Colors.black54,
+          //     fontSize: AppFontSizes.small,
+          //   ),
+          // ),
+          _detailItem("RERA ID", reraId),
+          const SizedBox(height: 16),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: ColorRes.primary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(
+                  Icons.info_outline,
+                  color: ColorRes.primary,
+                  size: 18,
+                ),
+              ),
+              SizedBox(width: 8),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: ColorRes.primary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(
+                  Icons.share,
+                  color: ColorRes.primary,
+                  size: 18,
+                ),
+              ),
+              SizedBox(width: 8),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: ColorRes.primary,
+                    side: const BorderSide(color: ColorRes.primary, width: 1.5),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                  child: const Text(
+                    "View More Details",
+                    style: TextStyle(
+                      fontWeight: AppFontWeights.semiBold,
+                      fontSize: AppFontSizes.caption,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _detailItem(String title, String value) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(fontSize: 11, color: Colors.black54),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: TextStyle(
+            fontWeight: AppFontWeights.semiBold,
+            fontSize: AppFontSizes.small,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _verticalDivider() =>
+      Container(height: 20, width: 1, color: Colors.grey);
+}
+
+class StatCard extends StatelessWidget {
+  final String title;
+  final String value;
+  final String? subText;
+  final IconData? icon;
+  final Color? iconColor;
+
+  const StatCard({
+    super.key,
+    required this.title,
+    required this.value,
+    this.subText,
+    this.icon,
+    this.iconColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(10),
+      width: 165, // fixed width for balance
+      decoration: BoxDecoration(
+        color: Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          /// Title
+          buildCommonText(title, 12, FontWeight.w600, ColorRes.textColor, 1),
+          SizedBox(height: 4),
+
+          /// Value + optional icon + subtext
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (icon != null) ...[
+                Icon(icon, color: iconColor ?? Colors.black, size: 15),
+                SizedBox(width: 4),
+              ],
+              buildCommonText(
+                value,
+                11,
+                FontWeight.w600,
+                iconColor ?? Colors.black,
+                1,
+              ),
+              if (subText != null) ...[
+                SizedBox(width: 4),
+                buildCommonText(
+                  subText ?? '',
+                  10,
+                  FontWeight.normal,
+                  Colors.grey,
+                  1,
+                ),
+              ],
+            ],
           ),
         ],
       ),

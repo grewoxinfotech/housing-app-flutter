@@ -51,15 +51,15 @@ class _LoginScreenState extends State<LoginScreen> {
       context: context,
       builder:
           (context) => AlertDialog(
-        title: const Text('Login Error'),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
+            title: const Text('Login Error'),
+            content: Text(message),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('OK'),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 
@@ -150,9 +150,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 24,
                         width: 24,
                         color:
-                        _isPasswordVisible
-                            ? Get.theme.colorScheme.outline
-                            : Get.theme.colorScheme.primary,
+                            _isPasswordVisible
+                                ? Get.theme.colorScheme.outline
+                                : Get.theme.colorScheme.primary,
                       ),
                     ),
                   ),
@@ -194,14 +194,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                   const SizedBox(height: 16),
-
-                  // OTP Login Button (optional)
-                  // CustomButton(
-                  //   text: 'Login with OTP',
-                  //   onPressed: _navigateToOtpLogin,
-                  //   isOutlined: true,
-                  //   backgroundColor: theme.colorScheme.primary,
-                  // ),
                   const SizedBox(height: 24),
 
                   // Register Link
@@ -219,7 +211,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           TextButton(
-                            onPressed: () => Get.to(() => SelectAccountTypeScreen()),
+                            onPressed:
+                                () => Get.to(() => SelectAccountTypeScreen()),
                             child: Text(
                               'Sign Up here',
                               style: TextStyle(

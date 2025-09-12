@@ -15,7 +15,8 @@ class PropertyController extends PaginatedController<Items> {
   final TextEditingController typeController = TextEditingController();
   final TextEditingController listingTypeController = TextEditingController();
   final TextEditingController propertyTypeController = TextEditingController();
-  final TextEditingController propertyDescriptionController = TextEditingController();
+  final TextEditingController propertyDescriptionController =
+      TextEditingController();
   final TextEditingController addressController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController stateController = TextEditingController();
@@ -26,10 +27,14 @@ class PropertyController extends PaginatedController<Items> {
   final TextEditingController ownerPhoneController = TextEditingController();
   final TextEditingController ownerEmailController = TextEditingController();
   final TextEditingController reraIdController = TextEditingController();
-  final TextEditingController propertyFacingController = TextEditingController();
-  final TextEditingController propertyConditionController = TextEditingController();
-  final TextEditingController propertyCarpetAreaController = TextEditingController();
-  final TextEditingController propertyBuiltUpAreaController = TextEditingController();
+  final TextEditingController propertyFacingController =
+      TextEditingController();
+  final TextEditingController propertyConditionController =
+      TextEditingController();
+  final TextEditingController propertyCarpetAreaController =
+      TextEditingController();
+  final TextEditingController propertyBuiltUpAreaController =
+      TextEditingController();
 
   // Reactive fields
   Rxn<PropertyMedia> propertyMedia = Rxn<PropertyMedia>();
@@ -39,6 +44,8 @@ class PropertyController extends PaginatedController<Items> {
   RxString approvalStatus = "pending".obs;
   RxString assignmentStatus = "available".obs;
   RxBool isVerified = false.obs;
+  RxBool isExpanded = false.obs;
+  RxBool isDeveloper = false.obs;
 
   // Optional filters
   Map<String, String>? filters;
@@ -78,7 +85,6 @@ class PropertyController extends PaginatedController<Items> {
       rethrow;
     }
   }
-
 
   /// --- Reset form ---
   void resetForm() {
@@ -175,5 +181,15 @@ class PropertyController extends PaginatedController<Items> {
   Future<void> applyFilters(Map<String, String> newFilters) async {
     filters = newFilters;
     await refreshList();
+  }
+
+  void lessOrReadMore() {
+    isExpanded.value = !isExpanded.value;
+    update();
+  }
+
+  void checkTheSellerType() {
+    isDeveloper.value = !isDeveloper.value;
+    update();
   }
 }

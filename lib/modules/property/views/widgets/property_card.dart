@@ -251,7 +251,6 @@ class _PropertyCardState extends State<PropertyCard> {
                           fontSize: 12,
                           color: Colors.grey.shade800,
                           fontWeight: FontWeight.w500,
-
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),

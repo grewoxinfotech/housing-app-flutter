@@ -13,6 +13,7 @@ dependencies:
   cupertino_icons:
   provider:
   http:
+  alphabet_list_view: 
   flutter_secure_storage:
   cached_network_image:
   shimmer:
@@ -31,6 +32,9 @@ dependencies:
   video_player:
   share_plus:
   url_launcher:
+  dropdown_button2:
+  
+  
 
 dev_dependencies:
   flutter_test:
@@ -43,6 +47,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/logo/
     - assets/icons/
     - assets/fonts/
     - assets/icons/comments/
@@ -61,6 +66,7 @@ flutter:
     - assets/icons/native_icons/notification/
     - assets/icons/native_icons/system/
     - assets/icons/native_icons/ui/
+
     #- .env
 
   # Comment out fonts until they are available

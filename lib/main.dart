@@ -8,6 +8,9 @@ import 'package:housing_flutter_app/app/services/network_status_service.dart';
 
 import 'package:housing_flutter_app/modules/auth/controllers/auth_controller.dart';
 import 'package:housing_flutter_app/modules/dashboard/views/dashboard_screen.dart';
+import 'package:housing_flutter_app/modules/propert_detail/view/property_details.dart';
+import 'package:housing_flutter_app/modules/property/views/property_list_screen.dart';
+import 'package:housing_flutter_app/modules/property/views/widgets/property_card.dart';
 
 import 'app/theme/themes.dart' as AppTheme;
 import 'modules/saved_property/views/saved_property_screen.dart';
@@ -27,7 +30,7 @@ void main() async {
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      home: DashboardScreen(),
+      home: LoginScreen(),
       builder: (context, child) {
         final mediaQuery = MediaQuery.of(context);
         return MediaQuery(

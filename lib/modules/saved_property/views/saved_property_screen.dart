@@ -725,9 +725,6 @@ List<Items> dummyItems = [
   ),
 ];
 
-
-
-
 class SavedPropertyScreen extends StatefulWidget {
   const SavedPropertyScreen({super.key});
 
@@ -811,9 +808,10 @@ class _SavedPropertyScreenState extends State<SavedPropertyScreen> {
                             ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
-                              color: isSelected
-                                  ? ColorRes.primary.withOpacity(0.1)
-                                  : Colors.transparent,
+                              color:
+                                  isSelected
+                                      ? ColorRes.primary.withOpacity(0.1)
+                                      : Colors.transparent,
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -830,12 +828,14 @@ class _SavedPropertyScreenState extends State<SavedPropertyScreen> {
                                   "${tabs[index]}",
                                   style: TextStyle(
                                     fontSize: 11,
-                                    fontWeight: isSelected
-                                        ? FontWeight.w600
-                                        : FontWeight.normal,
-                                    color: isSelected
-                                        ? ColorRes.primary
-                                        : Colors.black87,
+                                    fontWeight:
+                                        isSelected
+                                            ? FontWeight.w600
+                                            : FontWeight.normal,
+                                    color:
+                                        isSelected
+                                            ? ColorRes.primary
+                                            : Colors.black87,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -953,4 +953,3 @@ class _EmptyState extends StatelessWidget {
     );
   }
 }
-

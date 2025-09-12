@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../../app/constants/font_res.dart';
@@ -15,12 +17,14 @@ class CustomTextField extends StatelessWidget {
   final int maxLines;
   final TextCapitalization textCapitalization; // Add this line
   final double radius;
+  final bool enabled;
 
   const CustomTextField({
     Key? key,
     required this.controller,
     required this.hintText,
     this.labelText,
+this.enabled = true,
     this.prefixIcon,
     this.suffixIcon,
     this.obscureText = false,
@@ -35,6 +39,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled:enabled,
       controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,
@@ -47,7 +52,7 @@ class CustomTextField extends StatelessWidget {
         labelText: labelText,
         prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
         suffixIcon: suffixIcon,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(radius?? 8.0)),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radius?? 8.0),
           borderSide: BorderSide(color: Colors.grey.shade300),
