@@ -261,7 +261,7 @@ class HomeScreen extends StatelessWidget {
                               return false;
                             },
                             child: SizedBox(
-                              height: 260,
+                              height: 270,
                               child: ClipRRect(
                                 child: ListView.separated(
                                   scrollDirection: Axis.horizontal,

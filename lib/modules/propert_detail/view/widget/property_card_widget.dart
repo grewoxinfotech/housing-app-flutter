@@ -56,107 +56,6 @@ class _PropertyCardWidgetState extends State<PropertyCardWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Stack(
-          //   children: [
-          //     ClipRRect(
-          //       borderRadius: const BorderRadius.vertical(
-          //         top: Radius.circular(12),
-          //       ),
-
-          //       child: CarouselSlider(
-          //         items:
-          //             widget.images.map((image) {
-          //               return Builder(
-          //                 builder: (BuildContext context) {
-          //                   return Container(
-          //                     width: double.infinity,
-          //                     // margin: EdgeInsets.symmetric(horizontal: 5.0),
-          //                     decoration: BoxDecoration(
-          //                       color: Colors.grey.shade200,
-          //                       borderRadius: BorderRadius.circular(12),
-          //                       image: DecorationImage(
-          //                         image: NetworkImage(image),
-          //                         fit: BoxFit.cover,
-          //                       ),
-          //                     ),
-          //                   );
-          //                 },
-          //               );
-          //             }).toList(),
-
-          //         options: CarouselOptions(
-          //           autoPlay: false,
-          //           enlargeCenterPage: true,
-          //           viewportFraction: 1.0,
-          //           aspectRatio: 2.2,
-          //           initialPage: 2,
-          //           onPageChanged: (index, reason) {
-          //             setState(() {
-          //               _currentImageIndex = index;
-          //             });
-          //           },
-          //         ),
-          //       ),
-          //     ),
-          //     if (widget.images.length > 1)
-          //       Positioned(
-          //         bottom: 8,
-          //         right: 12,
-          //         child: Container(
-          //           padding: const EdgeInsets.symmetric(
-          //             horizontal: AppPadding.small,
-          //             vertical: 4,
-          //           ),
-          //           decoration: BoxDecoration(
-          //             // ignore: deprecated_member_use
-          //             color: Colors.black.withOpacity(0.8),
-          //             borderRadius: BorderRadius.circular(AppRadius.small),
-          //           ),
-          //           child: Text(
-          //             '${_currentImageIndex + 1}/${widget.images.length}',
-          //             style: const TextStyle(
-          //               color: Colors.white,
-          //               fontSize: AppFontSizes.extraSmall,
-          //               fontWeight: AppFontWeights.semiBold,
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-
-          //     Positioned(
-          //       left: 12,
-          //       bottom: 8,
-          //       child: ReraComponent(
-          //         text:
-          //             (widget.role.trim().toLowerCase() == 'owner')
-          //                 ? "Verified"
-          //                 : "RERA",
-          //         // ignore: deprecated_member_use
-          //         backgroundColor: ColorRes.black.withOpacity(0.8),
-          //         textColor: ColorRes.background,
-          //         fontSize: AppFontSizes.extraSmall,
-          //         borderRadius: AppRadius.small,
-          //         fontWeight: AppFontWeights.bold,
-          //         showIcon: true,
-          //         iconColor: ColorRes.success,
-          //         iconSize: 13,
-          //       ),
-          //     ),
-          //     const Positioned(
-          //       top: 12,
-          //       right: 12,
-          //       child: CircleAvatar(
-          //         radius: AppRadius.mediumLarge,
-          //         backgroundColor: Colors.white,
-          //         child: Icon(
-          //           Icons.favorite_border,
-          //           color: ColorRes.primary,
-          //           size: 20,
-          //         ),
-          //       ),
-          //     ),
-          //   ],
-          // ),
           Stack(
             children: [
               SizedBox(
@@ -189,29 +88,6 @@ class _PropertyCardWidgetState extends State<PropertyCardWidget> {
                 ),
               ),
 
-              // if (widget.images.length > 1)
-              //   Positioned(
-              //     bottom: 8,
-              //     right: 12,
-              //     child: Container(
-              //       padding: const EdgeInsets.symmetric(
-              //         horizontal: AppPadding.small,
-              //         vertical: 4,
-              //       ),
-              //       decoration: BoxDecoration(
-              //         color: Colors.black.withOpacity(0.8),
-              //         borderRadius: BorderRadius.circular(AppRadius.small),
-              //       ),
-              //       child: Text(
-              //         '${_currentImageIndex + 1}/${widget.images.length}',
-              //         style: const TextStyle(
-              //           color: Colors.white,
-              //           fontSize: AppFontSizes.extraSmall,
-              //           fontWeight: AppFontWeights.semiBold,
-              //         ),
-              //       ),
-              //     ),
-              //   ),
               Positioned(
                 left: 14,
                 bottom: 14,
@@ -220,7 +96,7 @@ class _PropertyCardWidgetState extends State<PropertyCardWidget> {
                       (widget.role.trim().toLowerCase() == 'owner')
                           ? "Verified"
                           : "rera",
-                  backgroundColor: ColorRes.black.withOpacity(0.5),
+                  backgroundColor: ColorRes.black.withOpacity(0.7),
                   textColor: ColorRes.background,
                   fontSize: AppFontSizes.extraSmall,
 
@@ -228,7 +104,7 @@ class _PropertyCardWidgetState extends State<PropertyCardWidget> {
                   fontWeight: AppFontWeights.bold,
                   showIcon: true,
                   iconColor: ColorRes.success,
-                  iconSize: 13,
+                  iconSize: 14,
                 ),
               ),
 
@@ -274,7 +150,10 @@ class _PropertyCardWidgetState extends State<PropertyCardWidget> {
               ],
             ),
           ),
-
+          //--------here
+          SizedBox(height: 4),
+          //=======================================================
+          //=======================
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: AppPadding.small),
             child: Row(
@@ -351,8 +230,12 @@ class _PropertyCardWidgetState extends State<PropertyCardWidget> {
               ),
             ),
           ),
+
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppPadding.small),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppPadding.small,
+              vertical: 2,
+            ),
             child: SizedBox(
               height: 40,
               child: ListView.separated(
@@ -375,19 +258,19 @@ class _PropertyCardWidgetState extends State<PropertyCardWidget> {
                         Text(
                           feature,
                           style: const TextStyle(
-                            fontSize: AppFontSizes.extraSmall,
-                            color: ColorRes.textDisabled,
+                            fontSize: AppFontSizes.caption,
+                            color: ColorRes.grey,
+                            fontWeight: AppFontWeights.medium,
                           ),
                         ),
                       ],
                     ),
                   );
                 },
-                separatorBuilder: (context, index) => const SizedBox(width: 8),
+                separatorBuilder: (context, index) => const SizedBox(width: 5),
               ),
             ),
           ),
-
           Divider(
             height: 15,
             color: Colors.grey.shade300,
@@ -418,15 +301,15 @@ class _PropertyCardWidgetState extends State<PropertyCardWidget> {
                         widget.ownerName,
                         style: const TextStyle(
                           fontSize: AppFontSizes.small,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                           color: ColorRes.textColor,
                         ),
                       ),
                       Text(
                         widget.role,
                         style: const TextStyle(
-                          fontSize: 9,
-                          fontWeight: FontWeight.w400,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
                           color: ColorRes.grey,
                         ),
                       ),
@@ -477,3 +360,298 @@ class _PropertyCardWidgetState extends State<PropertyCardWidget> {
     );
   }
 }
+// import 'package:flutter/material.dart';
+// import 'package:housing_flutter_app/app/constants/app_font_sizes.dart';
+// import 'package:housing_flutter_app/app/constants/color_res.dart';
+// import 'package:housing_flutter_app/app/constants/size_manager.dart';
+// import 'package:housing_flutter_app/utils/common_widget/rera_widget.dart';
+
+// class PropertyCardWidget extends StatefulWidget {
+//   final String imageUrl;
+//   final String title;
+//   final String location;
+//   final String price;
+//   final String ownerName;
+//   final List<String> images;
+//   final String ownerAvatar;
+//   final String role;
+//   final String beds;
+//   final List<Map<String, dynamic>> apartments;
+//   final List<String> features;
+
+//   const PropertyCardWidget({
+//     super.key,
+//     required this.imageUrl,
+//     required this.features,
+//     required this.images,
+//     required this.apartments,
+//     required this.title,
+//     required this.location,
+//     required this.price,
+//     required this.ownerName,
+//     required this.ownerAvatar,
+//     required this.role,
+//     required this.beds,
+//   });
+
+//   @override
+//   State<PropertyCardWidget> createState() => _PropertyCardWidgetState();
+// }
+
+// class _PropertyCardWidgetState extends State<PropertyCardWidget> {
+//   bool isFavorite = false;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Card(
+//       color: ColorRes.white,
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(AppRadius.medium),
+//       ),
+//       elevation: 3,
+//       margin: const EdgeInsets.symmetric(vertical: AppPadding.small),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           // 🔹 Image Section
+//           Stack(
+//             children: [
+//               ClipRRect(
+//                 borderRadius: const BorderRadius.vertical(
+//                   top: Radius.circular(AppRadius.medium),
+//                 ),
+//                 child: SizedBox(
+//                   height: 160,
+//                   width: double.infinity,
+//                   child: PageView.builder(
+//                     itemCount: widget.images.length,
+//                     itemBuilder: (context, index) {
+//                       return Image.network(
+//                         widget.images[index],
+//                         fit: BoxFit.cover,
+//                       );
+//                     },
+//                   ),
+//                 ),
+//               ),
+//               // RERA or Verified Badge
+//               Positioned(
+//                 left: 12,
+//                 bottom: 12,
+//                 child: ReraComponent(
+//                   text: (widget.role.trim().toLowerCase() == 'owner')
+//                       ? "Verified"
+//                       : "RERA",
+//                   backgroundColor: Colors.black.withOpacity(0.7),
+//                   textColor: Colors.white,
+//                   fontSize: AppFontSizes.extraSmall,
+//                   borderRadius: AppRadius.small,
+//                   fontWeight: AppFontWeights.bold,
+//                   showIcon: true,
+//                   iconColor: ColorRes.success,
+//                   iconSize: 13,
+//                 ),
+//               ),
+//               // Favorite Button
+//               Positioned(
+//                 top: 12,
+//                 right: 12,
+//                 child: GestureDetector(
+//                   onTap: () => setState(() => isFavorite = !isFavorite),
+//                   child: CircleAvatar(
+//                     radius: 16,
+//                     backgroundColor: Colors.white,
+//                     child: Icon(
+//                       isFavorite ? Icons.favorite : Icons.favorite_border,
+//                       color: ColorRes.primary,
+//                       size: 18,
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+
+//           // 🔹 Title & Location
+//           Padding(
+//             padding: const EdgeInsets.all(AppPadding.small),
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Text(
+//                   widget.title,
+//                   maxLines: 1,
+//                   overflow: TextOverflow.ellipsis,
+//                   style: const TextStyle(
+//                     fontSize: AppFontSizes.medium,
+//                     fontWeight: AppFontWeights.semiBold,
+//                     color: ColorRes.textColor,
+//                   ),
+//                 ),
+//                 const SizedBox(height: 2),
+//                 Row(
+//                   children: [
+//                     const Icon(Icons.location_on,
+//                         size: 14, color: ColorRes.grey),
+//                     const SizedBox(width: 4),
+//                     Expanded(
+//                       child: Text(
+//                         widget.location,
+//                         maxLines: 1,
+//                         overflow: TextOverflow.ellipsis,
+//                         style: const TextStyle(
+//                           fontSize: AppFontSizes.extraSmall,
+//                           color: ColorRes.grey,
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ],
+//             ),
+//           ),
+
+//           // 🔹 Apartment Info (BHK & Price Range)
+//           if (widget.apartments.isNotEmpty)
+//             Padding(
+//               padding: const EdgeInsets.symmetric(horizontal: AppPadding.small),
+//               child: SingleChildScrollView(
+//                 scrollDirection: Axis.horizontal,
+//                 child: Row(
+//                   children: widget.apartments.map((apartment) {
+//                     return Padding(
+//                       padding: const EdgeInsets.only(right: 16),
+//                       child: Column(
+//                         crossAxisAlignment: CrossAxisAlignment.start,
+//                         children: [
+//                           Text(
+//                             apartment['bhk'],
+//                             style: const TextStyle(
+//                               fontSize: AppFontSizes.caption,
+//                               color: ColorRes.textColor,
+//                             ),
+//                           ),
+//                           const SizedBox(height: 2),
+//                           Text(
+//                             apartment['priceRange'],
+//                             style: const TextStyle(
+//                               fontSize: AppFontSizes.body,
+//                               fontWeight: AppFontWeights.bold,
+//                               color: ColorRes.primary,
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     );
+//                   }).toList(),
+//                 ),
+//               ),
+//             ),
+
+//           const SizedBox(height: 8),
+
+//           // 🔹 Features (chips)
+//           if (widget.features.isNotEmpty)
+//             Padding(
+//               padding: const EdgeInsets.symmetric(horizontal: AppPadding.small),
+//               child: Wrap(
+//                 spacing: 8,
+//                 runSpacing: 6,
+//                 children: widget.features.map((feature) {
+//                   return Container(
+//                     padding: const EdgeInsets.symmetric(
+//                       horizontal: AppPadding.small,
+//                       vertical: 4,
+//                     ),
+//                     decoration: BoxDecoration(
+//                       color: Colors.grey.shade100,
+//                       borderRadius: BorderRadius.circular(AppRadius.small),
+//                     ),
+//                     child: Text(
+//                       feature,
+//                       style: const TextStyle(
+//                         fontSize: AppFontSizes.extraSmall,
+//                         color: ColorRes.textDisabled,
+//                       ),
+//                     ),
+//                   );
+//                 }).toList(),
+//               ),
+//             ),
+
+//           const Divider(height: 20, thickness: 0.8),
+
+//           // 🔹 Owner Info + Buttons
+//           Padding(
+//             padding: const EdgeInsets.symmetric(horizontal: AppPadding.small),
+//             child: Row(
+//               children: [
+//                 CircleAvatar(
+//                   radius: 18,
+//                   backgroundColor: Colors.white,
+//                   child: CircleAvatar(
+//                     radius: 16,
+//                     backgroundImage: NetworkImage(widget.ownerAvatar),
+//                   ),
+//                 ),
+//                 const SizedBox(width: 10),
+//                 Expanded(
+//                   child: Column(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     children: [
+//                       Text(
+//                         widget.ownerName,
+//                         style: const TextStyle(
+//                           fontSize: AppFontSizes.small,
+//                           fontWeight: FontWeight.w600,
+//                           color: ColorRes.textColor,
+//                         ),
+//                       ),
+//                       Text(
+//                         widget.role,
+//                         style: const TextStyle(
+//                           fontSize: 10,
+//                           fontWeight: FontWeight.w400,
+//                           color: ColorRes.grey,
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//                 // Call Button
+//                 Container(
+//                   padding: const EdgeInsets.all(8),
+//                   decoration: BoxDecoration(
+//                     color: ColorRes.primary,
+//                     borderRadius: BorderRadius.circular(AppRadius.small),
+//                   ),
+//                   child: const Icon(Icons.call,
+//                       color: Colors.white, size: AppFontSizes.medium),
+//                 ),
+//                 const SizedBox(width: 8),
+//                 // View Details Button
+//                 Container(
+//                   padding: const EdgeInsets.symmetric(
+//                       horizontal: 12, vertical: 8),
+//                   decoration: BoxDecoration(
+//                     border: Border.all(color: ColorRes.primary, width: 1.5),
+//                     borderRadius: BorderRadius.circular(AppRadius.small),
+//                   ),
+//                   child: const Text(
+//                     "View Details",
+//                     style: TextStyle(
+//                       fontSize: AppFontSizes.extraSmall,
+//                       fontWeight: FontWeight.w600,
+//                       color: ColorRes.primary,
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//           const SizedBox(height: AppSpacing.small),
+//         ],
+//       ),
+//     );
+//   }
+// }
