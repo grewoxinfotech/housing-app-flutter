@@ -46,7 +46,10 @@ class _CityFilterListState extends State<CityFilterList> {
 
           return NesticoPeBannerCardWithText(
             imageUrl: images[index],
-            title: cities[index],
+          //  title: cities[index],
+            price: "1200",
+            location: cities[index],
+            propertySize: "2BHK, 1200 sqft",
             height: 100,
             width: 150,
             isCenterText: true,

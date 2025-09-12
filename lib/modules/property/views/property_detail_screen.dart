@@ -51,9 +51,9 @@ class PropertyDetailScreen extends StatelessWidget {
 
               SizedBox(height: 12),
               TitleWithViewAll(title: 'Facilities'),
-              SizedBox(height: 18),
+              SizedBox(height: 0),
               Facilities(property: property ?? Items()),
-              SizedBox(height: 6),
+              SizedBox(height: 0),
               Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
               SizedBox(height: 12),
@@ -406,7 +406,7 @@ class PropertyDetailScreen extends StatelessWidget {
   Widget _buildMediaBanner(PropertyMedia media) {
     final PageController _pageController = PageController();
     final images = media.images ?? [];
-    final videos = media.videos ?? []; // Add videos list
+    final videos = media.videos ?? [];
     final List<Map<String, String>> mediaList = [
       ...images.map((e) => {"type": "image", "url": e}),
       ...videos.map((e) => {"type": "video", "url": e}),
@@ -419,6 +419,7 @@ class PropertyDetailScreen extends StatelessWidget {
         builder: (context, setState) {
           return Stack(
             children: [
+              /// Media (Image / Video)
               SizedBox(
                 height: 300,
                 width: double.infinity,
@@ -445,7 +446,8 @@ class PropertyDetailScreen extends StatelessWidget {
                   },
                 ),
               ),
-              // Back button
+
+              /// Back button
               Positioned(
                 top: 16,
                 left: 16,
@@ -455,7 +457,8 @@ class PropertyDetailScreen extends StatelessWidget {
                   onPressed: () => Get.back(),
                 ),
               ),
-              // Right side icons
+
+              /// Right side icons
               Positioned(
                 top: 16,
                 right: 16,
@@ -475,7 +478,8 @@ class PropertyDetailScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              // Page indicator
+
+              /// Page indicator
               Positioned(
                 bottom: 16,
                 right: 16,
@@ -498,12 +502,220 @@ class PropertyDetailScreen extends StatelessWidget {
                   ),
                 ),
               ),
+
+              /// 🔹 RERA Tag (Bottom Left inside image)
+              Positioned(
+                bottom: 16,
+                left: 16,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: ColorRes.green.withOpacity(0.9),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.verified, size: 14, color: Colors.white),
+                      const SizedBox(width: 4),
+                      const Text(
+                        "RERA",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           );
         },
       ),
     );
   }
+
+  // Widget _buildTitleSection(Items property) {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         // 🔹 RERA Tag + Rating Row
+  //         // Row(
+  //         //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //         //   children: [
+  //         //     // Left: RERA Tag
+  //         //     Container(
+  //         //       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+  //         //       decoration: BoxDecoration(
+  //         //         color: Colors.green.withOpacity(0.1),
+  //         //         borderRadius: BorderRadius.circular(6),
+  //         //         border: Border.all(color: Colors.green.shade400, width: 0.8),
+  //         //       ),
+  //         //       child: Row(
+  //         //         mainAxisSize: MainAxisSize.min,
+  //         //         children: [
+  //         //           Icon(Icons.verified, size: 14, color: Colors.green.shade600),
+  //         //           const SizedBox(width: 4),
+  //         //           Text(
+  //         //             "RERA",
+  //         //             style: TextStyle(
+  //         //               fontSize: 12,
+  //         //               fontWeight: FontWeight.w600,
+  //         //               color: Colors.green.shade700,
+  //         //             ),
+  //         //           ),
+  //         //         ],
+  //         //       ),
+  //         //     ),
+  //         //
+  //         //     // Right: ⭐ Rating
+  //         //     Container(
+  //         //       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+  //         //       // decoration: BoxDecoration(
+  //         //       //   color: Colors.grey[200], // light gray background
+  //         //       //   borderRadius: BorderRadius.circular(6), // rounded corners
+  //         //       // ),
+  //         //       child: Row(
+  //         //         mainAxisSize: MainAxisSize.min,
+  //         //         children:  [
+  //         //           Icon(Icons.star, size: 16, color: Colors.amber),
+  //         //           SizedBox(width: 4),
+  //         //           Text(
+  //         //             "4.5",
+  //         //             style: TextStyle(
+  //         //               fontSize: 14,
+  //         //               fontWeight: FontWeight.w600,
+  //         //               color: Colors.black,
+  //         //             ),
+  //         //           ),
+  //         //           SizedBox(width: 4),
+  //         //           Text(
+  //         //             "(14 reviews)",
+  //         //             style: TextStyle(
+  //         //               fontSize: 11,
+  //         //               fontWeight: FontWeight.w500,
+  //         //               color: Colors.black.withOpacity(0.6),
+  //         //             ),
+  //         //           ),
+  //         //         ],
+  //         //       ),
+  //         //     ),
+  //         //
+  //         //
+  //         //
+  //         //   ],
+  //         // ),
+
+  //         //  const SizedBox(height: 6),
+
+  //         // 🔹 Title
+  //         Text(
+  //           property.title ?? "-",
+  //           style: const TextStyle(
+  //             fontSize: 17,
+  //             fontWeight: FontWeight.w600,
+  //             color: ColorRes.textPrimary,
+  //           ),
+  //           maxLines: 2,
+  //           overflow: TextOverflow.ellipsis,
+  //         ),
+
+  //         const SizedBox(height: 4),
+
+  //         // 📍 Location Row
+  //         Row(
+  //           crossAxisAlignment: CrossAxisAlignment.center,
+  //           children: [
+  //             Icon(
+  //               Icons.location_on_rounded,
+  //               size: 16,
+  //               color: Colors.grey[600],
+  //             ),
+  //             const SizedBox(width: 4),
+  //             Expanded(
+  //               child: Text(
+  //                 '${property.city ?? '-'}, ${property.state ?? "-"}',
+  //                 style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+  //                 overflow: TextOverflow.ellipsis,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+
+  //         const SizedBox(height: 4),
+
+  //         // 🔹 Type + See on Map
+  //         Row(
+  //           children: [
+  //             if (property.listingType != null)
+  //               Container(
+  //                 padding: const EdgeInsets.symmetric(
+  //                   horizontal: 10,
+  //                   vertical: 4,
+  //                 ),
+  //                 decoration: BoxDecoration(
+  //                   color: ColorRes.primary.withOpacity(0.15),
+  //                   borderRadius: BorderRadius.circular(AppRadius.small),
+  //                 ),
+  //                 child: Text(
+  //                   property.listingType!.toUpperCase(),
+  //                   style: const TextStyle(
+  //                     fontSize: 12,
+  //                     fontWeight: FontWeight.w600,
+  //                     color: ColorRes.primary,
+  //                   ),
+  //                 ),
+  //               ),
+
+  //             const Spacer(),
+
+  //             GestureDetector(
+  //               onTap: () {
+  //                 // TODO: Add map navigation logic
+  //               },
+  //               child: Container(
+  //                 padding: const EdgeInsets.symmetric(
+  //                   horizontal: 10,
+  //                   vertical: 4,
+  //                 ),
+  //                 decoration: BoxDecoration(
+  //                   color: ColorRes.primary.withOpacity(0.1),
+  //                   borderRadius: BorderRadius.circular(AppRadius.small),
+  //                 ),
+  //                 child: Row(
+  //                   mainAxisSize: MainAxisSize.min,
+  //                   children: const [
+  //                     Icon(
+  //                       Icons.location_pin,
+  //                       size: 16,
+  //                       color: ColorRes.primary,
+  //                     ),
+  //                     SizedBox(width: 4),
+  //                     Text(
+  //                       "See on Map",
+  //                       style: TextStyle(
+  //                         fontSize: 12,
+  //                         fontWeight: FontWeight.w600,
+  //                         color: ColorRes.primary,
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   /// Inline video player builder
   Widget _buildVideoPlayer(String url) {
@@ -527,133 +739,133 @@ class PropertyDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTitleSection(Items property) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.alphabetic,
-            children: [
-              // Title
-              Expanded(
-                child: Text(
-                  property.title ?? "-",
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600,
-                    color: ColorRes.textPrimary,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
+  // Widget _buildTitleSection(Items property) {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Row(
+  //           crossAxisAlignment: CrossAxisAlignment.baseline,
+  //           textBaseline: TextBaseline.alphabetic,
+  //           children: [
+  //             // Title
+  //             Expanded(
+  //               child: Text(
+  //                 property.title ?? "-",
+  //                 style: TextStyle(
+  //                   fontSize: 17,
+  //                   fontWeight: FontWeight.w600,
+  //                   color: ColorRes.textPrimary,
+  //                 ),
+  //                 maxLines: 2,
+  //                 overflow: TextOverflow.ellipsis,
+  //               ),
+  //             ),
 
-              const SizedBox(width: 8),
-              Row(
-                children: [
-                  Icon(Icons.star, size: 16, color: Colors.amber),
-                  const SizedBox(width: 4),
-                  Text(
-                    "4.5",
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+  //             const SizedBox(width: 8),
+  //             Row(
+  //               children: [
+  //                 Icon(Icons.star, size: 16, color: Colors.amber),
+  //                 const SizedBox(width: 4),
+  //                 Text(
+  //                   "4.5",
+  //                   style: TextStyle(
+  //                     fontSize: 15,
+  //                     fontWeight: FontWeight.w600,
+  //                     color: Colors.black,
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ],
+  //         ),
 
-          const SizedBox(height: 4),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Icon(Icons.location_on_rounded, size: 16, color: Colors.grey[600]),
-              // const SizedBox(width: 4),
-              Expanded(
-                child: Text(
-                  '${property.city ?? '-'}, ${property.state ?? "-"}',
-                  style: TextStyle(fontSize: 13, color: Colors.grey[600]),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
+  //         const SizedBox(height: 4),
+  //         Row(
+  //           crossAxisAlignment: CrossAxisAlignment.center,
+  //           children: [
+  //             // Icon(Icons.location_on_rounded, size: 16, color: Colors.grey[600]),
+  //             // const SizedBox(width: 4),
+  //             Expanded(
+  //               child: Text(
+  //                 '${property.city ?? '-'}, ${property.state ?? "-"}',
+  //                 style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+  //                 overflow: TextOverflow.ellipsis,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
 
-          const SizedBox(height: 4),
+  //         const SizedBox(height: 4),
 
-          // Type + See on Map Row
-          Row(
-            children: [
-              // Type Chip
-              if (property.listingType != null)
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: ColorRes.primary.withOpacity(0.15),
-                    borderRadius: BorderRadius.circular(AppRadius.small),
-                  ),
-                  child: Text(
-                    property.listingType!.toUpperCase(),
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: ColorRes.primary,
-                    ),
-                  ),
-                ),
+  //         // Type + See on Map Row
+  //         Row(
+  //           children: [
+  //             // Type Chip
+  //             if (property.listingType != null)
+  //               Container(
+  //                 padding: const EdgeInsets.symmetric(
+  //                   horizontal: 10,
+  //                   vertical: 4,
+  //                 ),
+  //                 decoration: BoxDecoration(
+  //                   color: ColorRes.primary.withOpacity(0.15),
+  //                   borderRadius: BorderRadius.circular(AppRadius.small),
+  //                 ),
+  //                 child: Text(
+  //                   property.listingType!.toUpperCase(),
+  //                   style: TextStyle(
+  //                     fontSize: 12,
+  //                     fontWeight: FontWeight.w600,
+  //                     color: ColorRes.primary,
+  //                   ),
+  //                 ),
+  //               ),
 
-              const Spacer(),
+  //             const Spacer(),
 
-              // See on Map Button
-              GestureDetector(
-                onTap: () {
-                  // TODO: Add map navigation logic
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: ColorRes.primary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(AppRadius.small),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.location_pin,
-                        size: 16,
-                        color: ColorRes.primary,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        "See on Map",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: ColorRes.primary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+  //             // See on Map Button
+  //             GestureDetector(
+  //               onTap: () {
+  //                 // TODO: Add map navigation logic
+  //               },
+  //               child: Container(
+  //                 padding: const EdgeInsets.symmetric(
+  //                   horizontal: 10,
+  //                   vertical: 4,
+  //                 ),
+  //                 decoration: BoxDecoration(
+  //                   color: ColorRes.primary.withOpacity(0.1),
+  //                   borderRadius: BorderRadius.circular(AppRadius.small),
+  //                 ),
+  //                 child: Row(
+  //                   mainAxisSize: MainAxisSize.min,
+  //                   children: [
+  //                     Icon(
+  //                       Icons.location_pin,
+  //                       size: 16,
+  //                       color: ColorRes.primary,
+  //                     ),
+  //                     const SizedBox(width: 4),
+  //                     Text(
+  //                       "See on Map",
+  //                       style: TextStyle(
+  //                         fontSize: 12,
+  //                         fontWeight: FontWeight.w600,
+  //                         color: ColorRes.primary,
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _buildPriceAndType() {
     return Padding(
@@ -943,29 +1155,24 @@ class Facilities extends StatelessWidget {
   Widget build(BuildContext context) {
     final highlights = PropertyHighlightManager(property).getHighlights();
 
-    return SizedBox(
-      height: 100,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
-          children:
-              highlights.map((item) {
-                final key = item.keys.first;
-                final value = item.values.first;
-                final icon = iconMap[key] ?? Icons.info_outline;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Wrap(
+        spacing: 12,
+        runSpacing: 12,
+        children:
+            highlights.map((item) {
+              final key = item.keys.first;
+              final value = item.values.first;
+              final icon = iconMap[key] ?? Icons.info_outline;
 
-                return Padding(
-                  padding: const EdgeInsets.only(right: 12),
-                  child: FacilitiesCard(
-                    label: "$value",
-                    icon: icon,
-                    bgColor: bgColor,
-                    foreColor: txtColor,
-                  ),
-                );
-              }).toList(),
-        ),
+              return FacilitiesCard(
+                label: "$value",
+                icon: icon,
+                bgColor: bgColor,
+                foreColor: txtColor,
+              );
+            }).toList(),
       ),
     );
   }
@@ -988,27 +1195,31 @@ class FacilitiesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      constraints: const BoxConstraints(
+        minWidth: 80,
+      ), // 👈 ensures small labels don't shrink too much
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300, width: 1),
-        borderRadius: BorderRadius.circular(12), // Rounded like screenshot
-        color: Colors.white, // Background white
+        border: Border.all(color: ColorRes.primary, width: 1),
+        borderRadius: BorderRadius.circular(20), // pill-like
+        color: Colors.white,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            icon,
-            size: 16,
-            color: Colors.grey.shade800, // Dark grey icons
-          ),
+          Icon(icon, size: 16, color: ColorRes.primary),
           const SizedBox(width: 6),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: Colors.grey.shade800, // Dark grey text
+          Flexible(
+            child: Text(
+              label,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis, // prevent overflow
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey.shade800,
+              ),
             ),
           ),
         ],
@@ -1016,7 +1227,6 @@ class FacilitiesCard extends StatelessWidget {
     );
   }
 }
-
 // Example of FacilitiesCard widget
 // class FacilitiesCard extends StatelessWidget {
 //   final String label;

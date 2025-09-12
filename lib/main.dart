@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/data/database/secure_storage_service.dart';
 import 'package:housing_flutter_app/modules/auth/views/login_screen.dart';
 import 'package:housing_flutter_app/modules/auth/views/splash_screen.dart';
@@ -19,7 +20,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
-      statusBarColor: Colors.white, // Status bar background color
+      statusBarColor: ColorRes.primary, // Status bar background color
       statusBarIconBrightness: Brightness.dark, // Android: dark icons
       statusBarBrightness: Brightness.light, // iOS: dark icons
     ),

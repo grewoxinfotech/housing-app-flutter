@@ -39,4 +39,8 @@ class ColorRes {
   static const textPrimary = Color(0xFF000000);
   static const textSecondary = Color(0xFF555555);
   static const textDisabled = Color(0xFF616161);
+
+
+  //other
+  static const green = Colors.green;
 }
