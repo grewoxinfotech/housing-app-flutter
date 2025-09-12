@@ -13,7 +13,7 @@ class IMGRes {
   static final String city5 = "assets/images/city_5.jpg";
   static final String city6 = "assets/images/city_6.jpg";
   static final String city7 = "assets/images/city_7.jpg";
-  static final String plot1 = "assets/images/plot_1.jpg";
+  static final String plot1 = "assets/images/plot_1.jpeg";
   static final String plot2 = "assets/images/plot_2.jpg";
   static final String plot3 = "assets/images/plot_3.jpg";
   static final String shop1 = "assets/images/shop_1.jpg";

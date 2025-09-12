@@ -31,6 +31,10 @@ class HomeScreen extends StatelessWidget {
     IMGRes.plot1,
     IMGRes.banner2,
     IMGRes.banner3,
+    IMGRes.shop1,
+    IMGRes.shop2,
+    IMGRes.shop3,
+    IMGRes.shop4,
   ];
   static final List<String> shops = [
     IMGRes.shop1,
@@ -247,11 +251,12 @@ class HomeScreen extends StatelessWidget {
                           return Padding(
                             padding: const EdgeInsets.only(right: 12),
                             child: NesticoPeBannerCardWithText(
-                              height: 200,
-                              width: 230,
+                              height: 290,
+                              width: 260,
                               imageUrl: banners[index],
-                              title: "Fully Furnished",
-                              description: "Properties with all Essentials",
+                              price: "₹1.25Cr",
+                              location: "Mota varacha, Surat",
+                              propertySize: "3 / 4 BHK, 1250 sqft, Semi-Furnished",
                             ),
                           );
                         }),
@@ -369,14 +374,14 @@ class HomeScreen extends StatelessWidget {
                       crossAxisSpacing: 12,
                       childAspectRatio: 170 / 125,
                       // Width / Height
-                      children: List.generate(images.length, (index) {
-                        return NesticoPeBannerCardWithText(
-                          height: 125,
-                          width: 170,
-                          imageUrl: images[index],
-                          title: "Apartment",
-                        );
-                      }),
+                      // children: List.generate(images.length, (index) {
+                      //   return NesticoPeBannerCardWithText(
+                      //     height: 125,
+                      //     width: 170,
+                      //     imageUrl: images[index],
+                      //     title: "Apartment",
+                      //   );
+                      // }),
                     ),
                   ),
 
@@ -392,13 +397,13 @@ class HomeScreen extends StatelessWidget {
                         children: List.generate(banners.length, (index) {
                           return Padding(
                             padding: const EdgeInsets.only(right: 12),
-                            child: NesticoPeBannerCardWithText(
-                              height: 125,
-                              width: 250,
-                              imageUrl: banners[index],
-                              title: "Fully Furnished",
-                              description: "Properties with all Essentials",
-                            ),
+                            // child: NesticoPeBannerCardWithText(
+                            //   height: 125,
+                            //   width: 250,
+                            //   imageUrl: banners[index],
+                            //   title: "Fully Furnished",
+                            //   description: "Properties with all Essentials",
+                            // ),
                           );
                         }),
                       ),
@@ -417,12 +422,12 @@ class HomeScreen extends StatelessWidget {
                         children: List.generate(shops.length, (index) {
                           return Padding(
                             padding: const EdgeInsets.only(right: 12),
-                            child: NesticoPeBannerCardWithText(
-                              height: 125,
-                              width: 125,
-                              imageUrl: shops[index],
-                              title: "Retail Shop",
-                            ),
+                            // child: NesticoPeBannerCardWithText(
+                            //   height: 125,
+                            //   width: 125,
+                            //   imageUrl: shops[index],
+                            //   title: "Retail Shop",
+                            // ),
                           );
                         }),
                       ),
@@ -441,13 +446,13 @@ class HomeScreen extends StatelessWidget {
                         children: List.generate(plots.length * 2, (index) {
                           return Padding(
                             padding: const EdgeInsets.only(right: 12),
-                            child: NesticoPeBannerCardWithText(
-                              height: 100,
-                              width: 100,
-                              imageUrl: bhk[index % 3],
-                              title: "1BHK",
-                              isCenterText: true,
-                            ),
+                            // child: NesticoPeBannerCardWithText(
+                            //   height: 100,
+                            //   width: 100,
+                            //   imageUrl: bhk[index % 3],
+                            //   title: "1BHK",
+                            //   isCenterText: true,
+                            // ),
                           );
                         }),
                       ),
@@ -466,12 +471,12 @@ class HomeScreen extends StatelessWidget {
                         children: List.generate(plots.length, (index) {
                           return Padding(
                             padding: const EdgeInsets.only(right: 12),
-                            child: NesticoPeBannerCardWithText(
-                              height: 125,
-                              width: 200,
-                              imageUrl: plots[index],
-                              title: "Residential Plot",
-                            ),
+                            // child: NesticoPeBannerCardWithText(
+                            //   height: 125,
+                            //   width: 200,
+                            //   imageUrl: plots[index],
+                            //   title: "Residential Plot",
+                            // ),
                           );
                         }),
                       ),
