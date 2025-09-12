@@ -9,6 +9,7 @@ import 'package:housing_flutter_app/app/manager/icon_manager.dart';
 import 'package:housing_flutter_app/app/manager/string_manager.dart';
 import 'package:housing_flutter_app/app/utils/bottom_sheet_form.dart';
 import 'package:housing_flutter_app/app/utils/dummy_data.dart';
+import 'package:housing_flutter_app/app/utils/formater/formater.dart';
 import 'package:housing_flutter_app/app/widgets/video_player/custom_video_player.dart';
 import 'package:housing_flutter_app/modules/property/controllers/property_controller.dart';
 import 'package:housing_flutter_app/modules/property/views/property_list_screen.dart';
@@ -222,12 +223,12 @@ class PropertyDetailScreen extends StatelessWidget {
                   ],
                 );
               }),
-              PropertyFeedbackComponent(
-                onSubmit: (rating, feedback) {
-                  print("Rating: $rating, Feedback: $feedback");
-                },
-              ),
-              SizedBox(height: 12),
+              // PropertyFeedbackComponent(
+              //   onSubmit: (rating, feedback) {
+              //     print("Rating: $rating, Feedback: $feedback");
+              //   },
+              // ),
+              // SizedBox(height: 12),
 
               // Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
               // SizedBox(height: 12),
@@ -257,7 +258,9 @@ class PropertyDetailScreen extends StatelessWidget {
       ),
       bottomNavigationBar: SafeArea(
         child: PropertyBottomBar(
-          price: '₹ ${property?.propertyDetails?.financialInfo?.price ?? '0'}',
+          financialInfo:
+              property?.propertyDetails?.financialInfo ?? FinancialInfo(),
+          // price: '₹ ${property?.propertyDetails?.financialInfo?.price ?? '0'}',
           onCallOwner: () {
             showModalBottomSheet(
               context: context,
@@ -1026,15 +1029,17 @@ class CircularIcon extends StatelessWidget {
 }
 
 class PropertyBottomBar extends StatelessWidget {
-  final String price;
+  final FinancialInfo financialInfo;
+  // final String price;
   final VoidCallback onCallOwner;
   final VoidCallback onScheduleVisit;
 
   const PropertyBottomBar({
     super.key,
-    required this.price,
+    // required this.price,
     required this.onCallOwner,
     required this.onScheduleVisit,
+    required this.financialInfo,
   });
 
   @override
@@ -1060,7 +1065,7 @@ class PropertyBottomBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                price,
+                Formatter.formatPrice(financialInfo.price),
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -1069,7 +1074,11 @@ class PropertyBottomBar extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Get.bottomSheet(
+                    PricingBottomSheet(financialInfo: financialInfo),
+                  );
+                },
                 child: Text(
                   'See Pricing in Detail',
                   style: TextStyle(
@@ -1115,6 +1124,167 @@ class PropertyBottomBar extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class PricingBottomSheet extends StatelessWidget {
+  final FinancialInfo? financialInfo;
+  const PricingBottomSheet({super.key, required this.financialInfo});
+
+  @override
+  Widget build(BuildContext context) {
+    if (financialInfo == null) {
+      return const SizedBox.shrink(); // nothing if null
+    }
+
+    final info = financialInfo!;
+
+    // Build a list of rows dynamically
+    final List<Widget> rows = [];
+
+    if (_isValid(info.price)) {
+      rows.add(_priceRow("Property Price", info.price.toStringAsFixed(2)));
+    }
+    if (_isValid(info.maintenance)) {
+      rows.add(
+        _priceRow(
+          "Maintenance (Monthly)",
+          info.maintenance!.toStringAsFixed(2),
+        ),
+      );
+    }
+    if (_isValid(info.propertyRentPerMonth)) {
+      rows.add(
+        _priceRow("Rent / Month", info.propertyRentPerMonth.toStringAsFixed(2)),
+      );
+    }
+    if (_isValid(info.pricePerSqft)) {
+      rows.add(
+        _priceRow("Price per Sqft", info.pricePerSqft.toStringAsFixed(2)),
+      );
+    }
+    if (_isValid(info.brokerCommission)) {
+      rows.add(
+        _priceRow(
+          "Broker Commission",
+          info.brokerCommission.toStringAsFixed(2),
+        ),
+      );
+    }
+    if (_isValid(info.propertySecurityDeposit)) {
+      rows.add(
+        _priceRow(
+          "Security Deposit",
+          _formatCurrency(info.propertySecurityDeposit),
+        ),
+      );
+    }
+    if (info.negotiable) {
+      rows.add(_priceRow("Negotiable", "Yes"));
+    }
+
+    // Calculate total only if there are meaningful values
+    final total = _totalPrice(info);
+    if (total > 0) {
+      rows.add(const Divider(height: 28));
+      rows.add(
+        _priceRow("Total Price", _formatCurrency(total), isHighlight: true),
+      );
+    }
+
+    // If no rows, don’t show sheet
+    if (rows.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return SafeArea(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Drag Handle
+            Center(
+              child: Container(
+                width: 40,
+                height: 5,
+                margin: const EdgeInsets.only(bottom: 12),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade400,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+
+            const Text(
+              "Pricing Details",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: ColorRes.textPrimary,
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            ...rows,
+
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _priceRow(String label, String value, {bool isHighlight = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: isHighlight ? 16 : 14,
+              fontWeight: isHighlight ? FontWeight.w600 : FontWeight.normal,
+              color: isHighlight ? Colors.black : Colors.grey.shade700,
+            ),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: isHighlight ? 16 : 14,
+              fontWeight: isHighlight ? FontWeight.bold : FontWeight.w500,
+              color: isHighlight ? Colors.green : Colors.black,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  bool _isValid(num? value) {
+    return value != null && value > 0;
+  }
+
+  int _totalPrice(FinancialInfo info) {
+    try {
+      return (info.price +
+              (info.brokerCommission) +
+              (info.propertySecurityDeposit))
+          .toInt();
+    } catch (_) {
+      return 0;
+    }
+  }
+
+  static String _formatCurrency(num? value) {
+    if (value == null || value == 0) return "—";
+    return "₹${value.toStringAsFixed(0)}";
   }
 }
 

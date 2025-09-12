@@ -27,7 +27,7 @@
     },
     {
       "name": "async",
-      "rootUri": "file:///C:/Users/DELL/AppData/Local/Pub/Cache/hosted/pub.dev/async-2.12.0",
+      "rootUri": "file:///C:/Users/DELL/AppData/Local/Pub/Cache/hosted/pub.dev/async-2.13.0",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
@@ -249,9 +249,9 @@
     },
     {
       "name": "flutter",
-      "rootUri": "file:///D:/flutter/packages/flutter",
+      "rootUri": "file:///C:/flutter/src/flutter/packages/flutter",
       "packageUri": "lib/",
-      "languageVersion": "3.8"
+      "languageVersion": "3.7"
     },
     {
       "name": "flutter_cache_manager",
@@ -267,9 +267,9 @@
     },
     {
       "name": "flutter_localizations",
-      "rootUri": "file:///D:/flutter/packages/flutter_localizations",
+      "rootUri": "file:///C:/flutter/src/flutter/packages/flutter_localizations",
       "packageUri": "lib/",
-      "languageVersion": "3.8"
+      "languageVersion": "3.7"
     },
     {
       "name": "flutter_plugin_android_lifecycle",
@@ -327,15 +327,15 @@
     },
     {
       "name": "flutter_test",
-      "rootUri": "file:///D:/flutter/packages/flutter_test",
+      "rootUri": "file:///C:/flutter/src/flutter/packages/flutter_test",
       "packageUri": "lib/",
-      "languageVersion": "3.8"
+      "languageVersion": "3.7"
     },
     {
       "name": "flutter_web_plugins",
-      "rootUri": "file:///D:/flutter/packages/flutter_web_plugins",
+      "rootUri": "file:///C:/flutter/src/flutter/packages/flutter_web_plugins",
       "packageUri": "lib/",
-      "languageVersion": "3.8"
+      "languageVersion": "3.7"
     },
     {
       "name": "font_awesome_flutter",
@@ -477,19 +477,19 @@
     },
     {
       "name": "leak_tracker",
-      "rootUri": "file:///C:/Users/DELL/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker-11.0.1",
+      "rootUri": "file:///C:/Users/DELL/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker-10.0.9",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "leak_tracker_flutter_testing",
-      "rootUri": "file:///C:/Users/DELL/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_flutter_testing-3.0.10",
+      "rootUri": "file:///C:/Users/DELL/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_flutter_testing-3.0.9",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "leak_tracker_testing",
-      "rootUri": "file:///C:/Users/DELL/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_testing-3.0.2",
+      "rootUri": "file:///C:/Users/DELL/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_testing-3.0.1",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -687,9 +687,9 @@
     },
     {
       "name": "sky_engine",
-      "rootUri": "file:///D:/flutter/bin/cache/pkg/sky_engine",
+      "rootUri": "file:///C:/flutter/src/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
-      "languageVersion": "3.8"
+      "languageVersion": "3.7"
     },
     {
       "name": "smooth_page_indicator",
@@ -777,7 +777,7 @@
     },
     {
       "name": "test_api",
-      "rootUri": "file:///C:/Users/DELL/AppData/Local/Pub/Cache/hosted/pub.dev/test_api-0.7.6",
+      "rootUri": "file:///C:/Users/DELL/AppData/Local/Pub/Cache/hosted/pub.dev/test_api-0.7.4",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -873,9 +873,9 @@
     },
     {
       "name": "vector_math",
-      "rootUri": "file:///C:/Users/DELL/AppData/Local/Pub/Cache/hosted/pub.dev/vector_math-2.2.0",
+      "rootUri": "file:///C:/Users/DELL/AppData/Local/Pub/Cache/hosted/pub.dev/vector_math-2.1.4",
       "packageUri": "lib/",
-      "languageVersion": "3.1"
+      "languageVersion": "2.14"
     },
     {
       "name": "video_player",
@@ -909,7 +909,7 @@
     },
     {
       "name": "vm_service",
-      "rootUri": "file:///C:/Users/DELL/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-14.3.1",
+      "rootUri": "file:///C:/Users/DELL/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-15.0.0",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -969,8 +969,8 @@
     }
   ],
   "generator": "pub",
-  "generatorVersion": "3.9.0",
-  "flutterRoot": "file:///D:/flutter",
-  "flutterVersion": "3.35.1",
+  "generatorVersion": "3.8.1",
+  "flutterRoot": "file:///C:/flutter/src/flutter",
+  "flutterVersion": "3.32.8",
   "pubCache": "file:///C:/Users/DELL/AppData/Local/Pub/Cache"
 }

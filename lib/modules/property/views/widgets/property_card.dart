@@ -309,6 +309,7 @@ import 'package:get/get.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/app/constants/img_res.dart';
 import 'package:housing_flutter_app/app/constants/size_manager.dart';
+import 'package:housing_flutter_app/app/utils/formater/formater.dart';
 import '../../../../data/network/property/models/property_model.dart';
 import '../property_detail_screen.dart';
 
