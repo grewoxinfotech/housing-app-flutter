@@ -30,6 +30,7 @@ class _PgCoLivingState extends State<PgCoLiving> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         buildFilterHeadingPadding('Gender'),
+        SizedBox(height: 7),
         SelectableWrap(
           items: genderList,
           selectedItem: selectedGender,
@@ -42,12 +43,14 @@ class _PgCoLivingState extends State<PgCoLiving> {
         ),
         SizedBox(height: 7),
         buildFilterHeadingPadding('Room Type'),
+        SizedBox(height: 7),
         FilterPropertyTypesList(
           items: roomTypeList,
           onSelectionChanged: (index) {},
         ),
         SizedBox(height: 7),
         buildFilterHeadingPadding('Budget'),
+        // SizedBox(height: 7),
         BudgetFilter(
           minValue: 0.0,
           maxValue: 20,
@@ -59,6 +62,7 @@ class _PgCoLivingState extends State<PgCoLiving> {
           maxQuantityLabel: "Cr+",
         ),
         buildFilterHeadingPadding('Food available'),
+        SizedBox(height: 7),
         SelectableWrap(
           items: foodAvailable,
           selectedItem: selectedFoodAvailable,

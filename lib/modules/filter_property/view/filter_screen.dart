@@ -54,6 +54,9 @@ class _RealEstateFilterScreenState extends State<RealEstateFilterScreen> {
                           onTap: () {
                             setState(() {
                               selectedPropertyTypeIndex = index;
+                              print(
+                                'print property type  ${propertyType[selectedPropertyTypeIndex]}',
+                              );
                             });
                           },
                           child: buildFilterPropertyTypes(

@@ -10,7 +10,6 @@
         "alphabet_list_view",
         "awesome_snackbar_content",
         "cached_network_image",
-        "carousel_slider",
         "connectivity_plus",
         "cupertino_icons",
         "dropdown_button2",
@@ -261,13 +260,6 @@
         "clock",
         "meta",
         "path"
-      ]
-    },
-    {
-      "name": "carousel_slider",
-      "version": "4.2.1",
-      "dependencies": [
-        "flutter"
       ]
     },
     {

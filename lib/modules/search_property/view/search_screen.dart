@@ -6,6 +6,7 @@ import 'package:housing_flutter_app/app/constants/size_manager.dart';
 import 'package:housing_flutter_app/modules/filter_property/view/filter_screen.dart';
 
 import 'package:housing_flutter_app/modules/search_property/controller/search_controller.dart';
+import 'package:housing_flutter_app/modules/search_property/widget/change_location.dart';
 import 'package:housing_flutter_app/modules/search_property/widget/search_result.dart';
 import 'package:housing_flutter_app/modules/search_property/widget/suggested_area.dart';
 import 'package:housing_flutter_app/modules/search_property/widget/suggeted_card.dart';
@@ -179,7 +180,11 @@ class _CommonSearchFieldState extends State<CommonSearchField> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(context, '/change_location');
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => ChangeLocation(),
+                                ),
+                              );
                             },
                             child: Container(
                               margin: const EdgeInsets.only(

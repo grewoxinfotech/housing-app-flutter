@@ -13,11 +13,10 @@ dependencies:
   cupertino_icons:
   provider:
   http:
-  alphabet_list_view: 
+  alphabet_list_view: ^1.1.6 
   flutter_secure_storage:
   cached_network_image:
   shimmer:
-  carousel_slider:
   intl:
   image_picker:
   get:

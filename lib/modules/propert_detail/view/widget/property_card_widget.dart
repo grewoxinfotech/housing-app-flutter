@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+// import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:housing_flutter_app/app/constants/app_font_sizes.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
@@ -459,7 +459,7 @@ class _PropertyCardWidgetState extends State<PropertyCardWidget> {
                     border: Border.all(color: ColorRes.primary, width: 1.5),
                     borderRadius: BorderRadius.circular(AppRadius.small),
                   ),
-                  child: Text(
+                  child: const Text(
                     "View Details",
                     style: TextStyle(
                       color: ColorRes.primary,
