@@ -72,7 +72,7 @@ class AuthController extends GetxController {
       print("[Debug]-> User data: ${currentUser.value!.user!.firstName}");
       authState.value = AuthState.authenticated;
 
-      Get.offAll(() => DashboardScreen());
+      Get.offAll(() => const DashboardScreen());
     } catch (e) {
       errorMessage.value = e.toString();
       NesticoPeSnackBar.showAwesomeSnackbar(
@@ -241,7 +241,7 @@ class AuthController extends GetxController {
         resetToken.value,
       );
 
-      Get.offAll(() => LoginScreen());
+      Get.offAll(() => const LoginScreen());
 
       NesticoPeSnackBar.showAwesomeSnackbar(
         title: 'Success',
@@ -270,7 +270,7 @@ class AuthController extends GetxController {
         if (user != null) {
           currentUser.value = user;
           authState.value = AuthState.authenticated;
-          Get.offAll(() => DashboardScreen());
+          Get.offAll(() => const DashboardScreen());
         } else {
           authState.value = AuthState.unauthenticated;
         }
@@ -286,6 +286,6 @@ class AuthController extends GetxController {
     await SecureStorage.clearAll();
     currentUser.value = null;
     authState.value = AuthState.unauthenticated;
-    Get.offAll(() => LoginScreen());
+    Get.offAll(() => const LoginScreen());
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:google_fonts/google_fonts.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/app/constants/size_manager.dart';
 import 'package:housing_flutter_app/app/utils/dummy_data.dart';
@@ -39,13 +38,13 @@ class _RealEstateFilterScreenState extends State<RealEstateFilterScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 7),
+            const SizedBox(height: 7),
             buildFilterHeadingPadding('Types of properties'),
-            SizedBox(height: 7),
+            const SizedBox(height: 7),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8), // only at edges
+                padding: const EdgeInsets.symmetric(horizontal: 8), // only at edges
                 child: Row(
                   children: List.generate(propertyType.length, (index) {
                     return Row(
@@ -69,7 +68,7 @@ class _RealEstateFilterScreenState extends State<RealEstateFilterScreen> {
                           ),
                         ),
                         if (index != propertyType.length - 1)
-                          SizedBox(width: 8), // spacing only between items
+                          const SizedBox(width: 8), // spacing only between items
                       ],
                     );
                   }),
@@ -77,9 +76,9 @@ class _RealEstateFilterScreenState extends State<RealEstateFilterScreen> {
               ),
             ),
 
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             buildFilterHeadingPadding('Localities'),
-            SizedBox(height: 7),
+            const SizedBox(height: 7),
 
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -87,8 +86,8 @@ class _RealEstateFilterScreenState extends State<RealEstateFilterScreen> {
               child: Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(left: 8),
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    margin: const EdgeInsets.only(left: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(AppRadius.small),
                       border: Border.all(color: Colors.grey.shade300, width: 1),
@@ -98,7 +97,7 @@ class _RealEstateFilterScreenState extends State<RealEstateFilterScreen> {
                       mainAxisSize: MainAxisSize.min,
                       spacing: 5,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.location_on,
                           color: ColorRes.primary,
                           size: 13,
@@ -113,7 +112,7 @@ class _RealEstateFilterScreenState extends State<RealEstateFilterScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   SizedBox(
                     width: 300,
                     child: SingleChildScrollView(
@@ -122,8 +121,8 @@ class _RealEstateFilterScreenState extends State<RealEstateFilterScreen> {
                         children: List.generate(
                           localityList.length,
                           (index) => Container(
-                            margin: EdgeInsets.only(right: 8),
-                            padding: EdgeInsets.symmetric(
+                            margin: const EdgeInsets.only(right: 8),
+                            padding: const EdgeInsets.symmetric(
                               horizontal: 12,
                               vertical: 8,
                             ),
@@ -161,20 +160,20 @@ class _RealEstateFilterScreenState extends State<RealEstateFilterScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 7),
+            const SizedBox(height: 7),
             Column(
               children: [
                 if (propertyType[selectedPropertyTypeIndex] == "Buy") ...[
-                  BuyFilters(),
+                  const BuyFilters(),
                 ] else if (propertyType[selectedPropertyTypeIndex] ==
                     "Rent") ...[
-                  RentFilter(),
+                  const RentFilter(),
                 ] else if (propertyType[selectedPropertyTypeIndex] ==
                     "Commercial") ...[
-                  CommercialPropertyFilter(),
+                  const CommercialPropertyFilter(),
                 ] else if (propertyType[selectedPropertyTypeIndex] ==
                     "PG/Co-living") ...[
-                  PgCoLiving(),
+                  const PgCoLiving(),
                 ],
               ],
             ),
@@ -184,7 +183,7 @@ class _RealEstateFilterScreenState extends State<RealEstateFilterScreen> {
 
       bottomNavigationBar: SafeArea(
         child: Container(
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           height: 80,
           color: Colors.white,
           child: ElevatedButton(

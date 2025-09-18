@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:housing_flutter_app/app/constants/app_font_sizes.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/app/constants/size_manager.dart';
+import 'package:housing_flutter_app/app/widgets/mic_search/search_mic.dart';
 import 'package:housing_flutter_app/modules/filter_property/view/filter_screen.dart';
-
 import 'package:housing_flutter_app/modules/search_property/controller/search_controller.dart';
 import 'package:housing_flutter_app/modules/search_property/widget/change_location.dart';
 import 'package:housing_flutter_app/modules/search_property/widget/search_result.dart';
@@ -12,6 +12,7 @@ import 'package:housing_flutter_app/modules/search_property/widget/suggested_are
 import 'package:housing_flutter_app/modules/search_property/widget/suggeted_card.dart';
 import 'package:housing_flutter_app/utils/global.dart';
 import 'package:housing_flutter_app/widgets/input/custom_text_field.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class CommonSearchField extends StatefulWidget {
   const CommonSearchField({super.key});
@@ -21,14 +22,19 @@ class CommonSearchField extends StatefulWidget {
 }
 
 class _CommonSearchFieldState extends State<CommonSearchField> {
-  final TextEditingController _searchController = TextEditingController();
+  final MicController micController = Get.put(MicController());
+
   final GoogleMapController controller = Get.put(GoogleMapController());
   String popularArea = 'Mumbai';
+  late stt.SpeechToText _speech;
+  final bool _isListening = false;
+  final String _lastWords = " ";
   @override
   void initState() {
     super.initState();
-    _searchController.addListener(() {
-      controller.fetchPredictions(_searchController.text);
+
+    micController.searchText.value.addListener(() {
+      controller.fetchPredictions(micController.searchText.value.text);
     });
   }
 
@@ -36,6 +42,7 @@ class _CommonSearchFieldState extends State<CommonSearchField> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: buildCommonText(
           'Search in Surat',
@@ -46,25 +53,85 @@ class _CommonSearchFieldState extends State<CommonSearchField> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(vertical: 12),
+        padding: const EdgeInsets.symmetric(vertical: 12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppPadding.medium),
-              child: GestureDetector(
-                onTap: () {},
-                child: CustomTextField(
-                  enabled: true,
-                  suffixIcon: const Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: AppPadding.medium,
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Obx(
+                      () => CustomTextField(
+                        enabled: true,
+                        fillColor: Colors.white,
+                        suffixIcon: const Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: AppPadding.medium,
+                          ),
+                          child: Icon(
+                            Icons.search,
+                            color: ColorRes.primary,
+                            size: 25,
+                          ),
+                        ),
+                        controller: micController.searchText.value,
+                        hintText: 'Surat , Gujarat , 395010',
+                      ),
                     ),
-                    child: Icon(Icons.search, color: Colors.black, size: 25),
                   ),
-                  controller: _searchController,
-                  hintText: 'Surat , Gujarat , 395010',
-                ),
+
+                  const SizedBox(width: 8),
+                  GestureDetector(
+                    onTap: () {
+                      // Open bottom sheet
+                      Get.bottomSheet(
+                        _openMicSheet(),
+                        backgroundColor: ColorRes.white,
+                        isScrollControlled: true,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20),
+                          ),
+                        ),
+                      );
+                      micController.listen();
+                      ever(micController.isListening, (bool listening) {
+                        if (!listening) {
+                          micController.stopListening();
+                          if ((Get.isBottomSheetOpen ?? false) ||
+                              micController.searchText.value.text.isNotEmpty) {
+                            Get.back(); // Close the bottom sheet
+                          }
+                        }
+                      });
+                    },
+                    child: Container(
+                      height: 52,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 14,
+                        horizontal: 15,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey.shade300,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Obx(
+                        () => Icon(
+                          micController.isListening.value
+                              ? Icons.mic
+                              : Icons.mic_none,
+                          color: ColorRes.primary,
+                          size: 24,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             AppSpacing.verticalMedium,
@@ -73,7 +140,7 @@ class _CommonSearchFieldState extends State<CommonSearchField> {
                 return const Center(child: SizedBox.shrink());
               }
 
-              if (_searchController.text.isNotEmpty) {
+              if (micController.searchText.value.text.isNotEmpty) {
                 if (controller.predictions.isEmpty) {
                   return Center(
                     child: buildCommonText(
@@ -108,19 +175,19 @@ class _CommonSearchFieldState extends State<CommonSearchField> {
                         // );
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => RealEstateFilterScreen(),
+                            builder: (context) => const RealEstateFilterScreen(),
                           ),
                         );
                       },
                       child: Padding(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: AppPadding.medium,
                           vertical: AppPadding.small,
                         ),
                         child: Row(
                           children: [
-                            Icon(Icons.apartment, color: ColorRes.primary),
-                            SizedBox(width: 12),
+                            const Icon(Icons.apartment, color: ColorRes.primary),
+                            const SizedBox(width: 12),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,7 +195,7 @@ class _CommonSearchFieldState extends State<CommonSearchField> {
                                   // Main text with highlight
                                   highlightText(
                                     item.description ?? "",
-                                    _searchController.text,
+                                    micController.searchText.value.text,
                                     item.structuredFormatting?.secondaryText ??
                                         '',
                                     normalStyle: const TextStyle(
@@ -147,7 +214,7 @@ class _CommonSearchFieldState extends State<CommonSearchField> {
                                   Text(
                                     item.structuredFormatting?.secondaryText ??
                                         '',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: AppFontSizes.extraSmall,
                                       fontWeight: FontWeight.w400,
                                       color:
@@ -182,7 +249,7 @@ class _CommonSearchFieldState extends State<CommonSearchField> {
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => ChangeLocation(),
+                                  builder: (context) => const ChangeLocation(),
                                 ),
                               );
                             },
@@ -250,14 +317,87 @@ class _CommonSearchFieldState extends State<CommonSearchField> {
                 );
               }
             }),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
           ],
+        ),
+      ),
+    );
+  }
+
+  /// MARK: - Mic Bottom Sheet
+
+  Widget _openMicSheet() {
+    // // Start listening immediately
+    // micController.listen();
+    return SafeArea(
+      child: SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                "Voice Search",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
+
+              // Mic Button
+              Obx(() {
+                final isListening = micController.isListening.value;
+                return GestureDetector(
+                  onTap: micController.listen,
+                  child: Container(
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color:
+                          isListening
+                              ? Colors.red.shade100
+                              : Colors.grey.shade200,
+                    ),
+                    child: Icon(
+                      isListening ? Icons.mic : Icons.mic_none,
+                      color: isListening ? Colors.red : Colors.black54,
+                      size: 40,
+                    ),
+                  ),
+                );
+              }),
+
+              const SizedBox(height: 16),
+              Obx(
+                () => Text(
+                  micController.isListening.value
+                      ? "Listening..."
+                      : "Tap mic to start",
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // Recognized words
+              Obx(() {
+                final words = micController.lastWords.value;
+                return Text(
+                  words,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                );
+              }),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
+/// MARK: - Highlight search query in results
 Widget highlightText(
   String text,
   String secondText,
@@ -287,6 +427,7 @@ Widget highlightText(
   );
 }
 
+///MARK: - Helpers
 /// 🔹 Reusable section widget
 Widget buildSection(String title, List<Map<String, dynamic>> data) {
   return Column(
@@ -295,7 +436,7 @@ Widget buildSection(String title, List<Map<String, dynamic>> data) {
     children: [
       SizedBox(height: AppSpacing.verticalSmall.height),
       Padding(
-        padding: EdgeInsets.symmetric(horizontal: AppPadding.medium),
+        padding: const EdgeInsets.symmetric(horizontal: AppPadding.medium),
         child: buildCommonText(
           title,
           12,
@@ -309,9 +450,9 @@ Widget buildSection(String title, List<Map<String, dynamic>> data) {
         height: 100,
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.symmetric(horizontal: AppPadding.medium),
+          padding: const EdgeInsets.symmetric(horizontal: AppPadding.medium),
           itemCount: data.length,
-          separatorBuilder: (_, __) => SizedBox(width: AppSpacing.small),
+          separatorBuilder: (_, __) => const SizedBox(width: AppSpacing.small),
           itemBuilder: (context, index) {
             final property = data[index];
             return SuggestionCardList(
@@ -328,6 +469,7 @@ Widget buildSection(String title, List<Map<String, dynamic>> data) {
   );
 }
 
+///MARK: - Common Text Widget
 Text buildCommonText(
   String title,
   double size,
@@ -343,11 +485,12 @@ Text buildCommonText(
   );
 }
 
+///MARK: - City Dropdown
 Padding buildFilterHeadingPadding(String title) {
   return Padding(
-    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
     child: buildCommonText(
-      '$title',
+      title,
       AppFontSizes.medium,
       FontWeight.w600,
       ColorRes.textColor,

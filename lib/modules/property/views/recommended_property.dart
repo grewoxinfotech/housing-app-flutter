@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:housing_flutter_app/app/widgets/texts/headline_text.dart';
 import 'package:housing_flutter_app/modules/property/controllers/property_controller.dart';
-import 'package:housing_flutter_app/modules/property/views/widgets/property_card.dart';
 import 'package:housing_flutter_app/modules/property/views/widgets/recommended_card.dart';
 
 class RecommendedProperty extends StatelessWidget {

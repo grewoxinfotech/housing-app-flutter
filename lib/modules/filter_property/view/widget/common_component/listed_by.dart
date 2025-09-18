@@ -53,13 +53,13 @@ class _ListedByState extends State<ListedBy> {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
-        padding: EdgeInsets.only(right: 10),
+        padding: const EdgeInsets.only(right: 10),
         itemCount: widget.listedByList.length,
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () => toggleSelection(index),
             child: Padding(
-              padding: EdgeInsets.only(left: 8),
+              padding: const EdgeInsets.only(left: 8),
               child: buildFilterPropertyTypes(
                 title: widget.listedByList[index],
                 isSelected: selectedItems.contains(widget.listedByList[index]),

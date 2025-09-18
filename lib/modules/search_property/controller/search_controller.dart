@@ -15,7 +15,7 @@ class GoogleMapController extends GetxController {
 
       final response = await GoogleMapApi.instance.getPlacePredictions(city);
       
-      print("resposne ===== ${response}");
+      print("resposne ===== $response");
 
       if (response != null) {
         final model = SearchFilterModel.fromJson(response);

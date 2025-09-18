@@ -163,7 +163,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:housing_flutter_app/app/constants/font_res.dart';
 import '../../app/constants/ic_res.dart';
 import '../../app/constants/size_manager.dart';
 import '../../modules/auth/controllers/auth_controller.dart';
@@ -230,7 +229,7 @@ class NesticoPeDrawer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           NesticoPeIc(
-                            iconPath: items[i].iconPath!,
+                            iconPath: items[i].iconPath,
                             width: 24,
                             color:
                                 isSelected
@@ -239,7 +238,7 @@ class NesticoPeDrawer extends StatelessWidget {
                           ),
                           AppSpacing.horizontalSmall,
                           Text(
-                            items[i].title!,
+                            items[i].title,
                             style: TextStyle(
                               fontSize: 16,
 

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:housing_flutter_app/app/constants/app_font_sizes.dart';
 
 import 'package:housing_flutter_app/app/constants/img_res.dart';
+import 'package:housing_flutter_app/app/utils/formater/formater.dart';
 import 'package:housing_flutter_app/app/widgets/cards/banner_card_with_text.dart';
 import 'package:housing_flutter_app/app/widgets/texts/headline_text.dart';
 import 'package:housing_flutter_app/app/widgets/texts/title_with_disc.dart';
@@ -10,18 +11,74 @@ import 'package:housing_flutter_app/data/network/property/models/property_model.
 import 'package:housing_flutter_app/modules/home/widgets/city_card.dart';
 import 'package:housing_flutter_app/modules/home/widgets/home_header.dart';
 import 'package:housing_flutter_app/modules/home/widgets/top_locations.dart';
+import 'package:housing_flutter_app/modules/new_project/view/latest_project.dart';
 import 'package:housing_flutter_app/modules/propert_detail/view/property_details.dart';
 import 'package:housing_flutter_app/modules/property/controllers/property_controller.dart';
 import 'package:housing_flutter_app/modules/property/views/property_list_screen.dart';
+// import 'package:housing_flutter_app/modules/property/views/recommended.dart';
 import 'package:housing_flutter_app/modules/property/views/widgets/property_card.dart';
+import 'package:housing_flutter_app/modules/property_rating/view/top_rated_property.dart';
+import 'package:housing_flutter_app/modules/search_property/view/search_screen.dart';
+import 'package:housing_flutter_app/modules/seller/view/seller_profile.dart';
+import 'package:housing_flutter_app/modules/seller/view/widget/seller_list.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app/constants/color_res.dart';
 
-class HomeScreen extends StatelessWidget {
-  final PropertyController controller = Get.put(PropertyController());
-  HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  final List<Map<String, String>> propertyTypes;
+  const HomeScreen({
+    super.key,
+    this.propertyTypes = const [
+      {
+        "title": "Villa",
+        "image":
+            "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
+      },
+      {
+        "title": "Plot",
+        "image":
+            "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80",
+      },
+
+      {
+        "title": "PG",
+        "image":
+            "https://pgproperty.sg/wp-content/uploads/2022/11/the-crest-488x326.jpg",
+      },
+      {
+        "title": "Shop",
+        "image":
+            "https://5.imimg.com/data5/XH/NE/SW/SELLER-48886426/shop-for-sale-in-jaipur-commercial.jpg",
+      },
+      {
+        "title": "Office",
+        "image":
+            "https://img.etimg.com/thumb/width-1200,height-1200,imgsize-76402,resizemode-75,msid-111456711/industry/services/property-/-cstruction/india-office-property-market-surges-with-record-gross-leasing-in-2024-first-half.jpg",
+      },
+      {
+        "title": "Studio",
+        "image":
+            "https://homebazaar-blog.s3.ap-south-1.amazonaws.com/knowledge/wp-content/uploads/2022/10/24122439/FeatureImage_Overview-Of-A-Studio-Apartment.webp",
+      },
+      {
+        "title": "Warehouse",
+        "image":
+            "https://3.imimg.com/data3/SR/MV/MY-12088584/warehouses-for-sale-500x500.jpg",
+      },
+      {
+        "title": "Apartment",
+        "image":
+            "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=600&q=80",
+      },
+      {
+        "title": "Commercial",
+        "image":
+            "https://www.ashwinshethgroup.com/wp-content/uploads/2022/11/Commercial-property-buying-guidelines-1400x700-1.webp",
+      },
+    ],
+  });
 
   static final List<String> images = [
     IMGRes.home1,
@@ -46,6 +103,13 @@ class HomeScreen extends StatelessWidget {
   ];
   static final List<String> plots = [IMGRes.plot1, IMGRes.plot2, IMGRes.plot3];
   static final List<String> bhk = [IMGRes.bhk1, IMGRes.bhk2, IMGRes.bhk3];
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final PropertyController controller = Get.put(PropertyController());
 
   final List<Map<String, dynamic>> cities = [
     {
@@ -78,14 +142,68 @@ class HomeScreen extends StatelessWidget {
       "propertyCount": "30,000+ Properties",
     },
   ];
+  final List<Map<String, dynamic>> dummySellerList = [
+    {
+      "seller": {
+        "name": "Ramprasad Padhi",
+        "image":
+            "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=600&q=80",
+        "experience": 31,
+        "location": "Borivali West",
+        "properties_count": 55,
+      },
+    },
+    {
+      "seller": {
+        "name": "Meena Properties",
+        "image":
+            "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=600&q=80",
+        "experience": 6,
+        "location": "Virar West",
+        "properties_count": 54,
+      },
+    },
+    {
+      "seller": {
+        "name": "Dhanraj Choudhary",
+        "image":
+            "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80",
+        "experience": 13,
+        "location": "Powai",
+        "properties_count": 41,
+      },
+    },
+    {
+      "seller": {
+        "name": "Mahavastu Realty",
+        "image":
+            "https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=600&q=80",
+        "experience": 8,
+        "location": "Mira Road East",
+        "properties_count": 15,
+      },
+    },
+    {
+      "seller": {
+        "name": "Kohinoor Realtors",
+        "image":
+            "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
+        "experience": 10,
+        "location": "Andheri East",
+        "properties_count": 29,
+      },
+    },
+  ];
+
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     // Get.lazyPut(() => PropertyController());
     // final PropertyController controller = Get.find();
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
-        // backgroundColor: Colors.white,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
@@ -95,51 +213,103 @@ class HomeScreen extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // /// Header Dropdown of cities
-                  // SizedBox(height: 12),
-                  // CityDropdown(),
-                  //
-                  // /// Filter Tags
-                  // SizedBox(height: 12),
-                  // FilterTagList(),
-                  SizedBox(height: 10),
-                  //    FilterTagList(),
+                  // SizedBox(height: 15),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(
+                      // horizontal: 12,
+                      vertical: 4,
+                    ),
+                    child: Row(
+                      children: List.generate(widget.propertyTypes.length, (
+                        index,
+                      ) {
+                        final type = widget.propertyTypes[index];
+                        final isSelected = selectedIndex == index;
 
-                  /// Banner
-                  // const SizedBox(height: 24),
-                  // // const TitleWithViewAll(title: "Banners", showViewAll: false),
-                  // // const SizedBox(height: 12),
-                  // // HorizontalBannerList(),
-                  // const TitleWithViewAll(
-                  //   title: "Property Types",
-                  //   showViewAll: false,
-                  // ),
-                  // const SizedBox(height: 12),
-                  // PropertyTypeFilterTagList(),
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedIndex = index;
+                            });
+                            print("Selected: ${type['title']}");
+                          },
+                          child: IntrinsicWidth(
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                left: index == 0 ? 8 : 2,
+                                right:
+                                    index == widget.propertyTypes.length - 1
+                                        ? 8
+                                        : 0,
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 12,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    width: 60,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color:
+                                            isSelected
+                                                ? ColorRes.primary
+                                                : Colors.grey.shade300,
+                                        width: 2,
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(2),
+                                      child: ClipOval(
+                                        child: FadeInImage.assetNetwork(
+                                          placeholder: 'assets/logo/Avant.jpg',
+                                          image: type['image'] ?? '',
+                                          fit: BoxFit.cover,
+                                          imageErrorBuilder:
+                                              (context, error, stackTrace) =>
+                                                  Icon(
+                                                    Icons.home_work_rounded,
+                                                    color: Colors.grey.shade400,
+                                                    size: 32,
+                                                  ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    type['title'] ?? '',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: AppFontSizes.caption,
+                                      fontWeight:
+                                          isSelected
+                                              ? FontWeight.w600
+                                              : FontWeight.w500,
+                                      color:
+                                          isSelected
+                                              ? ColorRes.primary
+                                              : ColorRes.black,
+                                      letterSpacing: 0.4,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
+                  ),
 
-                  // /// Recommended Product
-                  // const SizedBox(height: 12),
-                  // const TitleWithViewAll(
-                  //   title: "Recommended Property's",
-                  //   showViewAll: true,
-                  // ),
-                  // SingleChildScrollView(
-                  //   scrollDirection: Axis.horizontal,
-                  //   child: Row(
-                  //     children: List.generate(images.length, (index) {
-                  //       return Padding(
-                  //         padding: const EdgeInsets.only(right: 12),
-                  //         child: PropertyCard(
-                  //           imageUrl: images[index],
-                  //           title: "Villa Newly Renovated",
-                  //           price: "9.8 Cr",
-                  //           location:
-                  //               "123 Palm Beach Road, Juhu, Maharastra, india",
-                  //         ),
-                  //       );
-                  //     }),
-                  //   ),
-                  // ),
                   const SizedBox(height: 10),
                   Column(
                     children: [
@@ -153,88 +323,6 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 12),
-
-                      // FutureBuilder(
-                      //   future: controller.loadInitial(),
-                      //   builder: (context, asyncSnapshot) {
-                      //     print(
-                      //       'asyncSnapshot: ${asyncSnapshot.connectionState}',
-                      //     );
-                      //
-                      //     if (asyncSnapshot.connectionState ==
-                      //         ConnectionState.waiting) {
-                      //       // Show loader while waiting
-                      //       return Center(child: CircularProgressIndicator());
-                      //     } else if (asyncSnapshot.hasError) {
-                      //       // Show error message if future fails
-                      //       return Center(
-                      //         child: Text(
-                      //           'Error: ${asyncSnapshot.error}',
-                      //           style: TextStyle(color: Colors.red),
-                      //         ),
-                      //       );
-                      //     } else if (asyncSnapshot.connectionState ==
-                      //         ConnectionState.done) {
-                      //       return Obx(() {
-                      //         if (!controller.isLoading.value &&
-                      //             controller.items.isEmpty) {
-                      //           return const Center(
-                      //             child: Text("No Property found."),
-                      //           );
-                      //         }
-                      //         return Padding(
-                      //           padding: const EdgeInsets.symmetric(
-                      //             horizontal: 12,
-                      //           ),
-                      //           child: NotificationListener<ScrollNotification>(
-                      //             onNotification: (scrollEnd) {
-                      //               final metrics = scrollEnd.metrics;
-                      //               if (metrics.atEdge && metrics.pixels != 0) {
-                      //                 controller.loadMore();
-                      //               }
-                      //               return false;
-                      //             },
-                      //             child: SizedBox(
-                      //               height: 260,
-                      //               child: ClipRRect(
-                      //                 child: ListView.separated(
-                      //                   scrollDirection: Axis.horizontal,
-                      //                   itemCount: controller.items.length,
-                      //                   separatorBuilder:
-                      //                       (_, __) =>
-                      //                           const SizedBox(width: 12),
-                      //                   itemBuilder: (context, index) {
-                      //                     final data = controller.items[index];
-                      //                     return Padding(
-                      //                       padding: const EdgeInsets.symmetric(
-                      //                         vertical: 8.0,
-                      //                       ),
-                      //                       child: MediaQuery(
-                      //                         data: MediaQuery.of(
-                      //                           context,
-                      //                         ).copyWith(
-                      //                           textScaler:
-                      //                               const TextScaler.linear(
-                      //                                 1.0,
-                      //                               ),
-                      //                         ),
-                      //                         child: PropertyCard(
-                      //                           property: data,
-                      //                         ),
-                      //                       ),
-                      //                     );
-                      //                   },
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //           ),
-                      //         );
-                      //       });
-                      //     } else {
-                      //       return Center(child: Text('No Property Available'));
-                      //     }
-                      //   },
-                      // ),
                       Obx(() {
                         if (controller.isLoading.value &&
                             controller.items.isEmpty) {
@@ -256,12 +344,12 @@ class HomeScreen extends StatelessWidget {
                             onNotification: (scrollEnd) {
                               final metrics = scrollEnd.metrics;
                               if (metrics.atEdge && metrics.pixels != 0) {
-                                controller.loadMore(); // pagination trigger
+                                controller.loadMore();
                               }
                               return false;
                             },
                             child: SizedBox(
-                              height: 270,
+                              height: 325,
                               child: ClipRRect(
                                 child: ListView.separated(
                                   scrollDirection: Axis.horizontal,
@@ -270,7 +358,7 @@ class HomeScreen extends StatelessWidget {
                                       (_, __) => const SizedBox(width: 12),
                                   itemBuilder: (context, index) {
                                     if (index >= controller.items.length) {
-                                      return const SizedBox(); // ✅ safeguard
+                                      return const SizedBox();
                                     }
                                     final data = controller.items[index];
                                     return Padding(
@@ -297,7 +385,6 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 12),
-
                   TitleWithDescription(
                     title: "Recommended Properties",
                     showViewAll: true,
@@ -308,19 +395,24 @@ class HomeScreen extends StatelessWidget {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Padding(
-                      padding: const EdgeInsets.all(12.0),
+                      padding: const EdgeInsets.only(left: 12),
                       child: Row(
-                        children: List.generate(banners.length, (index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 12),
-                            child: NesticoPeBannerCardWithText(
-                              height: 290,
-                              width: 260,
-                              imageUrl: banners[index],
-                              price: "₹1.25Cr",
-                              location: "Mota varacha, Surat",
-                              propertySize:
-                                  "3 / 4 BHK, 1250 sqft, Semi-Furnished",
+                        children: List.generate(HomeScreen.banners.length, (
+                          index,
+                        ) {
+                          return GestureDetector(
+                            onTap: () {},
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 12),
+                              child: NesticoPeBannerCardWithText(
+                                height: 230, // ✅ reduced for balanced look
+                                width: 220,
+                                imageUrl: HomeScreen.banners[index],
+                                price: "₹1.25Cr",
+                                location: "Mota varacha, Surat",
+                                propertySize:
+                                    "3 / 4 BHK, 1250 sqft, Semi-Furnished",
+                              ),
                             ),
                           );
                         }),
@@ -328,9 +420,9 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 20),
 
-                  TitleWithViewAll(title: "Trending Areas", showViewAll: true),
+                  const TitleWithViewAll(title: "Trending Areas", showViewAll: true),
 
                   const SizedBox(height: 12),
 
@@ -362,7 +454,7 @@ class HomeScreen extends StatelessWidget {
                           }
 
                           return SizedBox(
-                            height: 205,
+                            height: 225,
                             child: ClipRRect(
                               child: ListView.separated(
                                 scrollDirection: Axis.horizontal,
@@ -397,23 +489,183 @@ class HomeScreen extends StatelessWidget {
                       }
                     },
                   ),
+                  const SizedBox(height: 20),
+
+                  const TitleWithViewAll(
+                    title: "Top Rated Localities",
+                    showViewAll: true,
+                  ),
+
+                  const SizedBox(height: 12),
+                  FutureBuilder(
+                    future: controller.loadInitial(),
+                    builder: (context, asyncSnapshot) {
+                      print('asyncSnapshot: ${asyncSnapshot.connectionState}');
+
+                      if (asyncSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        // Show loader while waiting
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (asyncSnapshot.hasError) {
+                        // Show error message if future fails
+                        return Center(
+                          child: Text(
+                            'Error: ${asyncSnapshot.error}',
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                        );
+                      } else if (asyncSnapshot.connectionState ==
+                          ConnectionState.done) {
+                        return Obx(() {
+                          if (!controller.isLoading.value &&
+                              controller.items.isEmpty) {
+                            return const Center(
+                              child: Text("No Property found."),
+                            );
+                          }
+
+                          return SizedBox(
+                            height: 100,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: controller.items.length,
+                              padding: const EdgeInsets.only(left: 10),
+                              itemBuilder: (context, index) {
+                                final property = controller.items[index];
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 10), //
+                                  child: PropertyHorizontalCard(
+                                    imageHeight: double.infinity,
+                                    titleFontWeight: FontWeight.w600,
+
+                                    buttonText: 'View More',
+                                    locationFontSize: AppFontSizes.caption,
+                                    maxLineTitle: 1,
+                                    buttonFontWeight: AppFontWeights.semiBold,
+                                    buttonFontSize: 10,
+                                    buttonTextColor: ColorRes.primary,
+                                    maxLine: 1,
+                                    title: '${property.title}',
+                                    imagePath:
+                                        (property.propertyMedia?.images !=
+                                                    null &&
+                                                property
+                                                    .propertyMedia!
+                                                    .images!
+                                                    .isNotEmpty)
+                                            ? property
+                                                .propertyMedia!
+                                                .images!
+                                                .first
+                                            : 'https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyaminmellish-186077.jpg&fm=jpg',
+
+                                    location:
+                                        'Location : ${property.address ?? 'N/A'}',
+                                    rating:
+                                        property.totalViews != null
+                                            ? property.totalViews?.toDouble()
+                                            : 0.0,
+                                    price:
+                                        '${property.propertyDetails?.financialInfo?.price ?? 'N/A'}',
+                                    priceFontSize: AppFontSizes.caption,
+                                    priceFontWeight: FontWeight.w600,
+                                    ratingColor: ColorRes.primary,
+                                    accentColor: ColorRes.primary,
+                                    onTap: () {
+                                      Get.to(
+                                        () => RatingDetail(property: property),
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        });
+                      } else {
+                        return const Center(
+                          child: Text('No Property Available'),
+                        );
+                      }
+                    },
+                  ),
 
                   /// Filters by cities
-                  const SizedBox(height: 12),
-                  const TitleWithViewAll(title: "City", showViewAll: true),
+                  const SizedBox(height: 20),
+                  TitleWithViewAll(
+                    title: "City",
+                    showViewAll: true,
+                    onViewAll: () {
+                      Get.to(() => const MumbaiProjectsScreen());
+                    },
+                  ),
                   const SizedBox(height: 12),
 
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
 
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    padding: const EdgeInsets.only(left: 12.0),
                     child: Row(
                       children:
                           cities.map((city) {
-                            return CityCard(
-                              imageUrl: city["imageUrl"],
-                              cityName: city["cityName"],
-                              propertyCount: city["propertyCount"],
+                            return GestureDetector(
+                              onTap: () {
+                                Get.to(
+                                  () => AgentProfilePage(
+                                    agent: AgentProfile(
+                                      name: "Houselink Properties",
+                                      logoUrl:
+                                          "https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4866.jpg",
+                                      badgeText: "HOUSING EXPERT PRO",
+                                      buyersServed: "600+ Buyers Served",
+                                      listings: "Owner Verified",
+                                      description:
+                                          "Deal with ready-to-move & under-construction Residential or Commercial.",
+                                      infoTiles: [
+                                        InfoTileData(
+                                          title: "Leads",
+                                          value: "120",
+                                        ),
+                                        InfoTileData(
+                                          title: "Visiters",
+                                          value: "54",
+                                        ),
+                                        InfoTileData(
+                                          title: 'Impression',
+                                          value: '258',
+                                        ),
+                                      ],
+                                      areas: [
+                                        "Ghatkopar East",
+                                        "Vikhroli East",
+                                      ],
+                                      categories: [
+                                        {'type': 'Buy', 'number': 17},
+                                        {'type': 'Rent', 'number': 17},
+                                        {'type': 'PG', 'number': 17},
+                                        {'type': 'Commercial', 'number': 17},
+                                      ],
+                                      tags: [
+                                        AgentTagData(
+                                          icon: Icons.location_on,
+                                          text: "Ghatkopar East",
+                                          color: Colors.green,
+                                        ),
+                                      ],
+                                      showTags: true,
+                                      showAreas: false,
+                                      isOwner: true,
+                                      showActiveProperties: true,
+                                      showSellerPropertyList: true,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: CityCard(
+                                imageUrl: city["imageUrl"],
+                                cityName: city["cityName"],
+                                propertyCount: city["propertyCount"],
+                              ),
                             );
                           }).toList(),
                     ),
@@ -421,16 +673,17 @@ class HomeScreen extends StatelessWidget {
 
                   // const SizedBox(height: 12),
                   //
+
                   // const CityFilterList(),
-                  const SizedBox(height: 12),
-                  const SizedBox(height: 12),
+                  // const SizedBox(height: 12),
+                  const SizedBox(height: 20),
                   const TitleWithViewAll(title: "Residential Properties"),
                   // const SizedBox(height: 12),
                   Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: GridView.count(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       // Avoid scrolling conflict if inside scrollable
                       crossAxisCount: 2,
                       // Number of columns in the grid
@@ -449,7 +702,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 20),
 
                   const TitleWithViewAll(title: "Explore by furnishing type"),
                   // const SizedBox(height: 12),
@@ -458,34 +711,31 @@ class HomeScreen extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Row(
-                        children: List.generate(banners.length, (index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 12),
-                            // child: NesticoPeBannerCardWithText(
-                            //   height: 125,
-                            //   width: 250,
-                            //   imageUrl: banners[index],
-                            //   title: "Fully Furnished",
-                            //   description: "Properties with all Essentials",
-                            // ),
+                        children: List.generate(HomeScreen.banners.length, (
+                          index,
+                        ) {
+                          return const Padding(
+                            padding: EdgeInsets.only(right: 12),
                           );
                         }),
                       ),
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 20),
 
                   const TitleWithViewAll(title: "Commercial offering"),
-                  // const SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Row(
-                        children: List.generate(shops.length, (index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 12),
+                        children: List.generate(HomeScreen.shops.length, (
+                          index,
+                        ) {
+                          return const Padding(
+                            padding: EdgeInsets.only(right: 12),
                             // child: NesticoPeBannerCardWithText(
                             //   height: 125,
                             //   width: 125,
@@ -498,18 +748,20 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 20),
 
                   const TitleWithViewAll(title: "Find BHK?"),
-                  // const SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Row(
-                        children: List.generate(plots.length * 2, (index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 12),
+                        children: List.generate(HomeScreen.plots.length * 2, (
+                          index,
+                        ) {
+                          return const Padding(
+                            padding: EdgeInsets.only(right: 12),
                             // child: NesticoPeBannerCardWithText(
                             //   height: 100,
                             //   width: 100,
@@ -523,18 +775,20 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 20),
 
                   const TitleWithViewAll(title: "Plots In Surat"),
-                  // const SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Row(
-                        children: List.generate(plots.length, (index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 12),
+                        children: List.generate(HomeScreen.plots.length, (
+                          index,
+                        ) {
+                          return const Padding(
+                            padding: EdgeInsets.only(right: 12),
                             // child: NesticoPeBannerCardWithText(
                             //   height: 125,
                             //   width: 200,
@@ -546,25 +800,34 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 20),
+                  const TitleWithViewAll(
+                    title: "Recommended Sellers",
+                    showViewAll: true,
+                  ),
+                  const SizedBox(height: 12),
+
+                  SellerListWidget(propertyList: dummySellerList),
                 ],
               ),
 
-              SizedBox(height: 12),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              const SizedBox(height: 12),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.0),
                 child: ReferralCard(referralCode: "089548"),
               ),
-              SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              const SizedBox(height: 8),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.0),
                 child: CustomerSupport(phoneNumber: "+912345654323"),
               ),
-              // SizedBox(height: 8),
-              FeedbackComponent(
-                onSubmit: (rating, feedback) {
-                  print("Rating: $rating, Feedback: $feedback");
-                },
-              ),
+              const SizedBox(height: 8),
+              // AgentCardGrid(),
+              // FeedbackComponent(
+              //   onSubmit: (rating, feedback) {
+              //     print("Rating: $rating, Feedback: $feedback");
+              //   },
+              // ),
             ],
           ),
         ),
@@ -610,7 +873,7 @@ class _CityDropdownState extends State<CityDropdown> {
             focusedBorder: InputBorder.none,
             contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           ),
-          value: selectedCity,
+          initialValue: selectedCity,
           icon: const Icon(
             Icons.keyboard_arrow_down_rounded,
             color: Colors.grey,
@@ -1017,7 +1280,7 @@ class ReferralCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Refer Friends",
                 style: TextStyle(
                   fontSize: 18,
@@ -1025,10 +1288,10 @@ class ReferralCard extends StatelessWidget {
                   color: ColorRes.white,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.75,
-                child: Text(
+                child: const Text(
                   "Share app and help your friends discover great real estate options!",
                   style: TextStyle(
                     fontSize: 14,
@@ -1051,7 +1314,7 @@ class ReferralCard extends StatelessWidget {
                   ),
                 ),
                 icon: const Icon(Icons.share),
-                label: Text(
+                label: const Text(
                   "Share Code",
                   style: TextStyle(color: ColorRes.primary),
                 ),
@@ -1169,7 +1432,7 @@ class _FeedbackComponentState extends State<FeedbackComponent> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
+            const Text(
               "Rate Our App",
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
@@ -1182,10 +1445,10 @@ class _FeedbackComponentState extends State<FeedbackComponent> {
             ),
             const SizedBox(height: 10),
             Text(
-              "Rating (${_rating}/5)",
+              "Rating ($_rating/5)",
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
                 color: Colors.grey,
@@ -1229,19 +1492,19 @@ class _FeedbackComponentState extends State<FeedbackComponent> {
               maxLines: 3,
               decoration: InputDecoration(
                 hintText: "Write your feedback...",
-                hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
+                hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
                 filled: true,
                 fillColor: Colors.grey[100],
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(color: Colors.grey),
+                  borderSide: const BorderSide(color: Colors.grey),
                 ),
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
+                  borderSide: const BorderSide(color: Colors.grey),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: ColorRes.primary),
+                  borderSide: const BorderSide(color: ColorRes.primary),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -1285,7 +1548,7 @@ class _FeedbackComponentState extends State<FeedbackComponent> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   "Submit",
                   style: TextStyle(fontSize: 16, color: Colors.white),
                 ),
@@ -1294,6 +1557,481 @@ class _FeedbackComponentState extends State<FeedbackComponent> {
           ],
         ),
       ),
+    );
+  }
+}
+
+// class LocationCard extends StatelessWidget {
+//   final String title;
+//   final double rating;
+//   final int reviews;
+//   final String price;
+//   final String imageUrl;
+
+//   const LocationCard({
+//     super.key,
+//     required this.title,
+//     required this.rating,
+//     required this.reviews,
+//     required this.price,
+//     required this.imageUrl,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+//       padding: const EdgeInsets.all(12),
+//       decoration: BoxDecoration(
+//         color: Colors.white,
+//         borderRadius: BorderRadius.circular(16),
+//         boxShadow: [
+//           BoxShadow(
+//             color: Colors.grey.withOpacity(0.15),
+//             blurRadius: 6,
+//             offset: const Offset(0, 4),
+//           ),
+//         ],
+//       ),
+//       child: Row(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           ClipRRect(
+//             borderRadius: BorderRadius.circular(12),
+//             child: Image.network(
+//               imageUrl.isNotEmpty
+//                   ? imageUrl
+//                   : 'https://via.placeholder.com/150',
+//               width: 80,
+//               height: 80,
+//               fit: BoxFit.cover,
+//               errorBuilder:
+//                   (context, error, stackTrace) => const Icon(
+//                     Icons.broken_image,
+//                     size: 50,
+//                     color: Colors.grey,
+//                   ),
+//             ),
+//           ),
+//           const SizedBox(width: 12),
+//           Expanded(
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Text(
+//                   title,
+//                   style: const TextStyle(
+//                     fontSize: 16,
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                 ),
+//                 const SizedBox(height: 6),
+//                 Row(
+//                   children: [
+//                     Icon(Icons.star, color: Colors.green[700], size: 18),
+//                     const SizedBox(width: 4),
+//                     Text(
+//                       "$rating",
+//                       style: const TextStyle(
+//                         fontWeight: FontWeight.w600,
+//                         fontSize: 14,
+//                       ),
+//                     ),
+//                     Text(
+//                       " ($reviews reviews)",
+//                       style: const TextStyle(color: Colors.grey, fontSize: 12),
+//                     ),
+//                   ],
+//                 ),
+//                 const SizedBox(height: 6),
+//                 Text(
+//                   price,
+//                   style: const TextStyle(
+//                     fontSize: 14,
+//                     fontWeight: FontWeight.w500,
+//                     color: Colors.deepPurple,
+//                   ),
+//                 ),
+//                 const SizedBox(height: 6),
+//                 GestureDetector(
+//                   onTap: () {},
+//                   child: const Text(
+//                     "See all reviews",
+//                     style: TextStyle(
+//                       fontSize: 13,
+//                       fontWeight: FontWeight.w500,
+//                       color: Colors.blue,
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+class PropertyHorizontalCard extends StatelessWidget {
+  final String title;
+  final String imagePath;
+  final String location;
+  final String price;
+
+  // ✅ Font Weights
+  final FontWeight priceFontWeight;
+  final FontWeight locationWeight;
+  final FontWeight titleFontWeight;
+
+  // ✅ Layout
+  final int maxLineTitle;
+  final int maxLineSubtitle;
+  final int maxLine;
+
+  // ✅ Styling properties
+  final Color borderColor;
+  final Color textColor;
+  final Color accentColor;
+  final Color titleColor;
+  final Color dividerColor;
+  final Color locationColor;
+
+  // ✅ Layout properties
+  final double width;
+  final double imageHeight;
+  final double imageWidth;
+
+  // ✅ Font sizes
+  final double titleFontSize;
+  final double locationFontSize;
+  final double priceFontSize;
+
+  // ✅ Rating
+  final double? rating;
+  final IconData ratingIcon;
+  final Color ratingColor;
+
+  // ✅ Button Row
+  final String buttonText;
+  final Color buttonTextColor;
+  final double buttonFontSize;
+  final FontWeight buttonFontWeight;
+  final Color priceColor;
+  final double ratingFont;
+  final FontWeight ratingFontWeight;
+  final IconData actionIcon;
+  final Color iconColor;
+
+  final bool showRowLayout;
+
+  final VoidCallback? onTap;
+
+  const PropertyHorizontalCard({
+    super.key,
+    required this.title,
+    this.ratingFont = 11,
+    this.ratingFontWeight = FontWeight.w600,
+    this.locationColor = Colors.black54,
+    required this.imagePath,
+    required this.location,
+    this.price = '2020',
+    this.priceColor = Colors.black87,
+    this.priceFontWeight = FontWeight.w700,
+    this.locationWeight = FontWeight.w400,
+    this.titleFontWeight = FontWeight.w600,
+    this.maxLine = 2,
+    this.maxLineTitle = 1,
+    this.maxLineSubtitle = 1,
+
+    // styling
+    this.borderColor = Colors.grey,
+    this.textColor = Colors.black,
+    this.accentColor = Colors.blue,
+    this.titleColor = Colors.black,
+    this.dividerColor = Colors.grey,
+
+    // layout (smaller container)
+    this.width = 250,
+    this.imageHeight = 60,
+    this.imageWidth = 70,
+
+    // font sizes (slightly smaller)
+    this.titleFontSize = 12,
+    this.locationFontSize = 9,
+    this.priceFontSize = 12,
+
+    // rating
+    this.rating,
+    this.ratingIcon = Icons.star,
+    this.ratingColor = Colors.amber,
+
+    // button row
+    this.buttonText = "View",
+    this.buttonTextColor = Colors.indigo,
+    this.buttonFontSize = 11,
+    this.buttonFontWeight = FontWeight.w500,
+    this.actionIcon = Icons.arrow_forward_ios,
+    this.iconColor = Colors.indigo,
+
+    this.showRowLayout = true,
+
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: onTap,
+      child: Container(
+        width: width,
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: borderColor.withOpacity(0.25), width: 0.7),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.network(
+                imagePath,
+                height: imageHeight,
+                width: imageWidth,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buildCommonText(
+                    title,
+                    titleFontSize,
+                    titleFontWeight,
+                    textColor,
+                    maxLineTitle,
+                  ),
+                  const SizedBox(height: 2),
+                  buildCommonText(
+                    location,
+                    locationFontSize,
+                    locationWeight,
+                    locationColor,
+                    maxLineSubtitle,
+                  ),
+                  const SizedBox(height: 4),
+                  if (showRowLayout) ...[
+                    Row(
+                      children: [
+                        buildCommonText(
+                          Formatter.formatPrice(
+                            double.tryParse(
+                                  price.replaceAll(RegExp(r'[^\d.]'), ''),
+                                )?.toInt() ??
+                                0,
+                          ),
+                          priceFontSize,
+                          priceFontWeight,
+                          priceColor,
+                          1,
+                        ),
+                        const Spacer(),
+                        if (rating != null) ...[
+                          Icon(ratingIcon, color: ratingColor, size: 14),
+                          const SizedBox(width: 3),
+                          buildCommonText(
+                            rating.toString(),
+                            ratingFont,
+                            ratingFontWeight,
+                            titleColor,
+                            maxLine,
+                          ),
+                        ],
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Divider(
+                      color: dividerColor.withOpacity(0.35),
+                      thickness: 0.5,
+                      height: 6,
+                    ),
+                    const SizedBox(height: 2),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        buildCommonText(
+                          buttonText,
+                          buttonFontSize,
+                          buttonFontWeight,
+                          buttonTextColor,
+                          1,
+                        ),
+                        const SizedBox(width: 3),
+                        Icon(actionIcon, color: iconColor, size: 12),
+                      ],
+                    ),
+                  ] else ...[
+                    buildCommonText(
+                      Formatter.formatPrice(
+                        double.tryParse(
+                              price.replaceAll(RegExp(r'[^\d.]'), ''),
+                            )?.toInt() ??
+                            0,
+                      ),
+                      priceFontSize,
+                      priceFontWeight,
+                      priceColor,
+                      1,
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ReviewHighlights extends StatefulWidget {
+  final List<String> goodThings;
+  final List<String> improvements;
+
+  const ReviewHighlights({
+    super.key,
+    required this.goodThings,
+    required this.improvements,
+  });
+
+  @override
+  State<ReviewHighlights> createState() => _ReviewHighlightsState();
+}
+
+class _ReviewHighlightsState extends State<ReviewHighlights> {
+  bool showAllGood = false;
+  bool showAllImprovements = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (widget.goodThings.isNotEmpty)
+            _buildTagSection(
+              "Good Things",
+              widget.goodThings,
+              showAllGood,
+              (value) => setState(() => showAllGood = value),
+            ),
+          if (widget.goodThings.isNotEmpty && widget.improvements.isNotEmpty)
+            const SizedBox(height: 16),
+          if (widget.improvements.isNotEmpty)
+            _buildTagSection(
+              "Need to Improve",
+              widget.improvements,
+              showAllImprovements,
+              (value) => setState(() => showAllImprovements = value),
+            ),
+          const SizedBox(height: 12),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTagSection(
+    String title,
+    List<String> items,
+    bool expanded,
+    Function(bool) toggleExpand,
+  ) {
+    // show first 4 items unless expanded
+    final displayItems = expanded ? items : items.take(3).toList();
+    final remainingCount = items.length - displayItems.length;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 12,
+            color: ColorRes.textPrimary,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            ...displayItems.map(
+              (e) => Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: ColorRes.grey.withOpacity(0.090),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  e,
+                  style: const TextStyle(
+                    fontSize: AppFontSizes.caption,
+                    fontWeight: FontWeight.w500,
+                    color: ColorRes.grey,
+                  ),
+                ),
+              ),
+            ),
+            if (!expanded && remainingCount > 0)
+              GestureDetector(
+                onTap: () => toggleExpand(true),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    "+$remainingCount more",
+                    style: const TextStyle(
+                      fontSize: AppFontSizes.caption,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget buildHeading(BuildContext context, String text) {
+    return Text(
+      text,
+      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
     );
   }
 }

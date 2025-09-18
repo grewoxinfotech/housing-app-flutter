@@ -2,7 +2,7 @@
 
 class ApiConfig {
   static const String mapkey='AIzaSyDf3m2Riy9RKDuAocail0y1RzMxxpVoIcw';
-static const String googleMapApi='https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${mapkey}';
+static const String googleMapApi='https://maps.googleapis.com/maps/api/place/autocomplete/json?key=$mapkey';
 
 
   static String token = '';

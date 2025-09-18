@@ -209,6 +209,7 @@ abstract class PaginatedController<T> extends GetxController {
     print("Pagination: _loadPage called for page $page");
 
     if (page == 1 && !isRefreshing.value) {
+      
       isLoading.value = true;
     } else {
       isPaging.value = true;

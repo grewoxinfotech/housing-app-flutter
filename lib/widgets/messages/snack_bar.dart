@@ -19,8 +19,8 @@ class NesticoPeSnackBar {
         contentType: contentType,
         color: color,
         inMaterialBanner: true,
-        titleTextStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
-        messageTextStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+        titleTextStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+        messageTextStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
       ),
     );
 

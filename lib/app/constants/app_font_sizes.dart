@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 class AppFontSizes {
   // Very Small Fonts
   static const double tiny = 8.0;
+  static const double mini = 9.0;
   static const double extraSmall = 10.0;
   static const double caption = 11.0;
 

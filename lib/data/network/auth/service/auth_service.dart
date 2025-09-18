@@ -156,6 +156,6 @@ class AuthService {
 
   Future<void> logout() async {
     await SecureStorage.clearAll();
-    Get.offAll(LoginScreen());
+    Get.offAll(const LoginScreen());
   }
 }

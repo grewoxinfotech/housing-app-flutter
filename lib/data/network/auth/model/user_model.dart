@@ -6,14 +6,14 @@ class UserModel {
 
   UserModel.fromJson(Map<String, dynamic> json) {
     token = json['token'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['token'] = this.token;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['token'] = token;
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
     return data;
   }
@@ -90,28 +90,28 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
-    data['username'] = this.username;
-    data['password'] = this.password;
-    data['email'] = this.email;
-    data['userType'] = this.userType;
-    data['role_id'] = this.roleId;
-    data['profilePic'] = this.profilePic;
-    data['firstName'] = this.firstName;
-    data['lastName'] = this.lastName;
-    data['phone'] = this.phone;
-    data['otp'] = this.otp;
-    data['otpExpiry'] = this.otpExpiry;
-    data['address'] = this.address;
-    data['city'] = this.city;
-    data['state'] = this.state;
-    data['zipCode'] = this.zipCode;
-    data['isVerified'] = this.isVerified;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['username'] = username;
+    data['password'] = password;
+    data['email'] = email;
+    data['userType'] = userType;
+    data['role_id'] = roleId;
+    data['profilePic'] = profilePic;
+    data['firstName'] = firstName;
+    data['lastName'] = lastName;
+    data['phone'] = phone;
+    data['otp'] = otp;
+    data['otpExpiry'] = otpExpiry;
+    data['address'] = address;
+    data['city'] = city;
+    data['state'] = state;
+    data['zipCode'] = zipCode;
+    data['isVerified'] = isVerified;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
     return data;
   }
 }

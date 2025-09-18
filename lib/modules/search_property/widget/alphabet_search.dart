@@ -4,10 +4,9 @@ import 'package:housing_flutter_app/app/constants/app_font_sizes.dart';
 
 import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/modules/search_property/view/search_screen.dart';
-import '../../../utils/global.dart';
 
 class CityAlphabetList extends StatefulWidget {
-  CityAlphabetList({super.key, required this.letterCity});
+  const CityAlphabetList({super.key, required this.letterCity});
 
   final Map<String, List<String>> letterCity;
 
@@ -63,13 +62,13 @@ class _CityAlphabetListState extends State<CityAlphabetList> {
             stickySectionHeader: false,
             listHeaderBuilder:
                 (context, symbol) => Container(
-                  margin: EdgeInsets.all(8),
-                  padding: EdgeInsets.all(8),
+                  margin: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: Colors.grey.shade200,
                     borderRadius: BorderRadius.circular(100),
                   ),
-                  alignment: Alignment(-0.9, 0.0),
+                  alignment: const Alignment(-0.9, 0.0),
                   child: buildCommonText(
                     symbol,
                     15,
@@ -106,8 +105,8 @@ class _CityAlphabetListState extends State<CityAlphabetList> {
                   alignment: Alignment.center,
                   height: 80,
                   width: 80,
-                  margin: EdgeInsets.all(8),
-                  padding: EdgeInsets.all(8),
+                  margin: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: ColorRes.primary.withOpacity(0.7),
                     borderRadius: BorderRadius.circular(12),

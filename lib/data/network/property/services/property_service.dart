@@ -4,10 +4,9 @@ import 'package:housing_flutter_app/app/constants/api_constants.dart';
 import 'package:housing_flutter_app/data/network/property/models/property_model.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../database/secure_storage_service.dart';
 
 class PropertyService {
-  final String baseUrl = ApiConstants.baseURL + "/property";
+  final String baseUrl = "${ApiConstants.baseURL}/property";
 
   /// Common headers
   static Future<Map<String, String>> headers() async {

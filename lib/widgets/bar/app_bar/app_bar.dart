@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/modules/profile/views/profile_screen.dart';
@@ -37,7 +36,7 @@ class NesticoPeAppBar extends StatelessWidget implements PreferredSizeWidget {
           shadowColor: ColorRes.primary.withAlpha(40),
           surfaceTintColor: Colors.transparent,
           actionsPadding: const EdgeInsets.only(right: AppPadding.medium),
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(AppRadius.extraLarge),
               bottomRight: Radius.circular(AppRadius.extraLarge),
@@ -46,7 +45,7 @@ class NesticoPeAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           leading:
               leading ??
-              Align(alignment: Alignment.center, child: NesticoPeAppLogo()),
+              const Align(alignment: Alignment.center, child: NesticoPeAppLogo()),
 
           title: title,
           actions:
@@ -64,7 +63,7 @@ class NesticoPeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 AppSpacing.horizontalMedium,
                 GestureDetector(
-                  onTap: () => Get.to(ProfileScreen()),
+                  onTap: () => Get.to(const ProfileScreen()),
                   child: const CircleAvatar(
                     radius: 15,
                     child: Text(

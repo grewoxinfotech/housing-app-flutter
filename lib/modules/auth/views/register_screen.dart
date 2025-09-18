@@ -308,8 +308,6 @@ import 'package:get/get.dart';
 import 'package:housing_flutter_app/widgets/bar/app_bar/common_bar.dart';
 import 'package:housing_flutter_app/widgets/button/button.dart';
 import 'package:housing_flutter_app/modules/auth/controllers/auth_controller.dart';
-import 'package:housing_flutter_app/widgets/input/custom_text_field.dart';
-import 'package:housing_flutter_app/modules/auth/views/login_screen.dart';
 
 import '../../../app/widgets/snackbar/snackbar.dart';
 import '../../../widgets/New folder/inputs/text_field.dart';

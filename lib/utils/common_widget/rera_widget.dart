@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:housing_flutter_app/app/constants/color_res.dart';
 
 class ReraComponent extends StatelessWidget {
   final String text;

@@ -31,7 +31,7 @@ class PropertyListScreenCard extends StatelessWidget {
                   height: 180,
                   width: double.infinity,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(12),
                       topRight: Radius.circular(12),
                     ),
@@ -46,8 +46,9 @@ class PropertyListScreenCard extends StatelessWidget {
                                 child,
                                 loadingProgress,
                               ) {
-                                if (loadingProgress == null)
+                                if (loadingProgress == null) {
                                   return child; // Loaded
+                                }
                                 return Center(
                                   child: CircularProgressIndicator(
                                     value:
@@ -95,9 +96,9 @@ class PropertyListScreenCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      SizedBox(width: 12),
+                      const SizedBox(width: 12),
                       Container(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           vertical: 2,
                           horizontal: 6,
                         ),
@@ -109,13 +110,13 @@ class PropertyListScreenCard extends StatelessWidget {
                             items?.listingType != null
                                 ? Text(
                                   "${items!.listingType}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 12,
                                     color: Colors.white,
                                   ),
                                 )
-                                : SizedBox(),
+                                : const SizedBox(),
                       ),
                     ],
                   ),
@@ -134,9 +135,9 @@ class PropertyListScreenCard extends StatelessWidget {
                             SizedBox(
                               width: MediaQuery.of(context).size.width / 4.5,
                               child: Text(
-                                items!.propertyDetails!.financialInfo!.price!
+                                items!.propertyDetails!.financialInfo!.price
                                     .toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 14,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -158,13 +159,13 @@ class PropertyListScreenCard extends StatelessWidget {
                             // ),
                           ],
                         ),
-                        SizedBox(width: 6),
+                        const SizedBox(width: 6),
                         VerticalDivider(
                           thickness: 1,
                           width: 20, // space between items
                           color: Colors.grey.shade200,
                         ),
-                        SizedBox(width: 6),
+                        const SizedBox(width: 6),
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 4.5,
                           child: Column(
@@ -193,13 +194,13 @@ class PropertyListScreenCard extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(width: 6),
+                        const SizedBox(width: 6),
                         VerticalDivider(
                           thickness: 1,
                           width: 20, // space between items
                           color: Colors.grey.shade200,
                         ),
-                        SizedBox(width: 6),
+                        const SizedBox(width: 6),
 
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 4.5,
@@ -208,7 +209,7 @@ class PropertyListScreenCard extends StatelessWidget {
                             children: [
                               Text(
                                 '${items!.propertyDetails!.bhk ?? '0'} BHK',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 14,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -240,7 +241,7 @@ class PropertyListScreenCard extends StatelessWidget {
 
                   const SizedBox(height: 4),
 
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
 
                   /// Description
                   Text(
@@ -253,7 +254,7 @@ class PropertyListScreenCard extends StatelessWidget {
                       color: Colors.grey.shade600,
                     ),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Divider(
                     indent: 12,
                     endIndent: 12,
@@ -262,7 +263,7 @@ class PropertyListScreenCard extends StatelessWidget {
                   Row(
                     children: [
                       // Profile picture
-                      SizedBox(
+                      const SizedBox(
                         height: 35,
                         width: 35,
                         child: CircleAvatar(
@@ -279,7 +280,7 @@ class PropertyListScreenCard extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               'Posted by',
                               style: TextStyle(
                                 color: Colors.grey,
@@ -287,10 +288,10 @@ class PropertyListScreenCard extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 4),
                             Text(
                               items!.ownerName!,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12,
                                 color: Colors.black,

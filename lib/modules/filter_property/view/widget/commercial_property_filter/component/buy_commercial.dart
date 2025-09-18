@@ -26,12 +26,12 @@ class _BuyCommercialState extends State<BuyCommercial> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         buildFilterHeadingPadding("Property Type"),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         ListedBy(listedByList: buyCommercialPropertyType),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
 
         buildFilterHeadingPadding("Sale Type"),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
 
         SelectableWrap(
           items: saleTypeCommercialProperty,
@@ -43,12 +43,12 @@ class _BuyCommercialState extends State<BuyCommercial> {
           },
         ),
 
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         buildFilterHeadingPadding('Budget'),
         BudgetFilter(
           minValue: 0.0,
           maxValue: 20,
-          values: RangeValues(1, 20),
+          values: const RangeValues(1, 20),
           onChanged: (value) {},
           minLabel: 'Min',
           maxLabel: 'Max',
@@ -60,7 +60,7 @@ class _BuyCommercialState extends State<BuyCommercial> {
         BudgetFilter(
           minValue: 0.0,
           maxValue: 4950,
-          values: RangeValues(50, 2000),
+          values: const RangeValues(50, 2000),
           onChanged: (value) {},
           minLabel: 'Min',
           maxLabel: 'Max',
@@ -69,7 +69,7 @@ class _BuyCommercialState extends State<BuyCommercial> {
         ),
 
         buildFilterHeadingPadding("Possession"),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         SelectableWrap(
           items: possessionCommercialList,
           selectedItem: possessionType,
@@ -79,16 +79,16 @@ class _BuyCommercialState extends State<BuyCommercial> {
             });
           },
         ),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         buildFilterHeadingPadding("Listed By"),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         ListedBy(listedByList: listedByList),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         buildFilterHeadingPadding('Roi % p.a'),
         BudgetFilter(
           minValue: 0.0,
           maxValue: 10,
-          values: RangeValues(4, 8),
+          values: const RangeValues(4, 8),
           onChanged: (value) {},
           minLabel: 'Min',
           maxLabel: 'Max',

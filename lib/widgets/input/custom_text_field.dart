@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -18,13 +17,14 @@ class CustomTextField extends StatelessWidget {
   final TextCapitalization textCapitalization; // Add this line
   final double radius;
   final bool enabled;
-
+  final Color? fillColor;
   const CustomTextField({
     Key? key,
     required this.controller,
     required this.hintText,
     this.labelText,
-this.enabled = true,
+    this.enabled = true,
+    this.fillColor,
     this.prefixIcon,
     this.suffixIcon,
     this.obscureText = false,
@@ -39,7 +39,7 @@ this.enabled = true,
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      enabled:enabled,
+      enabled: enabled,
       controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,
@@ -49,40 +49,43 @@ this.enabled = true,
       maxLines: maxLines,
       decoration: InputDecoration(
         hintText: hintText,
+
         labelText: labelText,
         prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
         suffixIcon: suffixIcon,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(radius?? 8.0)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radius ?? 8.0),
+        ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radius?? 8.0),
+          borderRadius: BorderRadius.circular(radius ?? 8.0),
           borderSide: BorderSide(color: Colors.grey.shade300),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radius?? 8.0),
+          borderRadius: BorderRadius.circular(radius ?? 8.0),
           borderSide: BorderSide(
             color: Theme.of(context).primaryColor,
             width: 2.0,
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radius?? 8.0),
+          borderRadius: BorderRadius.circular(radius ?? 8.0),
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.error,
             width: 1.0,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(radius?? 8.0),
+          borderRadius: BorderRadius.circular(radius ?? 8.0),
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.error,
             width: 2.0,
           ),
         ),
         filled: true,
-        fillColor: Colors.grey.shade50,
-        contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+        fillColor: fillColor ?? Colors.grey.shade100,
+        contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
       ),
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 16.0,
         fontFamily: FontRes.nuNunitoSans,
         fontWeight: FontWeight.w500,

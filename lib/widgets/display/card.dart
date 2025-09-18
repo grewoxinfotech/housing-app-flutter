@@ -55,7 +55,7 @@ class NesticoPeCard extends StatelessWidget {
         boxShadow:
         boxShadow ??
             [
-              BoxShadow(
+              const BoxShadow(
                   color: Colors.black12,
                   spreadRadius: 0,
                   blurRadius: 10,

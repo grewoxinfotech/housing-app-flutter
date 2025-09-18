@@ -94,7 +94,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           message: "Account verified",
           contentType: ContentType.success,
         );
-        Get.offAll(() => DashboardScreen());
+        Get.offAll(() => const DashboardScreen());
       }
     } catch (e) {
       NesticoPeSnackBar.showAwesomeSnackbar(

@@ -29,7 +29,7 @@ class CustomText extends StatelessWidget {
   final Paint? foreground;
   final Paint? background;
 
-  CustomText(
+  const CustomText(
     this.text, {
     Key? key,
     // Text defaults

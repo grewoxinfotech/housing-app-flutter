@@ -201,7 +201,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
-import 'package:housing_flutter_app/app/constants/size_manager.dart';
 import 'package:housing_flutter_app/modules/property/views/widgets/property_list_screen_card.dart';
 
 import '../../../app/constants/img_res.dart';
@@ -767,17 +766,17 @@ class _SavedPropertyScreenState extends State<SavedPropertyScreen> {
               borderRadius: const BorderRadius.vertical(
                 bottom: Radius.circular(24),
               ),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                   color: Colors.black26,
                   blurRadius: 8,
-                  offset: const Offset(0, 3),
+                  offset: Offset(0, 3),
                 ),
               ],
             ),
             child: Column(
               children: [
-                Text(
+                const Text(
                   "My Properties",
                   style: TextStyle(
                     fontSize: 20,
@@ -825,7 +824,7 @@ class _SavedPropertyScreenState extends State<SavedPropertyScreen> {
                                 // ),
                                 // const SizedBox(height: 2),
                                 Text(
-                                  "${tabs[index]}",
+                                  tabs[index],
                                   style: TextStyle(
                                     fontSize: 11,
                                     fontWeight:
@@ -942,7 +941,7 @@ class _EmptyState extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             message,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               color: Colors.black54,
               fontWeight: FontWeight.w500,

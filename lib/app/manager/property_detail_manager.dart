@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import '../../data/network/property/models/property_model.dart';
 
 class PropertyDetailManager {

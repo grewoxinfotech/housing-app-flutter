@@ -34,12 +34,12 @@ class _CityDropdownResultState extends State<CityDropdownResult> {
     final cities = popularCitiesWithAreas.keys.toList();
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppPadding.small),
+      padding: const EdgeInsets.symmetric(horizontal: AppPadding.small),
       child: DropdownButtonFormField2<String>(
         value: selectedCity,
         isExpanded: false,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(
+          contentPadding: const EdgeInsets.symmetric(
             horizontal: AppPadding.medium,
             vertical: AppPadding.small,
           ),
@@ -55,7 +55,7 @@ class _CityDropdownResultState extends State<CityDropdownResult> {
             borderRadius: BorderRadius.circular(AppRadius.medium),
           ),
         ),
-        hint: Text("Choose a city"),
+        hint: const Text("Choose a city"),
         items: cities.map((city) {
           return DropdownMenuItem(
             value: city,

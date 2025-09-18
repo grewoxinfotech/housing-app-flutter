@@ -48,12 +48,12 @@ class _BHKTypesState extends State<BHKTypes> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      padding: EdgeInsets.only(left: 8),
+      padding: const EdgeInsets.only(left: 8),
       child: Row(
         children: List.generate(
           widget.bHKList.length,
           (index) => Padding(
-            padding: EdgeInsets.only(right: 8),
+            padding: const EdgeInsets.only(right: 8),
             child: GestureDetector(
               onTap: () => toggleSelection(index),
               child: buildFilterPropertyTypes(

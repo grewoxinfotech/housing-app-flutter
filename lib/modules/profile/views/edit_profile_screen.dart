@@ -56,7 +56,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   fontWeight: FontWeight.w800,
                 ),
               ),
-              SizedBox(height: 18),
+              const SizedBox(height: 18),
               NesticoPeDropdownField(
                 title: "Select Role",
                 value: controller.selectedUserType,
@@ -74,7 +74,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 },
               ),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               buildTextField(
                 Icons.person_outline,
                 "First Name",

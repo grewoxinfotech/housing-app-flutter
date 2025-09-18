@@ -29,7 +29,7 @@ class TitleWithDescription extends StatelessWidget {
                 child: Text(
                   title,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: ColorRes.textPrimary,
                   ),
@@ -55,7 +55,7 @@ class TitleWithDescription extends StatelessWidget {
             Text(
               description!,
               style: const TextStyle(
-                fontSize: 13,
+                fontSize: 12,
                 fontWeight: FontWeight.w400,
                 color: Colors.grey,
               ),

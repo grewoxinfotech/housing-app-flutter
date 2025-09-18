@@ -31,14 +31,14 @@ class _RentCommercialPropertyState extends State<RentCommercialProperty> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         buildFilterHeadingPadding("Property Type"),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         ListedBy(listedByList: buyCommercialPropertyType),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         buildFilterHeadingPadding('Budget'),
         BudgetFilter(
           minValue: 0.0,
           maxValue: 20,
-          values: RangeValues(1, 20),
+          values: const RangeValues(1, 20),
           onChanged: (value) {},
           minLabel: 'Min',
           maxLabel: 'Max',
@@ -50,7 +50,7 @@ class _RentCommercialPropertyState extends State<RentCommercialProperty> {
         BudgetFilter(
           minValue: 0.0,
           maxValue: 4950,
-          values: RangeValues(50, 2000),
+          values: const RangeValues(50, 2000),
           onChanged: (value) {},
           minLabel: 'Min',
           maxLabel: 'Max',
@@ -59,7 +59,7 @@ class _RentCommercialPropertyState extends State<RentCommercialProperty> {
         ),
 
         buildFilterHeadingPadding("Available"),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -72,7 +72,7 @@ class _RentCommercialPropertyState extends State<RentCommercialProperty> {
                     });
                   },
                   child: Padding(
-                    padding: EdgeInsets.only(left: 10),
+                    padding: const EdgeInsets.only(left: 10),
                     child: buildFilterPropertyTypes(
                       title: availableList[index],
                       isSelected: selectedAvailable == index,
@@ -84,12 +84,12 @@ class _RentCommercialPropertyState extends State<RentCommercialProperty> {
             ],
           ),
         ),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         buildFilterHeadingPadding("Listed By"),
 
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         ListedBy(listedByList: listedByList),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
       ],
     );
   }

@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:housing_flutter_app/data/network/auth/model/user_model.dart';
 
 class SecureStorage {
-  static final FlutterSecureStorage _storage = const FlutterSecureStorage();
+  static const FlutterSecureStorage _storage = FlutterSecureStorage();
 
   // Keys
   static const String _keyToken = 'authToken';

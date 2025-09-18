@@ -53,7 +53,7 @@ class NesticoPeTextField extends StatelessWidget {
           children: [
             Text(
               title!,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 14,
                 color: ColorRes.black,
                 fontWeight: FontWeight.w600,

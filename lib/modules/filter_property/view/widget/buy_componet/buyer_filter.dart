@@ -41,40 +41,40 @@ class _BuyFiltersState extends State<BuyFilters> {
             });
           },
         ),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
 
         buildFilterHeadingPadding('BHK Type'),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         BHKTypes(
           bHKList: bHkType,
           onSelectionChanged: (index) {
             print(index);
           },
         ),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
 
         buildFilterHeadingPadding('Property Types'),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         FilterPropertyTypesList(
           items: propertyTypesList,
           onSelectionChanged: (index) {
             setState(() {});
           },
         ),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
 
         buildFilterHeadingPadding('Listed By'),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         ListedBy(
           listedByList: listedByList,
           onTap: (index) {
             setState(() {});
           },
         ),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
 
         buildFilterHeadingPadding('Construction Status'),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         ListedBy(
           listedByList: constructionStatus,
           onTap: (index) {

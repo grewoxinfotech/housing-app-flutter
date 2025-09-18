@@ -74,7 +74,7 @@ List<Map<String, dynamic>> propertyList = [
       "description":
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
       "area_of_operation": ["South Mumbai", "Bandra", "Andheri"],
-      "image": "assets/profile/profile.png",
+      "image": "https://i.pravatar.cc/150?img=3",
     },
     "rating": 4.5,
 
@@ -161,7 +161,7 @@ List<Map<String, dynamic>> propertyList = [
       "description":
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
       "area_of_operation": ["Connaught Place", "Gurgaon", "Noida"],
-      "image": "assets/profile/profile1.png",
+      "image": "https://i.pravatar.cc/150?img=5",
     },
     "rating": 4.0,
 
@@ -247,7 +247,7 @@ List<Map<String, dynamic>> propertyList = [
       "description":
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
       "area_of_operation": ["Koregaon Park", "Hinjewadi", "Kalyani Nagar"],
-      "image": "assets/profile/profile2.png",
+      "image": "https://i.pravatar.cc/150?img=7",
     },
     "rating": 4.8,
 
@@ -334,7 +334,7 @@ List<Map<String, dynamic>> propertyList = [
       "description":
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
       "area_of_operation": ["Whitefield", "Electronic City", "Indiranagar"],
-      "image": "assets/profile/profile3.png",
+      "image": "https://i.pravatar.cc/150?img=3",
     },
     "rating": 3.9,
 
@@ -420,7 +420,7 @@ List<Map<String, dynamic>> propertyList = [
       "description":
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
       "area_of_operation": ["Anna Nagar", "T Nagar", "OMR"],
-      "image": "assets/profile/profile4.png",
+      "image": "https://i.pravatar.cc/150?img=8",
     },
     "rating": 4.6,
 

@@ -31,7 +31,7 @@ class SelectableWrap extends StatelessWidget {
         return GestureDetector(
           onTap: () => onSelected(type),
           child: Padding(
-            padding: EdgeInsets.only(left: AppPadding.small),
+            padding: const EdgeInsets.only(left: AppPadding.small),
             child: buildFilterPropertyTypes(
               title: type,
               isSelected: isSelected,

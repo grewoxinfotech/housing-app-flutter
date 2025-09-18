@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:housing_flutter_app/modules/auth/views/register_screen.dart';
 import 'package:housing_flutter_app/widgets/bar/app_bar/common_bar.dart';
 
-import '../../../app/constants/font_res.dart';
-import '../../../app/utils/validation.dart';
 import '../../../widgets/New folder/inputs/text_field.dart';
 import '../../../widgets/button/button.dart';
 import '../controllers/auth_controller.dart';
@@ -20,7 +17,7 @@ class ForgetPasswordScreen extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: CommonNesticoPeAppBar(
+      appBar: const CommonNesticoPeAppBar(
         title: 'Forgot Password',
         showBackArrow: true,
         leadingIcon: Icons.arrow_back,

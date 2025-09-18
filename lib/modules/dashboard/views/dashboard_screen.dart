@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:housing_flutter_app/widgets/bar/navigation_bar/navigation_Bar.dart';
-import '../../../widgets/bar/app_bar/app_bar.dart';
 import '../../../widgets/dialogs/delete_dialog.dart';
 import '../../../widgets/drawer/drawer.dart';
 import 'package:get/get.dart';
@@ -463,25 +461,22 @@ class DashboardScreen extends StatelessWidget {
     return Scaffold(
       extendBody: true,
       drawer: NesticoPeDrawer(),
-      bottomNavigationBar: NesticoPeNavigationBar(),
+      bottomNavigationBar: const SafeArea(child: NesticoPeNavigationBar()),
       body: Obx(() {
         if (navigationController.currentIndex.value == 0) {
-          return HomeScreen();
+          return const HomeScreen();
         } else if (navigationController.currentIndex.value == 1) {
-          return Center(child: NesticoPeDeleteDialog());
-        }
-          else if (navigationController.currentIndex.value == 2) {
-          return Center(child: Text("No Update") );
-
-        }
-        else if (navigationController.currentIndex.value == 3) {
-          return Center(child: Text("No Update"));
+          return const Center(child: NesticoPeDeleteDialog());
+        } else if (navigationController.currentIndex.value == 2) {
+          return const Center(child: Text("No Update"));
+        } else if (navigationController.currentIndex.value == 3) {
+          return const Center(child: Text("No Update"));
         } else if (navigationController.currentIndex.value == 4) {
-          return SavedPropertyScreen();
+          return const SavedPropertyScreen();
         } else if (navigationController.currentIndex.value == 5) {
-          return SavedPropertyScreen();
+          return const SavedPropertyScreen();
         } else {
-          return SizedBox();
+          return const SizedBox();
         }
       }),
     );

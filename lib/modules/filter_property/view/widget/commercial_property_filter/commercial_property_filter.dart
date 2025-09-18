@@ -23,13 +23,13 @@ class _CommercialPropertyFilterState extends State<CommercialPropertyFilter> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         buildFilterHeadingPadding('Sub category'),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             children: List.generate(subCategory.length, (index) {
               return Padding(
-                padding: EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.only(left: 10),
                 child: GestureDetector(
                   onTap: () {
                     setState(() {
@@ -46,14 +46,14 @@ class _CommercialPropertyFilterState extends State<CommercialPropertyFilter> {
             }),
           ),
         ),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         SingleChildScrollView(
           child: Column(
             children: [
               if (subCategory[selectedIndex] == 'Buy') ...[
-                BuyCommercial(),
+                const BuyCommercial(),
               ] else ...[
-                RentCommercialProperty(),
+                const RentCommercialProperty(),
               ],
             ],
           ),

@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:housing_flutter_app/app/constants/app_font_sizes.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/app/constants/img_res.dart';
 import 'package:housing_flutter_app/app/constants/size_manager.dart';
-import 'package:housing_flutter_app/app/manager/icon_manager.dart';
 import 'package:housing_flutter_app/app/manager/string_manager.dart';
 import 'package:housing_flutter_app/app/utils/bottom_sheet_form.dart';
 import 'package:housing_flutter_app/app/utils/dummy_data.dart';
 import 'package:housing_flutter_app/app/utils/formater/formater.dart';
 import 'package:housing_flutter_app/app/widgets/video_player/custom_video_player.dart';
 import 'package:housing_flutter_app/modules/property/controllers/property_controller.dart';
-import 'package:housing_flutter_app/modules/property/views/property_list_screen.dart';
 import 'package:housing_flutter_app/modules/property/views/recommended_property.dart';
 
 import 'package:housing_flutter_app/modules/search_property/view/search_screen.dart';
@@ -41,7 +38,7 @@ class PropertyDetailScreen extends StatelessWidget {
       extendBody: true,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.only(bottom: kBottomNavigationBarHeight / 2),
+          padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight / 2),
 
           // prevents overlap
           child: Column(
@@ -51,68 +48,69 @@ class PropertyDetailScreen extends StatelessWidget {
               _buildTitleSection(property ?? Items()),
               Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
-              SizedBox(height: 12),
-              TitleWithViewAll(title: 'Facilities'),
-              SizedBox(height: 0),
+              const SizedBox(height: 12),
+              const TitleWithViewAll(title: 'Facilities'),
+              const SizedBox(height: 0),
               Facilities(property: property ?? Items()),
-              SizedBox(height: 0),
+              const SizedBox(height: 0),
               Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
-              SizedBox(height: 12),
-              TitleWithViewAll(title: 'Property Details'),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
+              const TitleWithViewAll(title: 'Property Details'),
+              const SizedBox(height: 12),
               Details(property: property!),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
               if (property?.propertyDetails?.amenities != null) ...[
-                SizedBox(height: 12),
-                TitleWithViewAll(title: 'Amenities'),
-                SizedBox(height: 8),
+                const SizedBox(height: 12),
+                const TitleWithViewAll(title: 'Amenities'),
+                const SizedBox(height: 8),
                 AmenitiesSection(
                   amenities: property!.propertyDetails!.amenities ?? [],
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
               ],
 
               if (property?.propertyDescription != null) ...[
-                SizedBox(height: 12),
-                TitleWithViewAll(title: 'Description'),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
+                const TitleWithViewAll(title: 'Description'),
+                const SizedBox(height: 12),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
                     property?.propertyDescription ?? '-',
-                    style: TextStyle(fontSize: 11, fontWeight: FontWeight.w400),
+                    style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w400),
                   ),
                 ),
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
                 Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
               ],
 
-              SizedBox(height: 12),
-              TitleWithViewAll(title: 'Location'),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
+              const TitleWithViewAll(title: 'Location'),
+              const SizedBox(height: 12),
               AddressAndMapDetails(property: property!),
               Obx(() {
-                if (controller.isDeveloper.value)
-                  return SizedBox.shrink(); // hide if not developer
+                if (controller.isDeveloper.value) {
+                  return const SizedBox.shrink(); // hide if not developer
+                }
 
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     Divider(
                       indent: 18,
                       endIndent: 18,
                       color: Colors.grey.shade300,
                     ),
-                    SizedBox(height: 12),
-                    TitleWithViewAll(title: 'Project Specification'),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
+                    const TitleWithViewAll(title: 'Project Specification'),
+                    const SizedBox(height: 12),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: Wrap(
                         spacing: 5,
                         runSpacing: 10,
@@ -134,7 +132,7 @@ class PropertyDetailScreen extends StatelessWidget {
                     //   endIndent: 18,
                     //   color: Colors.grey.shade300,
                     // ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     // TitleWithViewAll(title: 'Premium projects nearby'),
                     // SizedBox(height: 12),
                     // ProjectDetails(
@@ -151,34 +149,35 @@ class PropertyDetailScreen extends StatelessWidget {
                   ],
                 );
               }),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
-              SizedBox(height: 8),
-              TitleWithViewAll(title: 'Nearby Landmarks'),
-              SizedBox(height: 12),
+              const SizedBox(height: 8),
+              const TitleWithViewAll(title: 'Nearby Landmarks'),
+              const SizedBox(height: 12),
               if (property?.nearbyLocations != null)
                 NearbyPropertyDetails(
                   nearbyLocations: property?.nearbyLocations ?? [],
                 ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
 
-              SizedBox(height: 12),
-              TitleWithViewAll(title: 'Owner Details'),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
+              const TitleWithViewAll(title: 'Owner Details'),
+              const SizedBox(height: 12),
               OwnerInformation(property: property!, controller: controller),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
-              SizedBox(height: 12),
-              TitleWithViewAll(title: 'Check availability of Agent'),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
+              const TitleWithViewAll(title: 'Check availability of Agent'),
+              const SizedBox(height: 12),
               ContactSellerCard(property: property ?? Items()),
 
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               Obx(() {
-                if (!controller.isDeveloper.value)
-                  return SizedBox.shrink(); // hide if not developer
+                if (!controller.isDeveloper.value) {
+                  return const SizedBox.shrink(); // hide if not developer
+                }
 
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,24 +187,24 @@ class PropertyDetailScreen extends StatelessWidget {
                       endIndent: 18,
                       color: Colors.grey.shade300,
                     ),
-                    SizedBox(height: 12),
-                    TitleWithViewAll(title: 'Project Brochures'),
-                    SizedBox(height: 12),
-                    ProjectBrochure(
+                    const SizedBox(height: 12),
+                    const TitleWithViewAll(title: 'Project Brochures'),
+                    const SizedBox(height: 12),
+                    const ProjectBrochure(
                       brochureImageUrl:
                           'https://cdn.dribbble.com/userupload/12289156/file/original-1b5719cd15e5e7e54052ebe7ed9ad2a7.jpg?resize=400x0',
                       brochureUrl: "",
                       totalPages: 4,
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     Divider(
                       indent: 18,
                       endIndent: 18,
                       color: Colors.grey.shade300,
                     ),
-                    SizedBox(height: 12),
-                    TitleWithViewAll(title: 'Premium projects nearby'),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
+                    const TitleWithViewAll(title: 'Premium projects nearby'),
+                    const SizedBox(height: 12),
                     ProjectDetails(
                       launchedDate: property?.lastRenewalDate ?? '',
                       maxPrice: 3.5,
@@ -216,7 +215,7 @@ class PropertyDetailScreen extends StatelessWidget {
                       reraId: '322',
                       units: 256,
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     RecommendedInsights(
                       nearbyLocations: property!.nearbyLocations!,
                     ),
@@ -236,19 +235,19 @@ class PropertyDetailScreen extends StatelessWidget {
               // SizedBox(height: 12),
               // RecommendedProperty(),
               Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
-              SizedBox(height: 12),
-              TitleWithViewAll(title: 'Recommended Project', showViewAll: true),
-              SizedBox(height: 12),
-              RecommendedProperty(),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
+              const TitleWithViewAll(title: 'Recommended Project', showViewAll: true),
+              const SizedBox(height: 12),
+              const RecommendedProperty(),
+              const SizedBox(height: 12),
               Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
-              SizedBox(height: 12),
-              TitleWithViewAll(
+              const SizedBox(height: 12),
+              const TitleWithViewAll(
                 title: 'Better Price Property',
                 showViewAll: true,
               ),
-              SizedBox(height: 12),
-              RecommendedProperty(),
+              const SizedBox(height: 12),
+              const RecommendedProperty(),
 
               //SizedBox(height: 12),
               //const SizedBox(height: 12), // Extra spacing at bottom
@@ -432,7 +431,7 @@ class PropertyDetailScreen extends StatelessWidget {
   // }
 
   Widget _buildMediaBanner(PropertyMedia media) {
-    final PageController _pageController = PageController();
+    final PageController pageController = PageController();
     final images = media.images ?? [];
     final videos = media.videos ?? [];
     final List<Map<String, String>> mediaList = [
@@ -452,7 +451,7 @@ class PropertyDetailScreen extends StatelessWidget {
                 height: 300,
                 width: double.infinity,
                 child: PageView.builder(
-                  controller: _pageController,
+                  controller: pageController,
                   itemCount: mediaList.length,
                   onPageChanged: (index) {
                     setState(() {
@@ -735,9 +734,9 @@ class PropertyDetailScreen extends StatelessWidget {
                     color: ColorRes.primary.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(AppRadius.small),
                   ),
-                  child: Row(
+                  child: const Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: const [
+                    children: [
                       Icon(
                         Icons.location_pin,
                         size: 16,
@@ -765,18 +764,18 @@ class PropertyDetailScreen extends StatelessWidget {
 
   /// Inline video player builder
   Widget _buildVideoPlayer(String url) {
-    final VideoPlayerController _videoController =
+    final VideoPlayerController videoController =
         VideoPlayerController.network(url);
 
     return FutureBuilder(
-      future: _videoController.initialize(),
+      future: videoController.initialize(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          _videoController.setLooping(true);
-          _videoController.play();
+          videoController.setLooping(true);
+          videoController.play();
           return AspectRatio(
-            aspectRatio: _videoController.value.aspectRatio,
-            child: VideoPlayer(_videoController),
+            aspectRatio: videoController.value.aspectRatio,
+            child: VideoPlayer(videoController),
           );
         } else {
           return const Center(child: CircularProgressIndicator());
@@ -933,12 +932,12 @@ class PropertyDetailScreen extends StatelessWidget {
   }
 
   Widget _buildFeatureChips() {
-    return Padding(
-      padding: const EdgeInsets.all(16),
+    return const Padding(
+      padding: EdgeInsets.all(16),
       child: Wrap(
         spacing: 12,
         runSpacing: 8,
-        children: const [
+        children: [
           Chip(label: Text("4 BHK")),
           Chip(label: Text("5 Bath")),
           Chip(label: Text("2 Balcony")),
@@ -1047,7 +1046,7 @@ class PropertyBottomBar extends StatelessWidget {
     return Container(
       height: 80,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         boxShadow: [
           BoxShadow(
@@ -1079,7 +1078,7 @@ class PropertyBottomBar extends StatelessWidget {
                     PricingBottomSheet(financialInfo: financialInfo),
                   );
                 },
-                child: Text(
+                child: const Text(
                   'See Pricing in Detail',
                   style: TextStyle(
                     fontSize: 10,
@@ -1100,7 +1099,7 @@ class PropertyBottomBar extends StatelessWidget {
                   title: "View Contact",
                 ),
               ),
-              SizedBox(width: 6),
+              const SizedBox(width: 6),
               SizedBox(
                 width: 50,
                 child: ElevatedButton(
@@ -1380,7 +1379,7 @@ class Facilities extends StatelessWidget {
               final icon = iconMap[key] ?? Icons.info_outline;
 
               return FacilitiesCard(
-                label: "$value",
+                label: value,
                 icon: icon,
                 bgColor: bgColor,
                 foreColor: txtColor,
@@ -1645,7 +1644,7 @@ class Details extends StatelessWidget {
                             color: Colors.grey[700],
                           ),
                         ),
-                        SizedBox(height: 6),
+                        const SizedBox(height: 6),
                         Text(
                           value,
                           overflow: TextOverflow.ellipsis,
@@ -1698,7 +1697,7 @@ class Details extends StatelessWidget {
 class AmenitiesSection extends StatelessWidget {
   final List<String> amenities;
 
-  AmenitiesSection({super.key, required this.amenities});
+   AmenitiesSection({super.key, required this.amenities});
 
   // final List<Map<String, dynamic>> amenities = [
   //   {'icon': Icons.pool, 'label': "Infinity Pool"},
@@ -1709,8 +1708,8 @@ class AmenitiesSection extends StatelessWidget {
   //   {'icon': Icons.solar_power, 'label': "Solar Panels"},
   // ];
 
-  final Color bgColor = Color(0xFFDBEAFE); // single background color
-  final Color txtColor = Color(0xFF2563EB); // single text/icon color
+   Color bgColor = Color(0xFFDBEAFE); // single background color
+   Color txtColor = Color(0xFF2563EB); // single text/icon color
 
   @override
   Widget build(BuildContext context) {
@@ -1738,7 +1737,7 @@ class AmenitiesSection extends StatelessWidget {
                     // const SizedBox(width: 8),
                     Text(
                       StringManager.formatLabel(item) ?? ' -',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         // color: txtColor,
@@ -1766,15 +1765,15 @@ class AddressAndMapDetails extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.location_on_rounded, size: 16),
-          SizedBox(width: 8),
+          const Icon(Icons.location_on_rounded, size: 16),
+          const SizedBox(width: 8),
           Flexible(
             child: Text(
               "${property.address ?? ''}, ${property.city ?? ''}, ${property.state ?? ''}, ${property.zipCode ?? ''},",
-              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w400),
+              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w400),
             ),
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
         ],
       ),
     );
@@ -1789,7 +1788,7 @@ class NearbyPropertyDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppPadding.medium),
+      padding: const EdgeInsets.symmetric(horizontal: AppPadding.medium),
       child: SizedBox(
         height: 75, // slightly taller for balance
         child: ListView.separated(
@@ -1801,8 +1800,8 @@ class NearbyPropertyDetails extends StatelessWidget {
             final loc = nearbyLocations[index];
 
             return Container(
-              margin: EdgeInsets.symmetric(vertical: AppPadding.small),
-              padding: EdgeInsets.symmetric(
+              margin: const EdgeInsets.symmetric(vertical: AppPadding.small),
+              padding: const EdgeInsets.symmetric(
                 horizontal: AppPadding.small,
                 vertical: AppPadding.small,
               ),
@@ -1858,7 +1857,7 @@ class RecommendedInsights extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppPadding.medium),
+      padding: const EdgeInsets.symmetric(horizontal: AppPadding.medium),
       child: SizedBox(
         height: 75, // slightly taller for balance
         child: ListView.separated(
@@ -1870,8 +1869,8 @@ class RecommendedInsights extends StatelessWidget {
             final loc = nearbyLocations[index];
 
             return Container(
-              margin: EdgeInsets.symmetric(vertical: AppPadding.small),
-              padding: EdgeInsets.symmetric(
+              margin: const EdgeInsets.symmetric(vertical: AppPadding.small),
+              padding: const EdgeInsets.symmetric(
                 horizontal: AppPadding.small,
                 vertical: AppPadding.small,
               ),
@@ -1942,7 +1941,7 @@ class OwnerInformation extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
               child: Row(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 18,
                     backgroundImage: AssetImage(
                       IMGRes.home2,
@@ -1956,12 +1955,12 @@ class OwnerInformation extends StatelessWidget {
                       children: [
                         Text(
                           property.ownerName ?? "-",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         if (property.ownerPhone != null)
                           Row(
                             children: [
@@ -1973,7 +1972,7 @@ class OwnerInformation extends StatelessWidget {
                               // SizedBox(width: 6),
                               Text(
                                 "+91 ${property.ownerPhone ?? '-'} ",
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: ColorRes.grey,
                                   fontSize: 10,
                                 ),
@@ -1992,7 +1991,7 @@ class OwnerInformation extends StatelessWidget {
                               Expanded(
                                 child: Text(
                                   property.ownerEmail ?? '-',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: ColorRes.grey,
                                     fontSize: 10,
                                   ),
@@ -2008,7 +2007,7 @@ class OwnerInformation extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           Obx(
             () => ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -2241,7 +2240,7 @@ class ContactSellerCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
               child: Row(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 18,
                     backgroundImage: AssetImage(IMGRes.home2),
                   ),
@@ -2261,7 +2260,7 @@ class ContactSellerCard extends StatelessWidget {
                         if (property.ownerPhone != null)
                           Text(
                             "+91 ${property.ownerPhone ?? '-'}",
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: ColorRes.grey,
                               fontSize: 10,
                             ),
@@ -2287,7 +2286,7 @@ class ContactSellerCard extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4),
                   ),
-                  side: BorderSide(color: ColorRes.grey, width: 1),
+                  side: const BorderSide(color: ColorRes.grey, width: 1),
                   activeColor: ColorRes.primary,
                 ),
                 const Expanded(
@@ -2310,7 +2309,7 @@ class ContactSellerCard extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4),
                   ),
-                  side: BorderSide(color: ColorRes.grey, width: 1),
+                  side: const BorderSide(color: ColorRes.grey, width: 1),
                   activeColor: ColorRes.primary,
                 ),
                 const Expanded(
@@ -2464,14 +2463,14 @@ class ProjectBrochure extends StatelessWidget {
                     onTap: () {
                       // Share action
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(
                         vertical: 12,
                         horizontal: 8,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Icon(Icons.share, size: 15, color: ColorRes.primary),
                           SizedBox(width: 8),
                           Text(
@@ -2499,14 +2498,14 @@ class ProjectBrochure extends StatelessWidget {
                     onTap: () {
                       // TODO: Open PDF viewer or download
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(
                         vertical: 12,
                         horizontal: 8,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Icon(Icons.download, size: 15, color: Colors.white),
                           SizedBox(width: 8),
                           Text(
@@ -2569,8 +2568,8 @@ class ProjectDetails extends StatelessWidget {
               itemBuilder: (context, index) {
                 final project = nearbyProjects[index];
                 return Container(
-                  margin: EdgeInsets.symmetric(vertical: AppPadding.small),
-                  padding: EdgeInsets.symmetric(
+                  margin: const EdgeInsets.symmetric(vertical: AppPadding.small),
+                  padding: const EdgeInsets.symmetric(
                     horizontal: AppPadding.small,
                     vertical: AppPadding.small,
                   ),
@@ -2589,16 +2588,16 @@ class ProjectDetails extends StatelessWidget {
                     children: [
                       Text(
                         project.name!,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 11,
                           color: ColorRes.textColor,
                           fontWeight: AppFontWeights.medium,
                         ),
                       ),
-                      SizedBox(height: 6),
+                      const SizedBox(height: 6),
                       Text(
                         '${project.distance ?? '2.1 Km'}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: ColorRes.grey,
                           fontSize: AppFontSizes.extraSmall,
                           fontWeight: AppFontWeights.semiBold,
@@ -2649,7 +2648,7 @@ class ProjectDetails extends StatelessWidget {
                   size: 18,
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
@@ -2662,7 +2661,7 @@ class ProjectDetails extends StatelessWidget {
                   size: 18,
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {},
@@ -2702,7 +2701,7 @@ class ProjectDetails extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           value,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: AppFontWeights.semiBold,
             fontSize: AppFontSizes.small,
           ),
@@ -2734,7 +2733,7 @@ class StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       width: 165, // fixed width for balance
       decoration: BoxDecoration(
         color: Colors.grey.shade100,
@@ -2744,8 +2743,14 @@ class StatCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           /// Title
-          buildCommonText(title, 12, FontWeight.w600, ColorRes.textColor, 1),
-          SizedBox(height: 4),
+          buildCommonText(
+            title,
+            AppFontSizes.caption,
+            FontWeight.w600,
+            ColorRes.textColor,
+            1,
+          ),
+          const SizedBox(height: 6),
 
           /// Value + optional icon + subtext
           Row(
@@ -2753,17 +2758,17 @@ class StatCard extends StatelessWidget {
             children: [
               if (icon != null) ...[
                 Icon(icon, color: iconColor ?? Colors.black, size: 15),
-                SizedBox(width: 4),
+                const SizedBox(width: 4),
               ],
               buildCommonText(
                 value,
-                11,
+                AppFontSizes.extraSmall,
                 FontWeight.w600,
                 iconColor ?? Colors.black,
                 1,
               ),
               if (subText != null) ...[
-                SizedBox(width: 4),
+                const SizedBox(width: 4),
                 buildCommonText(
                   subText ?? '',
                   10,
@@ -2808,7 +2813,7 @@ class _PropertyFeedbackComponentState extends State<PropertyFeedbackComponent> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
+            const Text(
               "Feedback Property",
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
@@ -2821,10 +2826,10 @@ class _PropertyFeedbackComponentState extends State<PropertyFeedbackComponent> {
             ),
             const SizedBox(height: 10),
             Text(
-              "Rating (${_rating}/5)",
+              "Rating ($_rating/5)",
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
                 color: Colors.grey,
@@ -2868,19 +2873,19 @@ class _PropertyFeedbackComponentState extends State<PropertyFeedbackComponent> {
               maxLines: 3,
               decoration: InputDecoration(
                 hintText: "Write your feedback...",
-                hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
+                hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
                 filled: true,
                 fillColor: Colors.grey[100],
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(color: Colors.grey),
+                  borderSide: const BorderSide(color: Colors.grey),
                 ),
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
+                  borderSide: const BorderSide(color: Colors.grey),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: ColorRes.primary),
+                  borderSide: const BorderSide(color: ColorRes.primary),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -2924,7 +2929,7 @@ class _PropertyFeedbackComponentState extends State<PropertyFeedbackComponent> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   "Submit",
                   style: TextStyle(fontSize: 16, color: Colors.white),
                 ),

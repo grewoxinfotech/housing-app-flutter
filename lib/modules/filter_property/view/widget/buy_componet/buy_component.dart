@@ -59,14 +59,14 @@ class _FilterPropertyTypesListState extends State<FilterPropertyTypesList> {
       height: 35,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.only(right: 8),
+        padding: const EdgeInsets.only(right: 8),
         shrinkWrap: true,
         itemCount: widget.items.length,
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () => toggleSelection(index),
             child: Padding(
-              padding: EdgeInsets.only(left: 8),
+              padding: const EdgeInsets.only(left: 8),
               child: buildFilterPropertyTypes(
                 title: widget.items[index],
                 isSelected: selectedItems.contains(widget.items[index]),
@@ -83,9 +83,9 @@ class _FilterPropertyTypesListState extends State<FilterPropertyTypesList> {
 
 Padding buildFilterHeadingPadding(String title) {
   return Padding(
-    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
     child: buildCommonText(
-      '$title',
+      title,
       15,
       FontWeight.w600,
       ColorRes.textColor,

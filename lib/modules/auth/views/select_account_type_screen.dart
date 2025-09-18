@@ -39,10 +39,10 @@ class SelectAccountTypeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final roles = UserRole.values;
+    const roles = UserRole.values;
 
     return Scaffold(
-      appBar: CommonNesticoPeAppBar(
+      appBar: const CommonNesticoPeAppBar(
         title: 'Select Account Type',
         showBackArrow: true,
         leadingIcon: Icons.arrow_back,

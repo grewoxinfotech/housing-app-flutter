@@ -67,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen>
     print("DEBUG >> isLogin=$isLogin, token=$token");
 
     if (isLogin == true && token != null && token.isNotEmpty) {
-      if (isLogin == true && token != null && token.isNotEmpty) {
+      if (isLogin == true && token.isNotEmpty) {
         // ✅ Token exists, go to dashboard
         Get.offAll(() => const DashboardScreen());
       } else {

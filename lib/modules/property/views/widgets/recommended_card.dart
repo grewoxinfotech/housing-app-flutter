@@ -303,6 +303,7 @@ import 'package:housing_flutter_app/app/constants/app_font_sizes.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/app/constants/img_res.dart';
 import 'package:housing_flutter_app/app/constants/size_manager.dart';
+import 'package:housing_flutter_app/app/utils/formater/formater.dart';
 import '../../../../data/network/property/models/property_model.dart';
 import '../property_detail_screen.dart';
 
@@ -398,7 +399,7 @@ class _RecommendedCardState extends State<RecommendedCard> {
                       ),
                       child: Text(
                         widget.property.listingType ?? '-',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: ColorRes.primary,
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
@@ -488,7 +489,7 @@ class _RecommendedCardState extends State<RecommendedCard> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -506,7 +507,14 @@ class _RecommendedCardState extends State<RecommendedCard> {
                         ),
                         const SizedBox(width: 10),
                         Text(
-                          "₹ ${widget.property.propertyDetails?.financialInfo?.price ?? '0'}",
+                          Formatter.formatPrice(
+                            widget
+                                    .property
+                                    .propertyDetails
+                                    ?.financialInfo
+                                    ?.price ??
+                                0,
+                          ),
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -589,7 +597,7 @@ class _RecommendedCardState extends State<RecommendedCard> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     // Text(
                     //   '${widget.property.propertyDetails?.propertyCondition} ' ??
                     //       '-',
@@ -603,7 +611,7 @@ class _RecommendedCardState extends State<RecommendedCard> {
                     // ),
                     // SizedBox(height: 5),
                     Text(
-                      '${widget.property.propertyDetails?.propertyBuiltUpArea} sq.ft  /-' ??
+                      '${widget.property.propertyDetails?.propertyBuiltUpArea} sq.ft' ??
                           '-',
                       style: TextStyle(
                         fontSize: 9,
@@ -613,22 +621,22 @@ class _RecommendedCardState extends State<RecommendedCard> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     // Divider
                     Divider(
                       color: ColorRes.grey.withOpacity(0.2),
                       thickness: 1,
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     SizedBox(
                       height: 30,
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                               horizontal: 12,
-                              vertical: 8,
+                              vertical: 6,
                             ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
@@ -637,14 +645,14 @@ class _RecommendedCardState extends State<RecommendedCard> {
                             ),
                             child: Image.asset(
                               'assets/logo/whatsapp.png',
-                              height: 15,
+                              height: 20,
                               fit: BoxFit.cover,
                             ),
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Expanded(
                             child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                 horizontal: 12,
                                 vertical: 4,
                               ),
@@ -659,7 +667,7 @@ class _RecommendedCardState extends State<RecommendedCard> {
                                 color: ColorRes.white,
                               ),
                               alignment: Alignment.center,
-                              child: Text(
+                              child: const Text(
                                 "View Phone",
                                 style: TextStyle(
                                   fontSize: AppFontSizes.caption,

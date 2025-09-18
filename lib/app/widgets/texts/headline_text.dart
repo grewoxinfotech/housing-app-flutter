@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
 
-import '../../constants/font_res.dart';
 
 class TitleWithViewAll extends StatelessWidget {
   final String title;
@@ -26,7 +25,7 @@ class TitleWithViewAll extends StatelessWidget {
             width: 250,
             child: Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
 

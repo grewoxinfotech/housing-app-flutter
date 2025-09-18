@@ -29,6 +29,8 @@ class TrendingAreaCard extends StatelessWidget {
     },
   ];
 
+   TrendingAreaCard({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -56,7 +58,7 @@ class TrendingAreaCard extends StatelessWidget {
                       color: Colors.grey.withOpacity(0.15),
                       blurRadius: 6,
                       spreadRadius: 1,
-                      offset: Offset(0, 3),
+                      offset: const Offset(0, 3),
                     ),
                   ],
                   border: Border.all(color: Colors.grey.shade200),

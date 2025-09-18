@@ -905,16 +905,18 @@ class Items {
     data['propertyDescription'] = propertyDescription;
     data['keywords'] = keywords;
     data['propertyImages'] = propertyImages;
-    if (propertyDetails != null)
+    if (propertyDetails != null) {
       data['propertyDetails'] = propertyDetails!.toJson();
+    }
     data['address'] = address;
     data['city'] = city;
     data['state'] = state;
     data['zipCode'] = zipCode;
     if (location != null) data['location'] = location!.toJson();
-    if (nearbyLocations != null)
+    if (nearbyLocations != null) {
       data['nearbyLocations'] =
           nearbyLocations!.map((v) => v.toJson()).toList();
+    }
     data['reraId'] = reraId;
     data['property_status'] = propertyStatus;
     data['builderName'] = builderName;
@@ -1053,8 +1055,9 @@ class PropertyDetails {
     if (furnishInfo != null) data['furnish_info'] = furnishInfo!.toJson();
     if (parkingInfo != null) data['parking_info'] = parkingInfo!.toJson();
     if (financialInfo != null) data['financial_info'] = financialInfo!.toJson();
-    if (possessionInfo != null)
+    if (possessionInfo != null) {
       data['possession_info'] = possessionInfo!.toJson();
+    }
     data['property_facing'] = propertyFacing;
     data['property_condition'] = propertyCondition;
     data['property_carpet_area'] = propertyCarpetArea;

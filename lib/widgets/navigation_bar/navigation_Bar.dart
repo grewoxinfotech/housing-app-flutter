@@ -6,6 +6,8 @@ import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import '../../app/constants/size_manager.dart';
 
 class NesticoPeNavigationBar extends StatelessWidget {
+  const NesticoPeNavigationBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     Get.lazyPut<NavigationController>(() => NavigationController());
@@ -22,7 +24,7 @@ class NesticoPeNavigationBar extends StatelessWidget {
         elevation: 5,
         shadowColor: Get.theme.colorScheme.surface,
         color: Get.theme.colorScheme.surface,
-        margin: EdgeInsets.only(
+        margin: const EdgeInsets.only(
           left: AppMargin.small,
           bottom: AppMargin.small,
           right: AppMargin.small,
@@ -40,7 +42,7 @@ class NesticoPeNavigationBar extends StatelessWidget {
             itemShape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppRadius.large),
             ),
-            itemPadding: EdgeInsets.all(AppPadding.small),
+            itemPadding: const EdgeInsets.all(AppPadding.small),
             currentIndex: controller.currentIndex.value,
             onTap: (i) => controller.changeIndex(i),
             items: [

@@ -31,21 +31,21 @@ class _ChangeLocationState extends State<ChangeLocation> {
           ),
         ),
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: SingleChildScrollView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 buildFilterHeadingPadding('Popular cities'),
-                SizedBox(height: 7),
+                const SizedBox(height: 7),
 
                 SizedBox(
                   height: MediaQuery.of(context).size.height - 195,
                   child: CityAlphabetList(letterCity: letterAlphabate),
                 ),
-                SizedBox(height: 100),
+                const SizedBox(height: 100),
               ],
             ),
           ),

@@ -13,7 +13,7 @@ class _OtpLoginScreenState extends State<OtpLoginScreen> {
   final _otpFormKey = GlobalKey<FormState>();
   final _phoneController = TextEditingController();
   final _otpController = TextEditingController();
-  bool _isLoading = false;
+  final bool _isLoading = false;
   bool _otpSent = false;
 
   @override

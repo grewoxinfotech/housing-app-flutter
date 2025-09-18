@@ -82,7 +82,7 @@ class NesticoPeDropdownField<T> extends StatelessWidget {
     final safeValue = valueExists ? value as T? : null;
 
     return DropdownButtonFormField<T>(
-      value: safeValue,
+      initialValue: safeValue,
       borderRadius: BorderRadius.circular(AppRadius.large),
       items: items,
       onChanged: enabled ? (val) => onChanged(val) : null,

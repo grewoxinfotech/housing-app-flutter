@@ -50,21 +50,25 @@ class Formatter {
   static String formatPrice(num price) {
     String suffix = '';
     num value = price;
+    String prefix = '₹';
 
     if (price >= 10000000 || price <= -10000000) {
       // 1 Crore = 1 Cr = 10,000,000
+
       value = price / 10000000;
       suffix = 'Cr';
     } else if (price >= 100000 || price <= -100000) {
       // 1 Lakh = 1 Lac = 100,000
+
       value = price / 100000;
       suffix = 'L';
     } else if (price >= 1000 || price <= -1000) {
       // 1 Thousand
+
       value = price / 1000;
       suffix = 'K';
     } else {
-      return price.toString(); // less than 1k, return as is
+      return '$prefix  $price'; // less than 1k, return as is
     }
 
     // Remove trailing .0
@@ -73,7 +77,7 @@ class Formatter {
       formatted = formatted.substring(0, formatted.length - 2);
     }
 
-    return '$formatted$suffix';
+    return '$prefix $formatted$suffix';
   }
 
   static String formatPriceInternational(double value) {

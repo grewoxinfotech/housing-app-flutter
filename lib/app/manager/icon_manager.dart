@@ -87,7 +87,7 @@ class IconManager {
   };
 
   static IconData getIcon(String key) {
-    print('[DEBUG]=> icons : ${key}');
+    print('[DEBUG]=> icons : $key');
     return _iconMap[key] ?? Icons.help_outline; // fallback icon
   }
 }

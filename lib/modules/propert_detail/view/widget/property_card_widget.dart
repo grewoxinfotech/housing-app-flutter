@@ -39,7 +39,7 @@ class PropertyCardWidget extends StatefulWidget {
 }
 
 class _PropertyCardWidgetState extends State<PropertyCardWidget> {
-  int _currentImageIndex = 0;
+  final int _currentImageIndex = 0;
   bool isFavorite = false;
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class _PropertyCardWidgetState extends State<PropertyCardWidget> {
                 height: 138, // adjust height as needed
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: AppPadding.small,
                     vertical: AppPadding.small,
                   ),
@@ -151,7 +151,7 @@ class _PropertyCardWidgetState extends State<PropertyCardWidget> {
             ),
           ),
           //--------here
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           //=======================================================
           //=======================
           Padding(
@@ -176,7 +176,7 @@ class _PropertyCardWidgetState extends State<PropertyCardWidget> {
           const SizedBox(height: AppSpacing.small),
 
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: AppPadding.small),
+            padding: const EdgeInsets.symmetric(horizontal: AppPadding.small),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -331,7 +331,7 @@ class _PropertyCardWidgetState extends State<PropertyCardWidget> {
                     size: AppFontSizes.medium,
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppPadding.small,

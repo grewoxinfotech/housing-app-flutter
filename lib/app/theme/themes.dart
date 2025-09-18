@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../constants/color_res.dart';
 import '../constants/font_res.dart';
@@ -14,9 +13,8 @@ ThemeData lightTheme = ThemeData(
   dividerColor: ColorRes.divider,
   disabledColor: ColorRes.disabled,
   shadowColor: ColorRes.shadow,
-  dialogBackgroundColor: ColorRes.overlay,
 
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     backgroundColor: Colors.transparent,
     surfaceTintColor: Colors.transparent,
     elevation: 0.0,
@@ -28,12 +26,11 @@ ThemeData lightTheme = ThemeData(
     ),
   ),
 
-  colorScheme: ColorScheme(
+  colorScheme: const ColorScheme(
     brightness: Brightness.light,
     // theme colors
     primary: ColorRes.primary,
     secondary: ColorRes.secondary,
-    background: ColorRes.background,
     surface: ColorRes.surface,
     shadow: ColorRes.shadow,
     error: ColorRes.error,
@@ -41,12 +38,11 @@ ThemeData lightTheme = ThemeData(
     // text colors
     onPrimary: ColorRes.textPrimary,
     onSecondary: ColorRes.textSecondary,
-    onBackground: ColorRes.textDisabled,
     onSurface: ColorRes.textSecondary,
     onError: ColorRes.error,
   ),
   checkboxTheme: CheckboxThemeData(
-    checkColor: MaterialStateProperty.all(ColorRes.white),
+    checkColor: WidgetStateProperty.all(ColorRes.white),
     // or any desired color
-  ),
+  ), dialogTheme: const DialogThemeData(backgroundColor: ColorRes.overlay),
 );

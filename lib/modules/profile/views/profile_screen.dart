@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/app/constants/font_res.dart';
-import 'package:housing_flutter_app/app/constants/img_res.dart';
 import 'package:housing_flutter_app/data/database/secure_storage_service.dart';
 import 'package:housing_flutter_app/modules/auth/controllers/auth_controller.dart';
 import 'package:housing_flutter_app/modules/auth/views/login_screen.dart';
@@ -26,9 +25,9 @@ class ProfileScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Get.to(EditProfileScreen());
+              Get.to(const EditProfileScreen());
             },
-            icon: Icon(Icons.edit_outlined),
+            icon: const Icon(Icons.edit_outlined),
           ),
         ],
       ),
@@ -106,19 +105,19 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 26),
+              const SizedBox(height: 26),
 
               SizedBox(
                 width: double.infinity,
                 child: NesticoPeButton(
                   onTap: () async {
                     await SecureStorage.clearAll();
-                    Get.offAll(() => LoginScreen());
+                    Get.offAll(() => const LoginScreen());
                   },
                   title: 'Logout',
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
                 child: NesticoPeButton(
@@ -128,7 +127,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: 26),
+              const SizedBox(height: 26),
             ],
           ),
         );
@@ -141,14 +140,14 @@ class ProfileScreen extends StatelessWidget {
       leading: Icon(icon),
       title: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           fontFamily: FontRes.nuNunitoSans,
           fontWeight: FontWeight.w800,
         ),
       ),
       subtitle: Text(
         value,
-        style: TextStyle(
+        style: const TextStyle(
           fontFamily: FontRes.nuNunitoSans,
           fontWeight: FontWeight.w600,
         ),

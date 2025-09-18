@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 
-import 'package:google_fonts/google_fonts.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/app/constants/size_manager.dart';
 import 'package:housing_flutter_app/app/utils/dummy_data.dart';
@@ -30,7 +28,7 @@ class _PgCoLivingState extends State<PgCoLiving> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         buildFilterHeadingPadding('Gender'),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         SelectableWrap(
           items: genderList,
           selectedItem: selectedGender,
@@ -41,20 +39,20 @@ class _PgCoLivingState extends State<PgCoLiving> {
           },
           isExpanded: false,
         ),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         buildFilterHeadingPadding('Room Type'),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         FilterPropertyTypesList(
           items: roomTypeList,
           onSelectionChanged: (index) {},
         ),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         buildFilterHeadingPadding('Budget'),
         // SizedBox(height: 7),
         BudgetFilter(
           minValue: 0.0,
           maxValue: 20,
-          values: RangeValues(5, 15),
+          values: const RangeValues(5, 15),
           onChanged: (value) {},
           minLabel: "Min",
           maxLabel: "Max",
@@ -62,7 +60,7 @@ class _PgCoLivingState extends State<PgCoLiving> {
           maxQuantityLabel: "Cr+",
         ),
         buildFilterHeadingPadding('Food available'),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         SelectableWrap(
           items: foodAvailable,
           selectedItem: selectedFoodAvailable,
@@ -73,14 +71,14 @@ class _PgCoLivingState extends State<PgCoLiving> {
           },
           isExpanded: false,
         ),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         buildFilterHeadingPadding('Brand'),
-        SizedBox(height: 7),
+        const SizedBox(height: 7),
         SizedBox(
           height: 35,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.only(right: 8),
+            padding: const EdgeInsets.only(right: 8),
             shrinkWrap: true,
             itemCount: builderList.length,
             itemBuilder: (context, index) {
@@ -113,9 +111,9 @@ class _PgCoLivingState extends State<PgCoLiving> {
                   });
                 },
                 child: Padding(
-                  padding: EdgeInsets.only(left: 8),
+                  padding: const EdgeInsets.only(left: 8),
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey.shade300, width: 1),
                       color:
@@ -132,7 +130,7 @@ class _PgCoLivingState extends State<PgCoLiving> {
                           height: 20,
                           width: 20,
                         ),
-                        SizedBox(width: 5),
+                        const SizedBox(width: 5),
 
                         buildCommonText(
                           builderList[index]['title'],

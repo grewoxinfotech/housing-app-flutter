@@ -29,8 +29,8 @@ class SuggestionCardList extends StatelessWidget {
       child: Container(
         width: AppSpacing.large * 5.5,
         height: cardHeight ?? AppSpacing.large * 2.7,
-        margin: EdgeInsets.symmetric(vertical: AppPadding.small),
-        padding: EdgeInsets.symmetric(
+        margin: const EdgeInsets.symmetric(vertical: AppPadding.small),
+        padding: const EdgeInsets.symmetric(
           horizontal: AppPadding.small,
           vertical: AppPadding.small,
         ),

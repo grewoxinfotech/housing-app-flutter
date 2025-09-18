@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:housing_flutter_app/modules/auth/controllers/auth_controller.dart';
 import 'package:housing_flutter_app/modules/auth/views/forgot_password_screen.dart';
 import 'package:housing_flutter_app/modules/auth/views/select_account_type_screen.dart';
-import 'package:housing_flutter_app/widgets/input/custom_text_field.dart';
-import 'package:housing_flutter_app/modules/auth/views/register_screen.dart';
 import 'package:housing_flutter_app/modules/auth/views/otp_login_screen.dart';
 import 'package:get/get.dart';
 
@@ -43,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _navigateToOtpLogin() {
     Navigator.of(
       context,
-    ).push(MaterialPageRoute(builder: (context) => OtpLoginScreen()));
+    ).push(MaterialPageRoute(builder: (context) => const OtpLoginScreen()));
   }
 
   void _showErrorDialog(String message) {
@@ -84,18 +82,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           color: theme.colorScheme.primary,
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.home_work,
                           size: 24,
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       Text(
                         'NesticoPe',
                         style: TextStyle(
@@ -198,7 +196,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   // Register Link
                   Center(
-                    child: Container(
+                    child: SizedBox(
                       width: double.infinity,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -212,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           TextButton(
                             onPressed:
-                                () => Get.to(() => SelectAccountTypeScreen()),
+                                () => Get.to(() => const SelectAccountTypeScreen()),
                             child: Text(
                               'Sign Up here',
                               style: TextStyle(
