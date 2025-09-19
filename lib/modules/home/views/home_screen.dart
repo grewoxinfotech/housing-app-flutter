@@ -550,6 +550,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     buttonFontWeight: AppFontWeights.semiBold,
                                     buttonFontSize: 10,
                                     buttonTextColor: ColorRes.primary,
+                                    borderColor: ColorRes.grey,
                                     maxLine: 1,
                                     title: '${property.title}',
                                     imagePath:
@@ -1795,15 +1796,8 @@ class PropertyHorizontalCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: borderColor.withOpacity(0.25), width: 0.7),
+          border: Border.all(color: borderColor.withOpacity(0.3), width: 0.8),
           color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.04),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,

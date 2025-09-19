@@ -42,9 +42,12 @@ class DeveloperSection extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: ColorRes.white,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.grey.shade300, width: 0.8),
+              border: Border.all(
+                color: ColorRes.grey.withOpacity(0.3),
+                width: 0.8,
+              ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,7 +207,7 @@ class DeveloperSection extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade300, width: 0.8),
+        border: Border.all(color: ColorRes.grey.withOpacity(0.3), width: 0.8),
       ),
       child: Column(
         children: [
@@ -220,7 +223,7 @@ class DeveloperSection extends StatelessWidget {
                 ),
                 fit: BoxFit.cover,
               ),
-              color: Colors.grey.shade200,
+              color: Colors.white,
               borderRadius: BorderRadius.circular(15),
             ),
           ),
@@ -277,7 +280,7 @@ class DeveloperSection extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   data.propertyDetails?.financialInfo?.price != null
-                      ? '${Formatter.formatPrice(data.propertyDetails!.financialInfo!.price)}'
+                      ? Formatter.formatPrice(data.propertyDetails!.financialInfo!.price)
                       : 'Price not available',
                   style: const TextStyle(
                     fontSize: AppFontSizes.medium,

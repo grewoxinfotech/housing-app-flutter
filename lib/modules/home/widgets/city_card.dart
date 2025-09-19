@@ -141,14 +141,14 @@ class CityCard extends StatelessWidget {
       margin: const EdgeInsets.only(right: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: ColorRes.grey.withOpacity(0.1), width: 0.8),
+        border: Border.all(color: ColorRes.grey.withOpacity(0.3), width: 0.8),
         color: Colors.white,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
             child: Stack(
               children: [
                 Image.network(

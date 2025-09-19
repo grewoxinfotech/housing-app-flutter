@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:housing_flutter_app/app/constants/app_font_sizes.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/data/network/property/models/property_model.dart';
@@ -139,8 +138,8 @@ class _HotspotSectionState extends State<HotspotSection> {
       decoration: BoxDecoration(
         color: isSelected ? ColorRes.primary.withOpacity(0.08) : Colors.white,
         border: Border.all(
-          color: isSelected ? ColorRes.primary : Colors.grey.shade300,
-          width: 1,
+          color: isSelected ? ColorRes.primary : ColorRes.grey.withOpacity(0.3),
+          width: isSelected ? 1.5 : 0.8,
         ),
         borderRadius: BorderRadius.circular(16),
       ),
