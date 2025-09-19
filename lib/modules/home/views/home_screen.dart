@@ -15,6 +15,7 @@ import 'package:housing_flutter_app/modules/new_project/view/latest_project.dart
 import 'package:housing_flutter_app/modules/propert_detail/view/property_details.dart';
 import 'package:housing_flutter_app/modules/property/controllers/property_controller.dart';
 import 'package:housing_flutter_app/modules/property/views/property_list_screen.dart';
+
 // import 'package:housing_flutter_app/modules/property/views/recommended.dart';
 import 'package:housing_flutter_app/modules/property/views/widgets/property_card.dart';
 import 'package:housing_flutter_app/modules/property_rating/view/top_rated_property.dart';
@@ -28,6 +29,7 @@ import '../../../app/constants/color_res.dart';
 
 class HomeScreen extends StatefulWidget {
   final List<Map<String, String>> propertyTypes;
+
   const HomeScreen({
     super.key,
     this.propertyTypes = const [
@@ -391,7 +393,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     description: "Best properties for you",
                     onViewAll: () => Get.to(PropertyDetail()),
                   ),
-
+                  SizedBox(height: 4),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Padding(
@@ -405,8 +407,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Padding(
                               padding: const EdgeInsets.only(right: 12),
                               child: NesticoPeBannerCardWithText(
-                                height: 230, // ✅ reduced for balanced look
-                                width: 220,
+                                height: 260,
+                                // ✅ reduced for balanced look
+                                width: 240,
                                 imageUrl: HomeScreen.banners[index],
                                 price: "₹1.25Cr",
                                 location: "Mota varacha, Surat",
@@ -422,7 +425,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   const SizedBox(height: 20),
 
-                  const TitleWithViewAll(title: "Trending Areas", showViewAll: true),
+                  const TitleWithViewAll(
+                    title: "Trending Areas",
+                    showViewAll: true,
+                  ),
 
                   const SizedBox(height: 12),
 

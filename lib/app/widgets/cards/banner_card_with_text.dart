@@ -87,14 +87,14 @@ class NesticoPeBannerCardWithText extends StatelessWidget {
               child: Row(
                 children: [
                   CircleAvatar(
-                    radius: 14,
+                    radius: 12,
                     backgroundColor: getRandomAvatarColor(), // random color
                     child: Text(
                       developersName.substring(0, 1).toUpperCase(), // First letter
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w500,
-                        fontSize: 16,
+                        fontSize: 12,
                       ),
                     ),
                   ),
