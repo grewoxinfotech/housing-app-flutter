@@ -29,7 +29,7 @@ class PricePropertyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isPositive = (percentageIncrease ?? 0) >= 10.0;
 
-    return GestureDetector(
+    return GestureDetector(   
       onTap: onTap,
       child: Container(
         width: double.infinity,
@@ -37,7 +37,7 @@ class PricePropertyCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: Colors.grey.withOpacity(0.5), width: 0.5),
+          border: Border.all(color: Colors.grey.withOpacity(0.3), width: 0.8),
         ),
         alignment: Alignment.centerLeft,
         child: Row(
@@ -123,7 +123,11 @@ class PricePropertyCard extends StatelessWidget {
                     Row(
                       children: [
                         if (rating != null) ...[
-                          const Icon(Icons.star, color: ColorRes.primary, size: 13),
+                          const Icon(
+                            Icons.star,
+                            color: ColorRes.primary,
+                            size: 13,
+                          ),
                           const SizedBox(width: 3),
                           buildCommonText(
                             rating!.toStringAsFixed(1),

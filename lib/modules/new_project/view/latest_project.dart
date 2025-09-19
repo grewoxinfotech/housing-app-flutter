@@ -1,17 +1,13 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:housing_flutter_app/app/constants/app_font_sizes.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
-import 'package:housing_flutter_app/app/utils/formater/formater.dart';
 import 'package:housing_flutter_app/modules/home/widgets/home_header.dart';
 import 'package:housing_flutter_app/modules/new_project/view/widget/hotspot_location.dart';
 import 'package:housing_flutter_app/modules/new_project/view/widget/top_developer.dart';
-// import 'package:housing_flutter_app/modules/property/views/recommended.dart';
-import 'package:housing_flutter_app/modules/property/views/widgets/recommended_card.dart';
+
 
 import '../../property/controllers/property_controller.dart';
 
@@ -41,12 +37,13 @@ class MumbaiProjectsScreen extends StatelessWidget {
                 // Top section (Image 1)
                 Container(
                   decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        'https://media.istockphoto.com/id/1135075538/vector/smart-city.jpg?s=612x612&w=0&k=20&c=SiaDcq5hzb-4OjNfCTpc71nwq3v9tUIFVhDwelSJaCE=',
-                      ),
-                      fit: BoxFit.cover,
-                    ),
+                    // image: DecorationImage(
+                    //   image: NetworkImage(
+                    //     'https://media.istockphoto.com/id/1135075538/vector/smart-city.jpg?s=612x612&w=0&k=20&c=SiaDcq5hzb-4OjNfCTpc71nwq3v9tUIFVhDwelSJaCE=',
+                    //   ),
+                    //   fit: BoxFit.cover,
+                    // ),
+                    color: Color(0xff091F48),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,12 +128,12 @@ class MumbaiProjectsScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 8),
-                Padding(
+                const SizedBox(height: 8),
+                const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12),
                   child: Text(
                     'Top 5 Mumbai developers for new projects',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: AppFontSizes.medium,
                       fontWeight: FontWeight.w600,
                       color: ColorRes.textPrimary,
@@ -148,7 +145,7 @@ class MumbaiProjectsScreen extends StatelessWidget {
                   developerName: "Lodha Group",
                   developerEmail: "lodhagroup@domain.com",
                   developerImage: "https://i.pravatar.cc/150?img=7",
-                  stats: {
+                  stats: const {
                     "Year estd": "1980",
                     "Live Projects": "32",
                     "Delivered": "23",
@@ -162,7 +159,7 @@ class MumbaiProjectsScreen extends StatelessWidget {
                   developerName: "Unimont Group",
                   developerEmail: "unimontgroup@gmail.com",
                   developerImage: "https://i.pravatar.cc/150?img=5",
-                  stats: {
+                  stats: const {
                     "Year estd": "2010",
                     "Live Projects": "12",
                     "Delivered": "25",

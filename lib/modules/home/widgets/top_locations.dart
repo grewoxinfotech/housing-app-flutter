@@ -182,21 +182,14 @@ class TopPropertyByLocation extends StatelessWidget {
         width: 180,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(AppSpacing.medium),
-          border: Border.all(color: ColorRes.grey.withOpacity(0.2), width: 0.8),
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: Colors.black.withOpacity(0.05),
-          //     blurRadius: 6,
-          //     offset: const Offset(0, 3),
-          //   ),
-          // ],
+          borderRadius: BorderRadius.circular(AppRadius.large),
+          border: Border.all(color: ColorRes.grey.withOpacity(0.3), width: 0.8),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(AppSpacing.medium),
+              borderRadius: BorderRadius.circular(AppRadius.medium),
               child: Stack(
                 children: [
                   Image(

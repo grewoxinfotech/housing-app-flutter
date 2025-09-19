@@ -37,10 +37,7 @@ class _PropertyCardState extends State<PropertyCard> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(AppRadius.mediumLarge),
-          border: Border.all(
-            color: ColorRes.grey.withOpacity(0.15),
-            width: 0.8,
-          ),
+          border: Border.all(color: ColorRes.grey.withOpacity(0.3), width: 0.8),
           // boxShadow: [
           //   BoxShadow(
           //     color: Colors.black.withOpacity(0.05),
@@ -177,7 +174,7 @@ class _PropertyCardState extends State<PropertyCard> {
                         child: Row(
                           children: [
                             if (widget.property.propertyDetails?.bhk != null)
-                              _buildChip(
+                              _buildChip(       
                                 "${widget.property.propertyDetails!.bhk} BHK",
                                 AppSvgRes.bedroom,
                                 15,

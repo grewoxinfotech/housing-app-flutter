@@ -38,7 +38,9 @@ class PropertyDetailScreen extends StatelessWidget {
       extendBody: true,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight / 2),
+          padding: const EdgeInsets.only(
+            bottom: kBottomNavigationBarHeight / 2,
+          ),
 
           // prevents overlap
           child: Column(
@@ -81,7 +83,10 @@ class PropertyDetailScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
                     property?.propertyDescription ?? '-',
-                    style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w400),
+                    style: const TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -113,7 +118,7 @@ class PropertyDetailScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: Wrap(
                         spacing: 5,
-                        runSpacing: 10,
+                        runSpacing: 5,
                         children:
                             stats.map((stat) {
                               return StatCard(
@@ -236,7 +241,10 @@ class PropertyDetailScreen extends StatelessWidget {
               // RecommendedProperty(),
               Divider(indent: 18, endIndent: 18, color: Colors.grey.shade300),
               const SizedBox(height: 12),
-              const TitleWithViewAll(title: 'Recommended Project', showViewAll: true),
+              const TitleWithViewAll(
+                title: 'Recommended Project',
+                showViewAll: true,
+              ),
               const SizedBox(height: 12),
               const RecommendedProperty(),
               const SizedBox(height: 12),
@@ -764,8 +772,9 @@ class PropertyDetailScreen extends StatelessWidget {
 
   /// Inline video player builder
   Widget _buildVideoPlayer(String url) {
-    final VideoPlayerController videoController =
-        VideoPlayerController.network(url);
+    final VideoPlayerController videoController = VideoPlayerController.network(
+      url,
+    );
 
     return FutureBuilder(
       future: videoController.initialize(),
@@ -1697,7 +1706,7 @@ class Details extends StatelessWidget {
 class AmenitiesSection extends StatelessWidget {
   final List<String> amenities;
 
-   AmenitiesSection({super.key, required this.amenities});
+  AmenitiesSection({super.key, required this.amenities});
 
   // final List<Map<String, dynamic>> amenities = [
   //   {'icon': Icons.pool, 'label': "Infinity Pool"},
@@ -1708,8 +1717,8 @@ class AmenitiesSection extends StatelessWidget {
   //   {'icon': Icons.solar_power, 'label': "Solar Panels"},
   // ];
 
-   Color bgColor = Color(0xFFDBEAFE); // single background color
-   Color txtColor = Color(0xFF2563EB); // single text/icon color
+  Color bgColor = const Color(0xFFDBEAFE); // single background color
+  Color txtColor = const Color(0xFF2563EB); // single text/icon color
 
   @override
   Widget build(BuildContext context) {
@@ -2568,7 +2577,9 @@ class ProjectDetails extends StatelessWidget {
               itemBuilder: (context, index) {
                 final project = nearbyProjects[index];
                 return Container(
-                  margin: const EdgeInsets.symmetric(vertical: AppPadding.small),
+                  margin: const EdgeInsets.symmetric(
+                    vertical: AppPadding.small,
+                  ),
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppPadding.small,
                     vertical: AppPadding.small,
@@ -2736,7 +2747,7 @@ class StatCard extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       width: 165, // fixed width for balance
       decoration: BoxDecoration(
-        color: Colors.grey.shade100,
+        color: Colors.grey.shade200,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
