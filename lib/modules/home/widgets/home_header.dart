@@ -4,6 +4,7 @@ import 'package:housing_flutter_app/app/constants/app_font_sizes.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
 import 'package:housing_flutter_app/modules/add_property/controller/create_property_controller.dart';
 import 'package:housing_flutter_app/modules/add_property/view/create_property.dart';
+import 'package:housing_flutter_app/modules/profile/views/profile_screen.dart';
 import 'package:housing_flutter_app/modules/search_property/view/search_screen.dart';
 
 import '../../../data/network/auth/model/user_model.dart';
@@ -103,18 +104,23 @@ class _HomeHeaderState extends State<HomeHeader> {
               ),
 
               // SizedBox(width: 8),
-              Container(
-                width: 45,
-                height: 45,
-                decoration: BoxDecoration(
-                  border: Border.all(color: ColorRes.grey.withOpacity(0.2)),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    "https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4866.jpg",
-                    fit: BoxFit.cover,
+              GestureDetector(
+                onTap: (){
+                  Get.to(()=>ProfileScreen(imageUrl: "https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4866.jpg",));
+                },
+                child: Container(
+                  width: 45,
+                  height: 45,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: ColorRes.grey.withOpacity(0.2)),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      "https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4866.jpg",
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

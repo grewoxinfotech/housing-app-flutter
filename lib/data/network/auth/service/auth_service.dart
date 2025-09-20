@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:housing_flutter_app/data/network/auth/model/user_model.dart';
 import 'package:housing_flutter_app/modules/auth/views/login_screen.dart';
 import 'package:http/http.dart' as http;
@@ -100,7 +101,6 @@ class AuthService {
     );
 
     print("API URL${ApiConstants.sellerRegister}");
-    
 
     final data = jsonDecode(response.body);
     if (response.statusCode == 200) {
@@ -151,6 +151,22 @@ class AuthService {
     } else {
       throw Exception(data["message"] ?? "Failed to send OTP");
     }
+  }
+
+  Future<String> verifyOtpSellerRegister(String otp, String token) async {
+    final response = await http.post(
+      Uri.parse('${ApiConstants.auth}/verify-otp'),
+      headers: {i: j, 'Authorization': 'Bearer $token'},
+      body: jsonEncode({'otp': otp}),
+    );
+
+    final data = jsonDecode(response.body);
+    // print("[DEBUG]=> ${response.body}");
+    // debugPrint("[DEBUG]=> ${response.body}");
+    if (response.statusCode == 200 && data['success'] == true) {
+      return data['data']['token'];
+    }
+    throw Exception(data['message'] ?? 'OTP verification failed');
   }
 
   Future<String> verifyPasswordResetOtp(String otp, String token) async {

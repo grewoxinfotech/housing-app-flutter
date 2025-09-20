@@ -124,7 +124,13 @@ class AuthController extends GetxController {
         final token = response['data']['token'];
         await SecureStorage.saveToken(token);
 
-        Get.to(() => OtpVerificationScreen(phone: phone, token: token));
+        Get.to(
+          () => OtpVerificationScreen(
+            phone: phone,
+            token: token,
+            verifyOTPFor: VerifyOTPFor.registration,
+          ),
+        );
 
         return true;
       } else {
@@ -173,6 +179,8 @@ class AuthController extends GetxController {
           () => OtpVerificationScreen(
             phone: phone,
             token: token,
+            verifyOTPFor: VerifyOTPFor.sellerRegister,
+            // isPasswordReset: false,
             redirectAfterOtp: CreatePropertyScreen(
               sellerType:
                   sellerType == "owner" ? SellerType.owner : SellerType.builder,
@@ -234,6 +242,24 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<void> verifyOtpSellerRegister(String otp, String token) async {
+    try {
+      isLoading.value = true;
+      final data = await authService.verifyOtpSellerRegister(otp, token);
+      // await SecureStorage.saveToken(user.token!);
+      // await SecureStorage.saveUserData(user);
+      // await SecureStorage.saveToken(data);
+      // await SecureStorage.saveLoggedIn(true);
+
+      authState.value = AuthState.authenticated;
+    } catch (e) {
+      errorMessage.value = e.toString();
+      rethrow;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   Future<void> forgotPassword({required String id}) async {
     try {
       isLoading.value = true;
@@ -244,7 +270,8 @@ class AuthController extends GetxController {
         () => OtpVerificationScreen(
           phone: id,
           token: token,
-          isPasswordReset: true,
+          verifyOTPFor: VerifyOTPFor.passwordReset,
+          // isPasswordReset: true,
         ),
       );
 

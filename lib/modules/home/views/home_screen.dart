@@ -26,6 +26,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app/constants/color_res.dart';
+import '../../property/views/widgets/city_filter.dart';
 
 class HomeScreen extends StatefulWidget {
   final List<Map<String, String>> propertyTypes;
@@ -97,14 +98,66 @@ class HomeScreen extends StatefulWidget {
     IMGRes.shop3,
     IMGRes.shop4,
   ];
-  static final List<String> shops = [
-    IMGRes.shop1,
-    IMGRes.shop2,
-    IMGRes.shop3,
-    IMGRes.shop4,
+
+  // static final List<String> shops = [
+  //   IMGRes.shop1,
+  //   IMGRes.shop2,
+  //   IMGRes.shop3,
+  //   IMGRes.shop4,
+  // ];
+  static final List<Map<String, dynamic>> shops = [
+    {
+      "image": IMGRes.shop1,
+      "name": "Retail Space",
+      "opacity": Color(0xFFFDF6E4),
+    }, // light cream
+    {
+      "image": IMGRes.shop2,
+      "name": "Office Space",
+      "opacity": Color(0xFFE4F4FD),
+    }, // light blue
+    {
+      "image": IMGRes.shop3,
+      "name": "Land",
+      "opacity": Color(0xFFE7FDE4),
+    }, // light green
+    {
+      "image": IMGRes.shop4,
+      "name": "Warehouses",
+      "opacity": Color(0xFFEAE4FD),
+    }, // light pink
+    {
+      "image": IMGRes.shop1,
+      "name": "Commercial Space",
+      "opacity": Color(0xFFFDE4E4),
+    }, // light purple
   ];
+
+  static final List<Map<String, dynamic>> furnishedType = [
+    {"image": IMGRes.furnished, "name": "Furnished"},
+    {"image": IMGRes.semiFurnished, "name": "Semi Furnished"},
+    {"image": IMGRes.unFurnished, "name": "Unfurnished"},
+  ];
+
+  static final softColors = [
+    Color(0xFFFDE4E4),
+    Color(0xFFFDF6E4),
+    Color(0xFFE4F4FD),
+    Color(0xFFE7FDE4),
+    Color(0xFFEAE4FD),
+  ];
+
   static final List<String> plots = [IMGRes.plot1, IMGRes.plot2, IMGRes.plot3];
-  static final List<String> bhk = [IMGRes.bhk1, IMGRes.bhk2, IMGRes.bhk3];
+  static final List<Map<String, String>> bhk = [
+    {"image": IMGRes.bhk1, "title": "1 BHK"},
+    {"image": IMGRes.bhk2, "title": "2 BHK"},
+    {"image": IMGRes.bhk3, "title": "3 BHK"},
+    {"image": IMGRes.home1, "title": "4 BHK"},
+    {"image": IMGRes.home2, "title": "5+ BHK"},
+    // {"image": IMGRes.home2, "title": "Penthouse"},
+    // {"image": IMGRes.home3, "title": "Studio"},
+    // {"image": IMGRes.home4, "title": "Farmhouse"},
+  ];
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -608,109 +661,108 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 12),
 
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-
-                    padding: const EdgeInsets.only(left: 12.0),
-                    child: Row(
-                      children:
-                          cities.map((city) {
-                            return GestureDetector(
-                              onTap: () {
-                                Get.to(
-                                  () => AgentProfilePage(
-                                    agent: AgentProfile(
-                                      name: "Houselink Properties",
-                                      logoUrl:
-                                          "https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4866.jpg",
-                                      badgeText: "HOUSING EXPERT PRO",
-                                      buyersServed: "600+ Buyers Served",
-                                      listings: "Owner Verified",
-                                      description:
-                                          "Deal with ready-to-move & under-construction Residential or Commercial.",
-                                      infoTiles: [
-                                        InfoTileData(
-                                          title: "Leads",
-                                          value: "120",
-                                        ),
-                                        InfoTileData(
-                                          title: "Visiters",
-                                          value: "54",
-                                        ),
-                                        InfoTileData(
-                                          title: 'Impression',
-                                          value: '258',
-                                        ),
-                                      ],
-                                      areas: [
-                                        "Ghatkopar East",
-                                        "Vikhroli East",
-                                      ],
-                                      categories: [
-                                        {'type': 'Buy', 'number': 17},
-                                        {'type': 'Rent', 'number': 17},
-                                        {'type': 'PG', 'number': 17},
-                                        {'type': 'Commercial', 'number': 17},
-                                      ],
-                                      tags: [
-                                        AgentTagData(
-                                          icon: Icons.location_on,
-                                          text: "Ghatkopar East",
-                                          color: Colors.green,
-                                        ),
-                                      ],
-                                      showTags: true,
-                                      showAreas: false,
-                                      isOwner: true,
-                                      showActiveProperties: true,
-                                      showSellerPropertyList: true,
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: CityCard(
-                                imageUrl: city["imageUrl"],
-                                cityName: city["cityName"],
-                                propertyCount: city["propertyCount"],
-                              ),
-                            );
-                          }).toList(),
-                    ),
-                  ),
+                  // SingleChildScrollView(
+                  //   scrollDirection: Axis.horizontal,
+                  //
+                  //   padding: const EdgeInsets.only(left: 12.0),
+                  //   child: Row(
+                  //     children:
+                  //         cities.map((city) {
+                  //           return GestureDetector(
+                  //             onTap: () {
+                  //               Get.to(
+                  //                 () => AgentProfilePage(
+                  //                   agent: AgentProfile(
+                  //                     name: "Houselink Properties",
+                  //                     logoUrl:
+                  //                         "https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4866.jpg",
+                  //                     badgeText: "HOUSING EXPERT PRO",
+                  //                     buyersServed: "600+ Buyers Served",
+                  //                     listings: "Owner Verified",
+                  //                     description:
+                  //                         "Deal with ready-to-move & under-construction Residential or Commercial.",
+                  //                     infoTiles: [
+                  //                       InfoTileData(
+                  //                         title: "Leads",
+                  //                         value: "120",
+                  //                       ),
+                  //                       InfoTileData(
+                  //                         title: "Visiters",
+                  //                         value: "54",
+                  //                       ),
+                  //                       InfoTileData(
+                  //                         title: 'Impression',
+                  //                         value: '258',
+                  //                       ),
+                  //                     ],
+                  //                     areas: [
+                  //                       "Ghatkopar East",
+                  //                       "Vikhroli East",
+                  //                     ],
+                  //                     categories: [
+                  //                       {'type': 'Buy', 'number': 17},
+                  //                       {'type': 'Rent', 'number': 17},
+                  //                       {'type': 'PG', 'number': 17},
+                  //                       {'type': 'Commercial', 'number': 17},
+                  //                     ],
+                  //                     tags: [
+                  //                       AgentTagData(
+                  //                         icon: Icons.location_on,
+                  //                         text: "Ghatkopar East",
+                  //                         color: Colors.green,
+                  //                       ),
+                  //                     ],
+                  //                     showTags: true,
+                  //                     showAreas: false,
+                  //                     isOwner: true,
+                  //                     showActiveProperties: true,
+                  //                     showSellerPropertyList: true,
+                  //                   ),
+                  //                 ),
+                  //               );
+                  //             },
+                  //             child: CityCard(
+                  //               imageUrl: city["imageUrl"],
+                  //               cityName: city["cityName"],
+                  //               propertyCount: city["propertyCount"],
+                  //             ),
+                  //           );
+                  //         }).toList(),
+                  //   ),
+                  // ),
 
                   // const SizedBox(height: 12),
                   //
-
-                  // const CityFilterList(),
+                  const CityFilterList(),
                   // const SizedBox(height: 12),
                   const SizedBox(height: 20),
-                  const TitleWithViewAll(title: "Residential Properties"),
-                  // const SizedBox(height: 12),
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: GridView.count(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      // Avoid scrolling conflict if inside scrollable
-                      crossAxisCount: 2,
-                      // Number of columns in the grid
-                      mainAxisSpacing: 12,
-                      crossAxisSpacing: 12,
-                      childAspectRatio: 170 / 125,
-                      // Width / Height
-                      // children: List.generate(images.length, (index) {
-                      //   return NesticoPeBannerCardWithText(
-                      //     height: 125,
-                      //     width: 170,
-                      //     imageUrl: images[index],
-                      //     title: "Apartment",
-                      //   );
-                      // }),
-                    ),
-                  ),
 
-                  const SizedBox(height: 20),
-
+                  // const TitleWithViewAll(title: "Residential Properties"),
+                  // // const SizedBox(height: 12),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(12.0),
+                  //   child: GridView.count(
+                  //     shrinkWrap: true,
+                  //     physics: const NeverScrollableScrollPhysics(),
+                  //     // Avoid scrolling conflict if inside scrollable
+                  //     crossAxisCount: 2,
+                  //     // Number of columns in the grid
+                  //     mainAxisSpacing: 12,
+                  //     crossAxisSpacing: 12,
+                  //     childAspectRatio: 170 / 125,
+                  //     // Width / Height
+                  //     // children: List.generate(images.length, (index) {
+                  //     //   return NesticoPeBannerCardWithText(
+                  //     //     height: 125,
+                  //     //     width: 170,
+                  //     //     imageUrl: images[index],
+                  //     //     title: "Apartment",
+                  //     //   );
+                  //     // }),
+                  //   ),
+                  // ),
+                  //
+                  // const SizedBox(height: 20),
                   const TitleWithViewAll(title: "Explore by furnishing type"),
                   // const SizedBox(height: 12),
                   SingleChildScrollView(
@@ -718,11 +770,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Row(
-                        children: List.generate(HomeScreen.banners.length, (
+                        children: List.generate(HomeScreen.furnishedType.length, (
                           index,
                         ) {
-                          return const Padding(
-                            padding: EdgeInsets.only(right: 12),
+                          final furnished = HomeScreen.furnishedType[index];
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 12),
+                            child: NesticoPeCardWithText(
+                              height: 150,
+                              width: 200,
+                              imageUrl: furnished["image"]!,
+                              // ✅ image
+                              title: furnished["name"]!,
+                              // opacity:
+                              //     HomeScreen.softColors[(index + 4) %
+                              //         HomeScreen.softColors.length], // ✅ name
+                              opacity: ColorRes.black,
+                            ),
                           );
                         }),
                       ),
@@ -731,83 +795,117 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   const SizedBox(height: 20),
 
-                  const TitleWithViewAll(title: "Commercial offering"),
-                  const SizedBox(height: 12),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Row(
-                        children: List.generate(HomeScreen.shops.length, (
-                          index,
-                        ) {
-                          return const Padding(
-                            padding: EdgeInsets.only(right: 12),
-                            // child: NesticoPeBannerCardWithText(
-                            //   height: 125,
-                            //   width: 125,
-                            //   imageUrl: shops[index],
-                            //   title: "Retail Shop",
-                            // ),
-                          );
-                        }),
-                      ),
-                    ),
-                  ),
+                  // TitleWithViewAll(title: "Commercial offerings"),
+                  // const SizedBox(height: 12),
+                  // SingleChildScrollView(
+                  //   scrollDirection: Axis.horizontal,
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(12.0),
+                  //     child: Row(
+                  //       children: List.generate(HomeScreen.shops.length, (
+                  //         index,
+                  //       ) {
+                  //         final shop = HomeScreen.shops[index];
+                  //         return Padding(
+                  //           padding: const EdgeInsets.only(right: 12),
+                  //           child: NesticoPeCardWithText(
+                  //             height: 170,
+                  //             width: 150,
+                  //             imageUrl: shop["image"]!,
+                  //             // ✅ image
+                  //             title: shop["name"]!,
+                  //             opacity:
+                  //                 HomeScreen.softColors[index % 5], // ✅ name
+                  //           ),
+                  //         );
+                  //       }),
+                  //     ),
+                  //   ),
+                  // ),
+                  //
+                  // const SizedBox(height: 20),
 
-                  const SizedBox(height: 20),
+                  // const TitleWithViewAll(title: "Find BHK?"),
+                  // const SizedBox(height: 12),
+                  //
+                  // // SingleChildScrollView(
+                  // //   scrollDirection: Axis.horizontal,
+                  // //   child: Padding(
+                  // //     padding: const EdgeInsets.all(12.0),
+                  // //     child: Row(
+                  // //       children: List.generate(HomeScreen.plots.length * 2, (
+                  // //         index,
+                  // //       ) {
+                  // //         return const Padding(
+                  // //           padding: EdgeInsets.only(right: 12),
+                  // //           child: NesticoPeBannerCardWithText(
+                  // //             height: 100,
+                  // //             width: 100,
+                  // //             imageUrl: bhk[index % 3],
+                  // //             title: "1BHK",
+                  // //             isCenterText: true,
+                  // //           ),
+                  // //
+                  // //
+                  // //         );
+                  // //       }),
+                  // //     ),
+                  // //   ),
+                  // // ),
+                  // SingleChildScrollView(
+                  //   scrollDirection: Axis.horizontal,
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(12.0),
+                  //     child: Row(
+                  //       children: List.generate(HomeScreen.bhk.length, (index) {
+                  //         // final shop = HomeScreen.shops[index];
+                  //         return Padding(
+                  //           padding: const EdgeInsets.only(right: 12),
+                  //           child: NesticoPeCardWithText(
+                  //             height: 100,
+                  //             width: 100,
+                  //             // imageUrl:
+                  //             //     HomeScreen.bhk[index %
+                  //             //         HomeScreen.bhk.length]['image']!,
+                  //             // ✅ image
+                  //             title:
+                  //                 HomeScreen.bhk[index %
+                  //                     HomeScreen.bhk.length]['title']!,
+                  //             opacity:
+                  //                 HomeScreen.softColors[(index + 2) %
+                  //                     HomeScreen.softColors.length],
+                  //           ),
+                  //         );
+                  //       }),
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 20),
 
-                  const TitleWithViewAll(title: "Find BHK?"),
-                  const SizedBox(height: 12),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Row(
-                        children: List.generate(HomeScreen.plots.length * 2, (
-                          index,
-                        ) {
-                          return const Padding(
-                            padding: EdgeInsets.only(right: 12),
-                            // child: NesticoPeBannerCardWithText(
-                            //   height: 100,
-                            //   width: 100,
-                            //   imageUrl: bhk[index % 3],
-                            //   title: "1BHK",
-                            //   isCenterText: true,
-                            // ),
-                          );
-                        }),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  const TitleWithViewAll(title: "Plots In Surat"),
-                  const SizedBox(height: 12),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Row(
-                        children: List.generate(HomeScreen.plots.length, (
-                          index,
-                        ) {
-                          return const Padding(
-                            padding: EdgeInsets.only(right: 12),
-                            // child: NesticoPeBannerCardWithText(
-                            //   height: 125,
-                            //   width: 200,
-                            //   imageUrl: plots[index],
-                            //   title: "Residential Plot",
-                            // ),
-                          );
-                        }),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
+                  // const TitleWithViewAll(title: "Plots In Surat"),
+                  // const SizedBox(height: 12),
+                  // SingleChildScrollView(
+                  //   scrollDirection: Axis.horizontal,
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(12.0),
+                  //     child: Row(
+                  //       children: List.generate(HomeScreen.plots.length, (
+                  //         index,
+                  //       ) {
+                  //         return const Padding(
+                  //           padding: EdgeInsets.only(right: 12),
+                  //           // child: NesticoPeBannerCardWithText(
+                  //           //   height: 125,
+                  //           //   width: 200,
+                  //           //   imageUrl: plots[index],
+                  //           //   title: "Residential Plot",
+                  //           // ),
+                  //         );
+                  //       }),
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 20),
                   const TitleWithViewAll(
                     title: "Recommended Sellers",
                     showViewAll: true,
@@ -880,7 +978,7 @@ class _CityDropdownState extends State<CityDropdown> {
             focusedBorder: InputBorder.none,
             contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           ),
-          initialValue: selectedCity,
+          value: selectedCity,
           icon: const Icon(
             Icons.keyboard_arrow_down_rounded,
             color: Colors.grey,

@@ -23,6 +23,7 @@ class IMGRes {
   static const String bhk1 = "assets/images/bhk_1.jpg";
   static const String bhk2 = "assets/images/bhk_2.jpg";
   static const String bhk3 = "assets/images/bhk_3.jpg";
-
-
+  static const String furnished = "assets/images/furnished.jpg";
+  static const String semiFurnished = "assets/images/semi-furnished.jpg";
+  static const String unFurnished = "assets/images/unfurnished.jpeg";
 }

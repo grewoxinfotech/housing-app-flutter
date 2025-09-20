@@ -1,5 +1,66 @@
+// import 'package:flutter/material.dart';
+// import 'package:housing_flutter_app/app/widgets/cards/banner_card_with_text.dart';
+// import '../../../../app/constants/img_res.dart';
+//
+// class CityFilterList extends StatefulWidget {
+//   const CityFilterList({super.key});
+//
+//   @override
+//   State<CityFilterList> createState() => _CityFilterListState();
+// }
+//
+// class _CityFilterListState extends State<CityFilterList> {
+//   final List<String> cities = [
+//     "Mumbai",
+//     "Delhi",
+//     "Bangalore",
+//     "Pune",
+//     "Chennai",
+//     "Kolkata",
+//     "Hyderabad",
+//   ];
+//
+//   final List<String> images = [
+//     IMGRes.city1,
+//     IMGRes.city2,
+//     IMGRes.city3,
+//     IMGRes.city4,
+//     IMGRes.city5,
+//     IMGRes.city6,
+//     IMGRes.city7,
+//   ];
+//
+//   int selectedIndex = 0;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return SizedBox(
+//       height: 100,
+//       child: ListView.separated(
+//         scrollDirection: Axis.horizontal,
+//         padding: const EdgeInsets.symmetric(horizontal: 12),
+//         itemCount: cities.length,
+//         separatorBuilder: (_, __) => const SizedBox(width: 12),
+//         itemBuilder: (context, index) {
+//           final isSelected = selectedIndex == index;
+//
+//           return NesticoPeBannerCardWithText(
+//             imageUrl: images[index],
+//           //  title: cities[index],
+//             price: "1200",
+//             location: cities[index],
+//             propertySize: "2BHK, 1200 sqft",
+//             height: 100,
+//             width: 150,
+//             isCenterText: true,
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
-import 'package:housing_flutter_app/app/widgets/cards/banner_card_with_text.dart';
 import '../../../../app/constants/img_res.dart';
 
 class CityFilterList extends StatefulWidget {
@@ -30,29 +91,39 @@ class _CityFilterListState extends State<CityFilterList> {
     IMGRes.city7,
   ];
 
-  int selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 100,
+      height: 125,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 12),
         itemCount: cities.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 12),
+        separatorBuilder: (_, __) => const SizedBox(width: 16),
         itemBuilder: (context, index) {
-          final isSelected = selectedIndex == index;
-
-          return NesticoPeBannerCardWithText(
-            imageUrl: images[index],
-          //  title: cities[index],
-            price: "1200",
-            location: cities[index],
-            propertySize: "2BHK, 1200 sqft",
-            height: 100,
-            width: 150,
-            isCenterText: true,
+          return GestureDetector(
+            onTap: () {},
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircleAvatar(
+                  radius: 45,
+                  backgroundImage: AssetImage(images[index]),
+                  backgroundColor: Colors.grey[200],
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  cities[index],
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black87,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
           );
         },
       ),
