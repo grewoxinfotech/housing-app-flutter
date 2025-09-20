@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housing_flutter_app/app/constants/app_font_sizes.dart';
 import 'package:housing_flutter_app/app/constants/color_res.dart';
+import 'package:housing_flutter_app/modules/add_property/controller/create_property_controller.dart';
 import 'package:housing_flutter_app/modules/add_property/view/create_property.dart';
 import 'package:housing_flutter_app/modules/search_property/view/search_screen.dart';
+
+import '../../../data/network/auth/model/user_model.dart';
 
 class HomeHeader extends StatefulWidget {
   final String cityName;
@@ -135,7 +138,11 @@ class _HomeHeaderState extends State<HomeHeader> {
                 onTap: () {
                   print("Mic tapped");
                   // Get.to(() => const CommonSearchField());
-                  Get.to(() => const CreateProperty());
+                  Get.to(
+                    () => CreatePropertyScreen(
+                      sellerType: mapUserRoleToSellerType(UserRole.seller),
+                    ),
+                  );
                 },
                 child: Container(
                   height: 52,
@@ -204,4 +211,15 @@ Widget buildPositionedTextField(BuildContext context, VoidCallback? onTap) {
       ),
     ),
   );
+}
+
+SellerType mapUserRoleToSellerType(UserRole role) {
+  switch (role) {
+    case UserRole.seller:
+      return SellerType.owner;
+    case UserRole.reseller:
+      return SellerType.builder; // or any mapping
+    default:
+      return SellerType.owner;
+  }
 }

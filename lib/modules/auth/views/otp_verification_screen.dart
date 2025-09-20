@@ -8,20 +8,20 @@ import 'package:housing_flutter_app/widgets/messages/snack_bar.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 import '../../dashboard/views/dashboard_screen.dart';
+import 'ResetPasswordScreen.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
   final String phone;
   final String? token;
   final bool isPasswordReset;
-  final bool isLoading;
-
+  final Widget? redirectAfterOtp; // <- Dynamic redirection
 
   const OtpVerificationScreen({
     Key? key,
     required this.phone,
     this.token,
     this.isPasswordReset = false,
-    this.isLoading = false, // <-- default value
+    this.redirectAfterOtp,
   }) : super(key: key);
 
   @override
@@ -41,12 +41,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   void initState() {
     super.initState();
     _startResendTimer();
-    _loadStoredToken();
+    _loadToken();
   }
 
-  Future<void> _loadStoredToken() async {
-    // If token wasn't passed, try to get it from storage
-    _token = widget.token ?? await SecureStorage.getToken();
+  Future<void> _loadToken() async {
+    _token = widget.token  ;
+    print("Loaded token: $_token");
+    print("Securestorage token: ${SecureStorage.getToken()}");
   }
 
   void _startResendTimer() {
@@ -64,42 +65,48 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
     setState(() => _isLoading = true);
 
-
     try {
       final authController = Get.find<AuthController>();
+      final tokenToUse = _token ?? '';
 
-      print("fnjdfnjfgnjdfn$widget.token");
+      if (tokenToUse.isEmpty) {
+        NesticoPeSnackBar.showAwesomeSnackbar(
+          title: "Error",
+          message: "Token not available. Cannot verify OTP",
+          contentType: ContentType.failure,
+        );
+        return;
+      }
 
       if (widget.isPasswordReset) {
-        // Handle password reset flow
-        await authController.verifyPasswordResetOtp(
-          _otpController.text,
-          _token ?? widget.token ?? '',
-        );
-
+        await authController.verifyPasswordResetOtp(_otpController.text, tokenToUse);
         NesticoPeSnackBar.showAwesomeSnackbar(
-          title: "Success",
-          message: "OTP verified. Please set your new password.",
+          title: 'Success',
+          message: 'OTP verified. Please set your new password.',
           contentType: ContentType.success,
         );
+
+        // Store token after successful verification
+        await SecureStorage.saveToken(tokenToUse);
+
+        Get.off(() => widget.redirectAfterOtp ?? ResetPasswordScreen());
       } else {
-        // Handle regular verification flow
-        await authController.verifyOtp(
-          _otpController.text,
-          _token ?? widget.token ?? '',
-        );
-
+        await authController.verifyOtp(_otpController.text, tokenToUse);
         NesticoPeSnackBar.showAwesomeSnackbar(
-          title: "Success",
-          message: "Account verified",
+          title: 'Success',
+          message: 'Account verified successfully!',
           contentType: ContentType.success,
         );
-        Get.offAll(() => const DashboardScreen());
+
+        // Store token after successful verification
+        await SecureStorage.saveToken(tokenToUse);
+
+        Get.offAll(() => widget.redirectAfterOtp ?? const DashboardScreen());
       }
     } catch (e) {
       NesticoPeSnackBar.showAwesomeSnackbar(
-        title: "Error",
-        message: e.toString().replaceAll('Exception: ', ''),
+        title: 'Error',
+        message: e.toString().replaceAll('Exception:', '').trim(),
         contentType: ContentType.failure,
       );
     } finally {
@@ -108,10 +115,10 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   }
 
   Future<void> _resendOtp() async {
-    if (_token == null && widget.token == null) {
+    if ((_token ?? widget.token) == null) {
       NesticoPeSnackBar.showAwesomeSnackbar(
         title: "Error",
-        message: "Unable to resend OTP - missing token",
+        message: "Missing token. Cannot resend OTP",
         contentType: ContentType.failure,
       );
       return;
@@ -121,12 +128,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
     try {
       final authController = Get.find<AuthController>();
-
       if (widget.isPasswordReset) {
-        // For password reset flow, we need to call forgotPassword again
         await authController.forgotPassword(id: widget.phone);
       } else {
-        // For regular verification flow
         await authController.resendOtp(_token ?? widget.token!);
       }
 
@@ -148,130 +152,79 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       setState(() => _isResending = false);
     }
   }
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.isPasswordReset ? 'Reset Password' : 'Verify OTP'),
-        centerTitle: true,
-        elevation: 0,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              const SizedBox(height: 40),
-              const Icon(Icons.verified_user, size: 80, color: Colors.blue),
-              const SizedBox(height: 20),
-              Text(
-                'Enter OTP',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 10),
-              Text(
-                'Sent to ${widget.phone}',
-                style: Theme.of(context).textTheme.bodyLarge,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 40),
-              // NesticoPeTextField(
-              //   hintText: '••••••',
-              //   title: "OTP",
-              //   controller: _otpController,
-              //   keyboardType: TextInputType.number,
-              //   prefixIcon: Icons.numbers_outlined,
-              //   validator: (value) {
-              //     if (value == null || value.isEmpty) {
-              //       return 'Please enter OTP';
-              //     }
-              //     if (value.length != 6) {
-              //       return 'OTP must be 6 digits';
-              //     }
-              //     return null;
-              //   },
-              // ),
-              TextFormField(
-                controller: _otpController,
-                keyboardType: TextInputType.number,
-                maxLength: 6,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 24),
-                decoration: InputDecoration(
-                  counterText: '',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  hintText: '••••••',
-                  contentPadding: const EdgeInsets.symmetric(
-                    vertical: 16,
-                    horizontal: 12,
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey[100],
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter OTP';
-                  }
-                  if (value.length != 6) {
-                    return 'OTP must be 6 digits';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 30),
-
-              NesticoPeButton(
-                title: widget.isPasswordReset
-                    ? 'Enter OTP'
-                    : 'Enter OTP',
-                // isLoading: _isLoading,
-                onTap: _verifyOtp,
-              ),
-
-
-              const SizedBox(height: 20),
-              TextButton(
-                onPressed:
-                    (_resendTimeout > 0 || _isResending) ? null : _resendOtp,
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                ),
-                child:
-                    _isResending
-                        ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                        : Text(
-                          _resendTimeout > 0
-                              ? 'Resend OTP in $_resendTimeout seconds'
-                              : 'Resend OTP',
-                          style: TextStyle(
-                            color:
-                                (_resendTimeout > 0 || _isResending)
-                                    ? Colors.grey
-                                    : Theme.of(context).primaryColor,
-                          ),
-                        ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
   @override
   void dispose() {
     _otpController.dispose();
     _resendTimer?.cancel();
     super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async => !_isLoading, // Prevent back while verifying
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.isPasswordReset ? 'Reset Password' : 'Verify OTP'),
+          centerTitle: true,
+          elevation: 0,
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                const SizedBox(height: 40),
+                const Icon(Icons.verified_user, size: 80, color: Colors.blue),
+                const SizedBox(height: 20),
+                Text(
+                  'Enter OTP',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 10),
+                Text('Sent to ${widget.phone}', textAlign: TextAlign.center),
+                const SizedBox(height: 40),
+                TextFormField(
+                  controller: _otpController,
+                  keyboardType: TextInputType.number,
+                  maxLength: 6,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 24),
+                  decoration: InputDecoration(
+                    counterText: '',
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    hintText: '••••••',
+                    filled: true,
+                    fillColor: Colors.grey[100],
+                    contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) return 'Please enter OTP';
+                    if (value.length != 6) return 'OTP must be 6 digits';
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 30),
+                NesticoPeButton(title: 'Enter OTP', onTap: _verifyOtp),
+                const SizedBox(height: 20),
+                TextButton(
+                  onPressed: (_resendTimeout > 0 || _isResending) ? null : _resendOtp,
+                  style: TextButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 16)),
+                  child: _isResending
+                      ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
+                      : Text(
+                    _resendTimeout > 0 ? 'Resend OTP in $_resendTimeout seconds' : 'Resend OTP',
+                    style: TextStyle(color: (_resendTimeout > 0 || _isResending) ? Colors.grey : Theme.of(context).primaryColor),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

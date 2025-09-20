@@ -83,6 +83,33 @@ class AuthService {
     }
   }
 
+  //seler register
+  Future<Map<String, dynamic>> sellerRegister({
+    required String phone,
+    required String userType,
+    required String sellerType,
+  }) async {
+    final response = await http.post(
+      Uri.parse(ApiConstants.sellerRegister),
+      headers: {i: j},
+      body: jsonEncode({
+        'phone': phone,
+        'userType': userType,
+        'sellerType': sellerType,
+      }),
+    );
+
+    print("API URL${ApiConstants.sellerRegister}");
+    
+
+    final data = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      return data;
+    } else {
+      throw Exception(data['message'] ?? 'Registration failed');
+    }
+  }
+
   Future<void> resendOtp(String token) async {
     final response = await http.post(
       Uri.parse('${ApiConstants.auth}/resend-otp'),
@@ -134,6 +161,7 @@ class AuthService {
     );
 
     final data = jsonDecode(response.body);
+    print("[DEBUG]=> ${response.body}");
     if (response.statusCode == 200 && data['success'] == true) {
       return data['data']['resetToken'];
     } else {
